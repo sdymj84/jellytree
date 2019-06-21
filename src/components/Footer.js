@@ -5,7 +5,6 @@ const Container = styled.div`
   border-top: 1px solid grey;
 `
 const Content = styled.div`
-  height: 200px;
   width: 80%;
   margin: auto;
   padding: 2em;

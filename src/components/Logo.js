@@ -2,47 +2,44 @@ import React from 'react'
 import styled from 'styled-components'
 import { Image } from 'semantic-ui-react'
 import JellyTree from '../assets/antman.png'
+import { Link } from "react-router-dom";
 
 
 const StyledImage = styled(Image)`
   display: block;
-  margin: auto;
+  ${props => {
+    if (props.position === 'center') {
+      return 'margin: auto;'
+    } else if (props.position === 'left') {
+      return 'margin-right: auto;'
+    } else if (props.position === 'right') {
+      return 'margin-left: auto;'
+    }
+  }}
 
   :hover {
-    animation: jello 0.5s infinite;
-  }
-  
-  @keyframes jello {
-    0% {
-      transform: scale (1, 1);
-    }
-    25% {
-      transform: scale(0.9, 1.1);
-    }
-    50% {
-      transform: scale(1.1, 0.9);
-    }
-    75% {
-      transform: scale(0.95, 1.05);
-    }
+    animation: jello-active 0.5s infinite;
   }
 `
 
-const Logo = () => {
+const Logo = (props) => {
 
   const handleLogoClick = () => {
     console.log("Go home")
   }
 
   return (
-    <StyledImage
-      src={JellyTree}
-      size="small"
-      style={{
-        width: '100px',
-        height: '100px',
-      }}
-      onClick={handleLogoClick} />
+    <Link to="/">
+      <StyledImage
+        src={JellyTree}
+        size="small"
+        style={{
+          width: '100px',
+          height: '100px',
+        }}
+        position={props.position}
+        onClick={handleLogoClick} />
+    </Link>
   )
 }
 

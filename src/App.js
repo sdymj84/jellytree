@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import Routes from './containers/Routes'
 
 const Container = styled.div`
   margin: auto;
@@ -12,9 +13,7 @@ function App() {
   return (
     <Container>
       <Header />
-
-      <div style={{ height: '300px' }}>Body</div>
-
+      <Routes />
       <Footer />
     </Container>
   );

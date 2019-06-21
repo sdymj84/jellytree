@@ -12,6 +12,78 @@ code {
     monospace;
 }
 
-* {
+/* * {
   outline: 1px solid red;
+} */
+
+
+/*=====================================================
+  Animations 
+=====================================================*/
+
+@keyframes jello-active {
+  0% {
+    transform: scale (1, 1);
+  }
+  25% {
+    transform: scale(0.9, 1.1);
+  }
+  50% {
+    transform: scale(1.1, 0.9);
+  }
+  75% {
+    transform: scale(0.95, 1.05);
+  }
+}
+
+@keyframes jello-slow {
+  0% {
+    transform: scale(1, 1)
+  }
+  50% {
+    transform: scale(0.9, 1.1)
+  }
+}
+
+@keyframes shadow-show {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0), 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+  100% {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+}
+@keyframes shadow-hidden {
+  0% {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0), 0 0 0 0 rgba(0, 0, 0, 0);
+  }
+}
+
+@keyframes button-hover-in {
+  0% {
+    background-color: white;
+    border-color: white;
+    color: navy;
+  }
+  100% {
+    background-color: #2c5bc1;
+    border-color: #2c5bc1;
+    color: white;
+  }
+}
+
+@keyframes button-hover-out {
+  0% {
+    background-color: #2c5bc1;
+    border-color: #2c5bc1;
+    color: white;
+  }
+  100% {
+    background-color: white;
+    border-color: white;
+    color: navy;
+  }
 }
