@@ -9,7 +9,6 @@ const Container = styled.div`
   justify-content: flex-end;
   align-items: center;
   color: navy;
-  font-size: 1.2em;
 `
 
 const SignContainer = styled.div`
@@ -25,7 +24,7 @@ const Sign = styled.div`
   margin-left: 0.4em;
   border: 1px solid white;
   border-radius: 7px;
-  padding: 7px 10px;
+  padding: 4px 8px;
   animation: button-hover-out 0.3s;
 
   :hover {

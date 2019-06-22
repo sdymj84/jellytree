@@ -6,8 +6,10 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-pose": "^4.0.8",
+    "react-pose-text": "^3.1.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
+    "react-scroll-parallax": "^2.1.2",
     "semantic-ui-react": "^0.87.2",
     "styled-components": "^4.3.2"
   },

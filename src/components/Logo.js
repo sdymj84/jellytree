@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Image } from 'semantic-ui-react'
-import JellyTree from '../assets/antman.png'
+import JellyTree from '../assets/jellytree_logo.jpg'
 import { Link } from "react-router-dom";
 
 

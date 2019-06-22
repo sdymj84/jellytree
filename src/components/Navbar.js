@@ -1,16 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Sticky } from 'semantic-ui-react'
 import posed from 'react-pose'
 
-const Container = styled.div`
-  border-top: 1px solid grey;
-  border-bottom: 1px solid grey;
+const PosedContainer = posed.div({
+  unfix: {
+    scale: 1,
+  },
+  fix: {
+    scale: 1.05,
+  },
+})
+const Container = styled(PosedContainer)`
+  background-color: white;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
 `
 const Nav = styled.div`
   display: flex;
   max-width: 800px;
   margin: auto;
+  margin-bottom: 1em;
   justify-content: space-evenly;
   align-items: center;
 `
@@ -25,17 +34,22 @@ const Item = styled.div`
     animation: jello-slow 0.5s infinite;
   }
 `
-// TODO: Add pose animation when navbar is fixed
 
 const Navbar = () => {
+  const [isFixed, setIsFixed] = useState(false)
+
   const handleOnStick = () => {
-    console.log('sticked')
+    setIsFixed(true)
+  }
+  const handleOnUnstick = () => {
+    setIsFixed(false)
   }
 
   return (
     <Sticky
-      onStick={handleOnStick}>
-      <Container>
+      onStick={handleOnStick}
+      onUnstick={handleOnUnstick}>
+      <Container pose={isFixed ? "fix" : "unfix"}>
         <Nav>
           <Item>New</Item>
           <Item>Babies</Item>
