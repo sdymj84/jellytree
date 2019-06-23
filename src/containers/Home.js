@@ -1,9 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Image, Button } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react'
 import MainImage from '../assets/home_main.jpg'
 import Title from '../components/Title'
-// import { Parallax } from 'react-scroll-parallax'
 
 const Container = styled.div`
 `

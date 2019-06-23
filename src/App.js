@@ -7,6 +7,7 @@ import { ParallaxProvider } from 'react-scroll-parallax'
 
 const Container = styled.div`
   margin: auto;
+  /* padding: 1em; */
 `
 
 function App() {
