@@ -51,9 +51,11 @@ const Navbar = () => {
       onUnstick={handleOnUnstick}>
       <Container pose={isFixed ? "fix" : "unfix"}>
         <Nav>
-          <Item>New</Item>
+          <Item>New Arrivals</Item>
           <Item>Babies</Item>
           <Item>Infants</Item>
+          <Item>Boys & Girls</Item>
+          <Item>All Collections</Item>
         </Nav>
       </Container>
     </Sticky>

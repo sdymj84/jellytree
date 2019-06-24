@@ -8,7 +8,7 @@ const Container = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  color: navy;
+  color: #bf00ff;
 `
 
 const SignContainer = styled.div`

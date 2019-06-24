@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Button } from 'semantic-ui-react'
-import MainImage from '../assets/home_main.jpg'
+import MainImage from '../assets/home_main1.jpg'
 import Title from '../components/Title'
 
 const Container = styled.div`

@@ -6,7 +6,11 @@ import { Link } from "react-router-dom";
 
 
 const StyledImage = styled(Image)`
-  display: block;
+  @media (max-width: 600px) {
+    &&& {
+      display: inline-block;
+    }
+  }
   ${props => {
     if (props.position === 'center') {
       return 'margin: auto;'
@@ -35,7 +39,7 @@ const Logo = (props) => {
         size="small"
         style={{
           width: '100px',
-          height: '100px',
+          height: '30px',
         }}
         position={props.position}
         onClick={handleLogoClick} />
