@@ -3,12 +3,13 @@ import styled from 'styled-components'
 import { Icon } from 'semantic-ui-react'
 import Bag from './Bag'
 import { Link } from "react-router-dom";
+import theme from '../theme'
 
 const Container = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  color: #bf00ff;
+  color: ${theme.color};
 `
 
 const SignContainer = styled.div`
@@ -29,8 +30,8 @@ const Sign = styled.div`
 
   :hover {
     animation: button-hover-in 0.3s;
-    border: 1px solid #2c5bc1;
-    background-color: #2c5bc1;
+    border: 1px solid ${theme.color};
+    background-color: ${theme.color};
     color: white;
     cursor: pointer;
   }
@@ -41,7 +42,7 @@ const Sign = styled.div`
 `
 const StyledLink = styled(Link)`
   :visited {
-    color: navy;
+    color: ${theme.color};
   }
 `
 

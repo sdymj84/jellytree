@@ -2,13 +2,17 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Sticky } from 'semantic-ui-react'
 import posed from 'react-pose'
+import theme from '../theme'
+import { Link } from "react-router-dom";
 
 const PosedContainer = posed.div({
   unfix: {
-    scale: 1,
+    // scale: 1,
+    fontSize: '1em',
   },
   fix: {
-    scale: 1.05,
+    // scale: 1.05,
+    fontSize: '1.05em',
   },
 })
 const Container = styled(PosedContainer)`
@@ -19,17 +23,14 @@ const Nav = styled.div`
   display: flex;
   max-width: 800px;
   margin: auto;
-  margin-bottom: 1em;
   justify-content: space-evenly;
   align-items: center;
 `
 const Item = styled.div`
   font-size: 1.2em;
   padding: 0.4em 1em;
-  color: navy;
-
+  color: ${theme.color};
   cursor: pointer;
-  
   :hover {
     animation: jello-slow 0.5s infinite;
   }
@@ -55,7 +56,9 @@ const Navbar = () => {
           <Item>Babies</Item>
           <Item>Infants</Item>
           <Item>Boys & Girls</Item>
-          <Item>All Collections</Item>
+          <Link to="all-collections">
+            <Item>All Collections</Item>
+          </Link>
         </Nav>
       </Container>
     </Sticky>

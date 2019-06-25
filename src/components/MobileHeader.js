@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import MobileNavbar from './MobileNavbar'
 import Logo from './Logo'
 import Account from './Account'
@@ -37,10 +37,6 @@ const MenuIcon = styled.div`
 
 const Header = () => {
   const [visible, setVisible] = useState(false)
-  useEffect(() => {
-    setVisible(true)
-  }, [])
-
   const handleShow = () => {
     setVisible(true)
   }
