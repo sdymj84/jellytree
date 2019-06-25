@@ -35,19 +35,25 @@ const Item = styled.div`
     animation: jello-slow 0.5s infinite;
   }
 `
+const StyledLink = styled(Link)`
+  :hover {
+    text-decoration: none;
+  }
+`
 
-const Navbar = () => {
+const Navbar = (props) => {
   const [isFixed, setIsFixed] = useState(false)
 
   const handleOnStick = () => {
+    console.log(isFixed)
     setIsFixed(true)
   }
   const handleOnUnstick = () => {
     setIsFixed(false)
   }
-
   return (
     <Sticky
+      context={props.contextRef}
       onStick={handleOnStick}
       onUnstick={handleOnUnstick}>
       <Container pose={isFixed ? "fix" : "unfix"}>
@@ -56,9 +62,9 @@ const Navbar = () => {
           <Item>Babies</Item>
           <Item>Infants</Item>
           <Item>Boys & Girls</Item>
-          <Link to="all-collections">
+          <StyledLink to="all-collections">
             <Item>All Collections</Item>
-          </Link>
+          </StyledLink>
         </Nav>
       </Container>
     </Sticky>

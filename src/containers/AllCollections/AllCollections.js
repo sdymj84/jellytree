@@ -4,6 +4,7 @@ import { Image, Container } from "semantic-ui-react";
 import styled from 'styled-components'
 import theme from '../../theme'
 import BulletPoints from './BulletPoints';
+import ProductsTable from './ProductsTable';
 
 const StyledContainer = styled(Container)`
   .brand-detail-title {
@@ -14,7 +15,7 @@ const StyledContainer = styled(Container)`
   }
 `
 const Section = styled.div`
-  margin: 4em 0;
+  margin: 5em 0;
 `
 
 const AllCollections = () => {
@@ -43,6 +44,9 @@ const AllCollections = () => {
         </Section>
         <Section>
           <BulletPoints />
+        </Section>
+        <Section>
+          <ProductsTable />
         </Section>
       </StyledContainer>
     </div>

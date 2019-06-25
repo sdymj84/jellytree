@@ -15,7 +15,7 @@ const Container = styled.div`
   }
 `
 
-const Header = () => {
+const Header = (props) => {
   return (
     <Container>
       <Grid doubling columns={3}>
@@ -29,7 +29,7 @@ const Header = () => {
           </Grid.Column>
         </Grid.Row>
       </Grid>
-      <Navbar />
+      <Navbar contextRef={props.contextRef} />
     </Container>
   )
 }
