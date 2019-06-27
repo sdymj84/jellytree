@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/jellytree/static/css/main.4c9976cd.chunk.css",
+    "main.js": "/jellytree/static/js/main.2565fc43.chunk.js",
+    "main.js.map": "/jellytree/static/js/main.2565fc43.chunk.js.map",
+    "runtime~main.js": "/jellytree/static/js/runtime~main.191db9d7.js",
+    "runtime~main.js.map": "/jellytree/static/js/runtime~main.191db9d7.js.map",
+    "static/js/2.6a9a34c4.chunk.js": "/jellytree/static/js/2.6a9a34c4.chunk.js",
+    "static/js/2.6a9a34c4.chunk.js.map": "/jellytree/static/js/2.6a9a34c4.chunk.js.map",
+    "index.html": "/jellytree/index.html",
+    "precache-manifest.33f1dd7e4164bf6bd5c7f629f7245922.js": "/jellytree/precache-manifest.33f1dd7e4164bf6bd5c7f629f7245922.js",
+    "service-worker.js": "/jellytree/service-worker.js",
+    "static/css/main.4c9976cd.chunk.css.map": "/jellytree/static/css/main.4c9976cd.chunk.css.map",
+    "static/media/baby_main.jpg": "/jellytree/static/media/baby_main.793f3699.jpg",
+    "static/media/collections_main.jpg": "/jellytree/static/media/collections_main.ce0c68b6.jpg",
+    "static/media/girls_main.jpg": "/jellytree/static/media/girls_main.6eff882c.jpg",
+    "static/media/home_main.jpg": "/jellytree/static/media/home_main.7ef56667.jpg",
+    "static/media/jellytree_logo.jpg": "/jellytree/static/media/jellytree_logo.4412f4c8.jpg",
+    "static/media/protection.jpg": "/jellytree/static/media/protection.ce91d751.jpg",
+    "static/media/softness.jpg": "/jellytree/static/media/softness.01d7b482.jpg",
+    "static/media/style.jpg": "/jellytree/static/media/style.c594ae9e.jpg",
+    "static/media/toddler_main.jpg": "/jellytree/static/media/toddler_main.aed24cf1.jpg"
+  }
+}
