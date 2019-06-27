@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "37f0965d4d44c01bab8cd4c8c09bdb5a",
+    "revision": "e6f0867fec069f14378a20f26cb8fd5e",
     "url": "/jellytree/index.html"
   },
   {
-    "revision": "d6147a98ba164eb08cca",
+    "revision": "f8819df9427a7f70e2c4",
     "url": "/jellytree/static/css/main.4c9976cd.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/jellytree/static/js/2.143b8349.chunk.js"
   },
   {
-    "revision": "d6147a98ba164eb08cca",
-    "url": "/jellytree/static/js/main.7edf38dc.chunk.js"
+    "revision": "f8819df9427a7f70e2c4",
+    "url": "/jellytree/static/js/main.ed09c450.chunk.js"
   },
   {
     "revision": "4459760670b669a56a23",
