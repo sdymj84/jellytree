@@ -41,6 +41,10 @@ const Sign = styled.div`
   }
 `
 const StyledLink = styled(Link)`
+  color: ${theme.color};
+  :hover {
+    text-decoration: none;
+  }
   :visited {
     color: ${theme.color};
   }
