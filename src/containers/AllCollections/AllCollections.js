@@ -1,5 +1,5 @@
 import React from 'react'
-import MainImage from '../../assets/collections_main.jpg'
+import MainImage from '../../assets/main-photos/collections_main.jpg'
 import { Image, Container } from "semantic-ui-react";
 import styled from 'styled-components'
 import theme from '../../theme'

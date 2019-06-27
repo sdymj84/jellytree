@@ -45,7 +45,6 @@ const Navbar = (props) => {
   const [isFixed, setIsFixed] = useState(false)
 
   const handleOnStick = () => {
-    console.log(isFixed)
     setIsFixed(true)
   }
   const handleOnUnstick = () => {
@@ -59,9 +58,15 @@ const Navbar = (props) => {
       <Container pose={isFixed ? "fix" : "unfix"}>
         <Nav>
           <Item>New Arrivals</Item>
-          <Item>Babies</Item>
-          <Item>Infants</Item>
-          <Item>Boys & Girls</Item>
+          <StyledLink to="babies">
+            <Item>Babies</Item>
+          </StyledLink>
+          <StyledLink to="toddlers">
+            <Item>Toddlers</Item>
+          </StyledLink>
+          <StyledLink to="boys-girls">
+            <Item>Boys & Girls</Item>
+          </StyledLink>
           <StyledLink to="all-collections">
             <Item>All Collections</Item>
           </StyledLink>

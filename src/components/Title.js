@@ -40,7 +40,7 @@ const StyledTitle = styled.div`
   font-size: 8em;
   font-family: 'Asap', 'Exo', 'Concert One', 'Dosis', cursive;
   color: white;
-  margin: 1em;
+  margin: 0.1em;
   @media (max-width: 1120px) {
     font-size: 7em;
   }
@@ -51,6 +51,11 @@ const StyledTitle = styled.div`
     font-size: 3.3em;
   }
   
+`
+const Slogan = styled.div`
+  font-size: 3em;
+  color: white;
+  margin-bottom: 2em;
 `
 const P = styled.h2`
   color: white;
@@ -67,11 +72,11 @@ const Title = () => {
         <SplitText
           initialPose="hidden"
           pose="visible"
-          // pose={visible ? "visible" : "hidden"}
           charPoses={charPoses}>
           JELLYTREE
         </SplitText>
       </StyledTitle>
+      <Slogan>Put On The Love</Slogan>
       <P>JELLYTREE DESIGNS & CRAFT WITH CARE</P>
     </Fragment>
   )

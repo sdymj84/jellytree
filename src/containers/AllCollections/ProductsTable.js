@@ -54,7 +54,7 @@ const firstTableProps = [
   },
 ]
 
-const secondTableProps = [
+/* const secondTableProps = [
   {
     image: BabyDenimSunBonnet,
     title: "Toddler Denim Sun Hat",
@@ -90,7 +90,7 @@ const secondTableProps = [
     ageSize: "0-2 Months",
     color: "3+",
   },
-]
+] */
 
 
 

@@ -8,7 +8,7 @@ const StyledTable = styled(Table)`
   td {
     padding: 10px;
     width: 15%;
-    min-width: 150px;
+    min-width: 130px;
     text-align: center;
     border: 1px solid white;
   }

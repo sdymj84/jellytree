@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import MainImage from '../assets/main-photos/home_main.jpg'
-import Title from '../components/Title'
-import DownArrowIcon from '../components/DownArrowIcon'
+import { Button } from 'semantic-ui-react'
+import MainImage from '../../assets/main-photos/girls_main.jpg'
+import DownArrowIcon from '../../components/DownArrowIcon'
 
 const Container = styled.div`
 `
@@ -19,12 +19,17 @@ const Jumbotron = styled.div`
   background-size: cover;
   background-attachment: fixed;
 `
+const Title = styled.div`
+  font-size: 5em;
+  color: white;
+  margin: 1em 0;
+`
 
-const Home = () => {
+const Babies = () => {
   return (
     <Container>
       <Jumbotron>
-        <Title />
+        <Title>Wear the Jelly</Title>
         <DownArrowIcon />
       </Jumbotron>
       <div style={{ height: '1000px' }}></div>
@@ -32,4 +37,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Babies
