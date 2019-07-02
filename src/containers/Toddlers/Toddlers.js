@@ -22,6 +22,7 @@ const Title = styled.div`
   font-size: 5em;
   color: white;
   margin: 1em 0;
+  text-align: center;
 `
 
 const Babies = () => {

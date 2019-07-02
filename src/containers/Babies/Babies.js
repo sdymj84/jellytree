@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import MainImage from '../../assets/main-photos/baby_main.jpg'
 import DownArrowIcon from '../../components/DownArrowIcon'
+import Products from '../Products/Products'
 
 const Container = styled.div`
 `
@@ -22,6 +23,7 @@ const Title = styled.div`
   font-size: 5em;
   color: white;
   margin: 1em 0;
+  text-align: center;
 `
 
 const Babies = () => {
@@ -31,6 +33,7 @@ const Babies = () => {
         <Title>Special care for babies</Title>
         <DownArrowIcon />
       </Jumbotron>
+      <Products />
       <div style={{ height: '1000px' }}></div>
     </Container>
   )

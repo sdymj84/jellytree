@@ -39,6 +39,11 @@ const Item = styled.div`
     animation: jello-slow 0.5s infinite;
   }
 `
+const StyledLink = styled(Link)`
+  :hover {
+    text-decoration: none;
+  }
+`
 const StyledSidebar = styled(PosedSidebar)`
   position: fixed;
   top: 0;
@@ -50,25 +55,31 @@ const StyledSidebar = styled(PosedSidebar)`
   opacity: 0.9;
 `
 
-const Navbar = (props) => {
+const MobileNavbar = (props) => {
   return (
     <StyledSidebar pose={props.visible ? "visible" : "hidden"}
       onClick={props.handleHide}>
       <ItemContainer>
-        <Link to="/" onClick={props.handleHide}>
+        <StyledLink to="/" onClick={props.handleHide}>
           <Item>Home</Item>
-        </Link>
+        </StyledLink>
         <Item>New Arrivals</Item>
-        <Item>Babies</Item>
-        <Item>Infants</Item>
-        <Item>Boys & Girls</Item>
-        <Link to="all-collections" onClick={props.handleHide}>
+        <StyledLink to="babies">
+          <Item>Babies</Item>
+        </StyledLink>
+        <StyledLink to="toddlers">
+          <Item>Toddlers</Item>
+        </StyledLink>
+        <StyledLink to="boys-girls">
+          <Item>Boys & Girls</Item>
+        </StyledLink>
+        <StyledLink to="all-collections" onClick={props.handleHide}>
           <Item>All Collections</Item>
-        </Link>
+        </StyledLink>
       </ItemContainer>
     </StyledSidebar>
   )
 }
 
 
-export default Navbar
+export default MobileNavbar

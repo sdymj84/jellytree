@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Button } from 'semantic-ui-react'
 import MainImage from '../../assets/main-photos/girls_main.jpg'
 import DownArrowIcon from '../../components/DownArrowIcon'
 
@@ -23,6 +22,7 @@ const Title = styled.div`
   font-size: 5em;
   color: white;
   margin: 1em 0;
+  text-align: center;
 `
 
 const Babies = () => {

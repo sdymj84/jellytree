@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import MobileNavbar from './MobileNavbar'
 import Logo from './Logo'
 import Account from './Account'
+import MobileAccount from './MobileAccount'
 import styled from 'styled-components'
 import { Grid, Icon } from 'semantic-ui-react'
 
@@ -44,7 +45,6 @@ const Header = () => {
     setVisible(false)
   }
   return (
-    // <Sticky>
     <Container>
       <Grid doubling columns={3}>
         <Grid.Row>
@@ -52,7 +52,10 @@ const Header = () => {
             <Logo position="center" />
           </Grid.Column>
           <Grid.Column>
-            <Account />
+            {window.innerWidth < 400
+              ? <MobileAccount />
+              : <Account />
+            }
           </Grid.Column>
         </Grid.Row>
       </Grid>
@@ -69,7 +72,6 @@ const Header = () => {
         handleShow={handleShow}
         handleHide={handleHide} />
     </Container>
-    // </Sticky>
   )
 }
 
