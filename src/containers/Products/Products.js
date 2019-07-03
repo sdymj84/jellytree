@@ -1,10 +1,11 @@
 import React from 'react'
 import {
-  Grid, Ref, Rail, Sticky, Header, Card
+  Grid, Ref, Rail, Sticky
 } from 'semantic-ui-react'
 import styled from 'styled-components'
 import ProductCard from './ProductCard'
 import _ from 'lodash'
+import Filter from './Filter'
 
 const StyledContainer = styled.div`
   margin: 3em 40px;
@@ -38,13 +39,8 @@ const Products = () => {
           </Grid>
 
           <Rail dividing internal position='left'>
-            <Sticky context={contextRef} offset={100}>
-              <Header as='h3'>Filters</Header>
-              <ul>
-                <li>Color</li>
-                <li>Size</li>
-                <li>Category</li>
-              </ul>
+            <Sticky context={contextRef} offset={80}>
+              <Filter />
             </Sticky>
           </Rail>
         </ProductsContainer>

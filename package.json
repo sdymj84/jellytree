@@ -12,6 +12,7 @@
     "react-pose-text": "^3.1.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
+    "react-stars": "^2.2.5",
     "semantic-ui-react": "^0.87.2",
     "styled-components": "^4.3.2"
   },
@@ -23,7 +24,7 @@
     "predeploy": "yarn run build",
     "deploy": "gh-pages -d build"
   },
-  "homepage": "http://sdymj84.github.io/jellytree",
+  "homepage": "https://jellytreestore.com",
   "eslintConfig": {
     "extends": "react-app"
   },
