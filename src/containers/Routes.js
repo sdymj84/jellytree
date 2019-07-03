@@ -6,6 +6,7 @@ import Babies from './Babies/Babies'
 import Toddlers from './Toddlers/Toddlers'
 import BoysGirls from './BoysGirls/BoysGirls'
 import AllCollections from './AllCollections/AllCollections';
+import Product from './Products/Product'
 
 const Routes = () => {
   return (
@@ -16,6 +17,7 @@ const Routes = () => {
       <Route path="/toddlers" component={Toddlers} />
       <Route path="/boys-girls" component={BoysGirls} />
       <Route path="/all-collections" component={AllCollections} />
+      <Route path="/product/:id" component={Product} />
     </Switch>
   )
 }

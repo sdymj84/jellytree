@@ -27,11 +27,6 @@ const StyledImage = styled(Image)`
 `
 
 const Logo = (props) => {
-
-  const handleLogoClick = () => {
-    console.log("Go home")
-  }
-
   return (
     <Link to="/">
       <StyledImage
@@ -41,8 +36,7 @@ const Logo = (props) => {
           width: '100px',
           height: '30px',
         }}
-        position={props.position}
-        onClick={handleLogoClick} />
+        position={props.position} />
     </Link>
   )
 }

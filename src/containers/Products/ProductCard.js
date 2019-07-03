@@ -1,45 +1,42 @@
 import React from 'react'
-import { Card, Image, Icon } from 'semantic-ui-react'
+import { Card, Image, Popup } from 'semantic-ui-react'
 import styled from 'styled-components'
 import DotBonnet from '../../assets/products/babies/dot-bonnet.jpg'
-import ReactStars from 'react-stars'
+import AmazonStars from '../../components/AmazonStars';
+import { Link } from 'react-router-dom'
 
 const StyledCard = styled(Card)`
   &&& {
     margin-bottom: 2em;
   }
-`
-const StyledImage = styled(Image)`
-  object-fit: cover;
-`
-const Flex = styled.div`
-  display: flex;
-  align-items: center;
+  #price {
+    font-size: 1.5em;
+  }
+  :hover {
+    cursor: pointer;
+  }
 `
 
 const ProductCard = () => {
   return (
-    <StyledCard fluid color="green">
-      <StyledImage src={DotBonnet} />
-      <Card.Content>
-        <Card.Header>
-          <small>$</small>10<small>.99</small>{' - '}
-          <small>$</small>12<small>.99</small>
-        </Card.Header>
-        <Card.Description>
-          <Flex>
-            <Icon name="amazon" size="large" />
-            <ReactStars
-              count={5}
-              size={22}
-              color1={'#e5e5e5'}
-              color2={'#ffd700'}
-              edit={false}
-              value={3.5} />
-          </Flex>
-        </Card.Description>
-      </Card.Content>
-    </StyledCard>
+    <Link to="/product/8809681780568">
+      <StyledCard fluid color="green">
+        <Popup
+          trigger={<Image src={DotBonnet} style={{ objectFit: 'cover' }} />}
+          content="Baby Hat Summer Bonnet Breathable Double Gauze (Cotton) Toddler Sun Hat Infant Boys and Girls Beanie Cap, 3-18m"
+          position="top center"
+        />
+        <Card.Content>
+          <Card.Header id="price">
+            <small>$</small>10<small>.99</small>{' - '}
+            <small>$</small>12<small>.99</small>
+          </Card.Header>
+          <Card.Description>
+            <AmazonStars />
+          </Card.Description>
+        </Card.Content>
+      </StyledCard>
+    </Link>
   )
 }
 
