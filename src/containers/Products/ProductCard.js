@@ -16,14 +16,19 @@ const StyledCard = styled(Card)`
     cursor: pointer;
   }
 `
+const StyledLink = styled(Link)`
+  :hover {
+    text-decoration: none;
+  }
+`
 
 const ProductCard = () => {
   return (
-    <Link to="/product/8809681780568">
+    <StyledLink to="/product/8809681780568">
       <StyledCard fluid color="green">
         <Popup
           trigger={<Image src={DotBonnet} style={{ objectFit: 'cover' }} />}
-          content="Baby Hat Summer Bonnet Breathable Double Gauze (Cotton) Toddler Sun Hat Infant Boys and Girls Beanie Cap, 3-18m"
+          content="Summer Bonnet Breathable Double Gauze (Cotton), 3-18m"
           position="top center"
         />
         <Card.Content>
@@ -36,7 +41,7 @@ const ProductCard = () => {
           </Card.Description>
         </Card.Content>
       </StyledCard>
-    </Link>
+    </StyledLink>
   )
 }
 
