@@ -7,17 +7,22 @@ import ProductCard from './ProductCard'
 import _ from 'lodash'
 import Filter from './Filter'
 
+const isMobile = window.innerWidth < 600
+
 const StyledContainer = styled.div`
-  margin: 3em 40px;
+  margin: ${isMobile ? '3em 10px' : '3em 40px'};
 
   .ui.left.rail {
     z-index: 0;
     width: 180px;
   }
+  .column {
+    min-width: ${isMobile ? '0' : '230px'};
+  }
 `
 const ProductsContainer = styled.div`
   position: relative;
-  padding-left: 220px;
+  padding-left: ${isMobile ? '0' : '220px'};
 `
 
 const Products = () => {
@@ -38,11 +43,12 @@ const Products = () => {
             </Grid.Row>
           </Grid>
 
-          <Rail dividing internal position='left'>
-            <Sticky context={contextRef} offset={80}>
-              <Filter />
-            </Sticky>
-          </Rail>
+          {!isMobile &&
+            <Rail dividing internal position='left'>
+              <Sticky context={contextRef} offset={80}>
+                <Filter />
+              </Sticky>
+            </Rail>}
         </ProductsContainer>
       </Ref>
     </StyledContainer>

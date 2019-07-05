@@ -1,14 +1,22 @@
 import React from 'react'
 import { Image, Header, List, Dropdown } from 'semantic-ui-react'
+import {
+  CarouselProvider, Slider, Slide,
+  DotGroup, Dot,
+} from 'pure-react-carousel';
+import 'pure-react-carousel/dist/react-carousel.es.css';
 import AmazonStars from '../../components/AmazonStars'
 import styled from 'styled-components'
 import theme from '../../theme'
+
+
+const isMobile = window.innerWidth < 600
 
 const Container = styled.div`
   margin: 3em 10em;
   
   @media (max-width: 1300px) {
-    margin: 3em 4em;
+    margin: ${isMobile ? '0' : '3em 4em'};
   }
 
   display: flex;
@@ -60,7 +68,22 @@ const Price = styled.span`
     color: tomato;
   }
 `
-
+const StyledDotGroup = styled(DotGroup)`
+  text-align: center;
+  button {
+    margin: 3px;
+    height: 18px;
+    width: 0px;
+    border: 1px solid black;
+    border-radius: 50%;
+    background-color: #e5e5e5;
+  }
+  &&& {
+    button .carousel__dot--selected {
+      background-color: black;
+    }
+  }
+`
 const sizeOptions = [
   {
     key: 'Select',
@@ -82,25 +105,50 @@ const sizeOptions = [
 const Product = () => {
   return (
     <Container>
-      <div className="thumbnails">
-        <Image src="https://picsum.photos/100" />
-        <Image src="https://picsum.photos/100" />
-        <Image src="https://picsum.photos/100" />
-        <Image src="https://picsum.photos/100" />
-        <Image src="https://picsum.photos/100" />
-        <Image src="https://picsum.photos/100" />
-        <Image src="https://picsum.photos/100" />
-      </div>
+      {!isMobile &&
+        <div className="thumbnails">
+          <Image src="https://picsum.photos/100" />
+          <Image src="https://picsum.photos/100" />
+          <Image src="https://picsum.photos/100" />
+          <Image src="https://picsum.photos/100" />
+          <Image src="https://picsum.photos/100" />
+          <Image src="https://picsum.photos/100" />
+          <Image src="https://picsum.photos/100" />
+        </div>}
 
       <div className="main-image">
-        <Image src="https://picsum.photos/1000"
-          style={{ marginBottom: '2em' }} />
+        {isMobile
+          ? <CarouselProvider
+            naturalSlideWidth={100}
+            naturalSlideHeight={100}
+            totalSlides={3}
+          >
+            <Slider>
+              <Slide index={0}>
+                <Image src="https://picsum.photos/1000"
+                  style={{ marginBottom: '2em' }} />
+              </Slide>
+              <Slide index={1}>
+                <Image src="https://picsum.photos/1000"
+                  style={{ marginBottom: '2em' }} />
+              </Slide>
+              <Slide index={2}>
+                <Image src="https://picsum.photos/1000"
+                  style={{ marginBottom: '2em' }} />
+              </Slide>
+            </Slider>
+            <StyledDotGroup />
+          </CarouselProvider>
+
+          : <Image src="https://picsum.photos/1000"
+            style={{ marginBottom: '2em' }} />
+        }
       </div>
 
       <div className="product-details">
         <Header as="h1">
           Hat Summer Bonnet Breathable Double Gauze (Cotton) Toddler Sun Hat Infant Boys and Girls Beanie Cap, 3-18m
-          </Header>
+        </Header>
         <AmazonStars />
         <hr />
         <div className="options">

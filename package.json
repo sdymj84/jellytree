@@ -5,6 +5,7 @@
   "dependencies": {
     "gh-pages": "^2.0.1",
     "lodash": "^4.17.11",
+    "pure-react-carousel": "^1.21.1",
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.9",
     "react-dom": "^16.8.6",

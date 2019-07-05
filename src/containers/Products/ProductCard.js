@@ -5,9 +5,11 @@ import DotBonnet from '../../assets/products/babies/dot-bonnet.jpg'
 import AmazonStars from '../../components/AmazonStars';
 import { Link } from 'react-router-dom'
 
+const isMobile = window.innerWidth < 600
+
 const StyledCard = styled(Card)`
   &&& {
-    margin-bottom: 2em;
+    margin-bottom: ${isMobile ? '0' : '2em'};
   }
   #price {
     font-size: 1.5em;
