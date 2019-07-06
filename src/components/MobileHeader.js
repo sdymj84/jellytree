@@ -27,23 +27,32 @@ const MenuIcon = styled.div`
   top: 5px;
   left: 0;
   z-index: 2;
-  /* top: 15px;
-  left: 15px; */
   padding: 15px;
-  
+  opacity: ${p => p.scrolled ? '0.3' : '1'};
   :hover {
     cursor: pointer;
   }
+  transition: opacity 0.5s;
 `
 
 const Header = () => {
   const [visible, setVisible] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+
   const handleShow = () => {
     setVisible(true)
   }
   const handleHide = () => {
     setVisible(false)
   }
+  const menuOpacity = () => {
+    window.pageYOffset > 150
+      ? setScrolled(true)
+      : setScrolled(false)
+  }
+
+  window.addEventListener('scroll', menuOpacity)
+
   return (
     <Container>
       <Grid doubling columns={3}>
@@ -60,7 +69,7 @@ const Header = () => {
         </Grid.Row>
       </Grid>
 
-      <MenuIcon>
+      <MenuIcon scrolled={visible ? false : scrolled}>
         {visible
           ? <Icon name="close" size="big"
             onClick={handleHide} />

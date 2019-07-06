@@ -6,7 +6,7 @@ import Babies from './Babies/Babies'
 import Toddlers from './Toddlers/Toddlers'
 import BoysGirls from './BoysGirls/BoysGirls'
 import AllCollections from './AllCollections/AllCollections';
-import Product from './Products/Product'
+import Product from './Products/Product/Product'
 
 const Routes = () => {
   return (

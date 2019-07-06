@@ -1,14 +1,11 @@
-import React from 'react'
-import { Image, Header, List, Dropdown } from 'semantic-ui-react'
-import {
-  CarouselProvider, Slider, Slide,
-  DotGroup, Dot,
-} from 'pure-react-carousel';
-import 'pure-react-carousel/dist/react-carousel.es.css';
-import AmazonStars from '../../components/AmazonStars'
+import React, { useState } from 'react'
+import { Header, List, Button } from 'semantic-ui-react'
+import AmazonStars from '../../../components/AmazonStars'
 import styled from 'styled-components'
-import theme from '../../theme'
-
+import theme from '../../../theme'
+import ProductImages from './ProductImages'
+import ProductSizes from './ProductSizes'
+import ProductColors from './ProductColors'
 
 const isMobile = window.innerWidth < 600
 
@@ -26,7 +23,7 @@ const Container = styled.div`
   & > div {
     margin: 1em;
   }
-  
+
   .thumbnails {
     flex: 0 0 50px;
     img {
@@ -34,30 +31,21 @@ const Container = styled.div`
     }
   }
   .main-image {
-    flex: 1 0 400px;
+    flex: 1 1 400px;
   }
+  
   .product-details {
-    flex: 4 0 400px;
-    span {
+    flex: 4 1 400px;
+    margin-top: ${isMobile ? '3em' : '1em'};
+    .list span {
       color: ${theme.color};
     }
   }
 
   .options {
-    margin-bottom: 1em;
-  }
-`
-const Color = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  img {
-    width: 50px;
-    margin: 0.5em 0.5em 0.5em 0;
-    border-radius: 50%;
-    border: 1px solid grey;
-    flex: 0 0 50px;
-    :hover {
-      cursor: pointer;
+    margin-bottom: 2em;
+    .size-color-name {
+      font-family: "Exo 2";
     }
   }
 `
@@ -68,82 +56,24 @@ const Price = styled.span`
     color: tomato;
   }
 `
-const StyledDotGroup = styled(DotGroup)`
-  text-align: center;
-  button {
-    margin: 3px;
-    height: 18px;
-    width: 0px;
-    border: 1px solid black;
-    border-radius: 50%;
-    background-color: #e5e5e5;
-  }
+const StyledButton = styled(Button)`
   &&& {
-    button .carousel__dot--selected {
-      background-color: black;
-    }
+    box-shadow: 0 0 15px -4px grey;
+    margin-bottom: 3em;
   }
 `
-const sizeOptions = [
-  {
-    key: 'Select',
-    text: 'Select',
-    value: 'Select',
-  },
-  {
-    key: 'S / 3-6 Months',
-    text: 'S / 3-6 Months',
-    value: 'S / 3-6 Months',
-  },
-  {
-    key: 'M / 6-12 Months',
-    text: 'M / 6-12 Months',
-    value: 'M / 6-12 Months',
-  },
-]
 
 const Product = () => {
+  const [selectedProductId, setSelectedProductId] = useState("")
+  const [sizeNotSelected, setSizeNotSelected] = useState(false)
+  const handleAddToCart = () => {
+    if (selectedProductId === "") {
+      setSizeNotSelected(true)
+    }
+  }
   return (
     <Container>
-      {!isMobile &&
-        <div className="thumbnails">
-          <Image src="https://picsum.photos/100" />
-          <Image src="https://picsum.photos/100" />
-          <Image src="https://picsum.photos/100" />
-          <Image src="https://picsum.photos/100" />
-          <Image src="https://picsum.photos/100" />
-          <Image src="https://picsum.photos/100" />
-          <Image src="https://picsum.photos/100" />
-        </div>}
-
-      <div className="main-image">
-        {isMobile
-          ? <CarouselProvider
-            naturalSlideWidth={100}
-            naturalSlideHeight={100}
-            totalSlides={3}
-          >
-            <Slider>
-              <Slide index={0}>
-                <Image src="https://picsum.photos/1000"
-                  style={{ marginBottom: '2em' }} />
-              </Slide>
-              <Slide index={1}>
-                <Image src="https://picsum.photos/1000"
-                  style={{ marginBottom: '2em' }} />
-              </Slide>
-              <Slide index={2}>
-                <Image src="https://picsum.photos/1000"
-                  style={{ marginBottom: '2em' }} />
-              </Slide>
-            </Slider>
-            <StyledDotGroup />
-          </CarouselProvider>
-
-          : <Image src="https://picsum.photos/1000"
-            style={{ marginBottom: '2em' }} />
-        }
-      </div>
+      <ProductImages />
 
       <div className="product-details">
         <Header as="h1">
@@ -156,26 +86,18 @@ const Product = () => {
         </div>
 
         <div className="options">
-          <div>Size : </div>
-          <Dropdown
-            placeholder='Select'
-            selection
-            options={sizeOptions}
-          />
+          <ProductSizes sizeNotSelected={sizeNotSelected} />
         </div>
 
         <div className="options">
-          <div>Color : Pink</div>
-          <Color>
-            <Image src="https://picsum.photos/100" />
-            <Image src="https://picsum.photos/100" />
-            <Image src="https://picsum.photos/100" />
-            <Image src="https://picsum.photos/100" />
-            <Image src="https://picsum.photos/100" />
-            <Image src="https://picsum.photos/100" />
-            <Image src="https://picsum.photos/100" />
-          </Color>
+          <ProductColors />
         </div>
+
+        <StyledButton fluid
+          size="big" color="orange"
+          onClick={handleAddToCart}>
+          Add to Cart
+        </StyledButton>
 
         <List>
           <List.Item>
