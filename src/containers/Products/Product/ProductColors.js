@@ -22,12 +22,12 @@ const Color = styled.div`
   }
 `
 
-const ProductColors = () => {
-  const [selectedColor, setSelectedColor] = useState("")
+const ProductColors = (props) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
 
   const handleColorClick = (e, i) => {
     setSelectedIndex(i)
+    props.handleColorChange(i)
   }
   return (
     <div>

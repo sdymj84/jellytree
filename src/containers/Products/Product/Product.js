@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Header, List, Button } from 'semantic-ui-react'
 import AmazonStars from '../../../components/AmazonStars'
 import styled from 'styled-components'
@@ -6,6 +6,7 @@ import theme from '../../../theme'
 import ProductImages from './ProductImages'
 import ProductSizes from './ProductSizes'
 import ProductColors from './ProductColors'
+import lodash from 'lodash'
 
 const isMobile = window.innerWidth < 600
 
@@ -60,17 +61,42 @@ const StyledButton = styled(Button)`
   &&& {
     box-shadow: 0 0 15px -4px grey;
     margin-bottom: 3em;
+    max-width: 500px;
   }
 `
 
+const useScroll = () => {
+  const ref = useRef(null)
+  const executeScroll = () => {
+    window.scrollTo(0, ref.current.offsetTop - (window.innerHeight / 2) + 50)
+  }
+  const htmlElementAttributes = { ref }
+
+  return [executeScroll, htmlElementAttributes]
+}
+
 const Product = () => {
   const [selectedProductId, setSelectedProductId] = useState("")
+  const [selectedColor, setSelectedColor] = useState("")
+  const [selectedSize, setSelectedSize] = useState("")
   const [sizeNotSelected, setSizeNotSelected] = useState(false)
+  const [executeScroll, scrollHtmlAttributes] = useScroll()
+
   const handleAddToCart = () => {
     if (selectedProductId === "") {
+      executeScroll()
       setSizeNotSelected(true)
     }
   }
+
+  const handleSizeChange = (e, data) => {
+    console.log(data.value)
+    setSelectedSize(data.value)
+  }
+  const handleColorChange = (i) => {
+    console.log(i)
+  }
+
   return (
     <Container>
       <ProductImages />
@@ -86,11 +112,21 @@ const Product = () => {
         </div>
 
         <div className="options">
-          <ProductSizes sizeNotSelected={sizeNotSelected} />
+          <ProductSizes
+            sizeNotSelected={sizeNotSelected}
+            selectedSize={selectedSize}
+            handleSizeChange={handleSizeChange}
+            scrollHtmlAttributes={scrollHtmlAttributes} />
         </div>
 
         <div className="options">
-          <ProductColors />
+          <ProductColors
+            selectedColor={selectedColor}
+            handleColorChange={handleColorChange} />
+        </div>
+
+        <div className="options">
+          SKU : <span style={{ fontFamily: "Arial" }}>88012345678</span>
         </div>
 
         <StyledButton fluid
@@ -135,5 +171,44 @@ const Product = () => {
     </Container>
   )
 }
+
+
+
+
+const variations = [
+  {
+    sku: '8801',
+    color: 'white',
+    size: 's',
+  },
+  {
+    sku: '8802',
+    color: 'white',
+    size: 'm',
+  },
+  {
+    sku: '8803',
+    color: 'pink',
+    size: 's',
+  },
+  {
+    sku: '8804',
+    color: 'pink',
+    size: 'm',
+  },
+  {
+    sku: '8805',
+    color: 'navy',
+    size: 's',
+  },
+  {
+    sku: '8806',
+    color: 'navy',
+    size: 'm',
+  }
+]
+
+
+
 
 export default Product

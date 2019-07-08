@@ -4,11 +4,6 @@ import styled from 'styled-components'
 
 const sizeOptions = [
   {
-    key: 'Select',
-    text: 'Select',
-    value: 'Select',
-  },
-  {
     key: 'S / 3-6 Months',
     text: 'S / 3-6 Months',
     value: 'S / 3-6 Months',
@@ -44,7 +39,7 @@ const Title = styled.div`
 
 const ProductSizes = (props) => {
   return (
-    <div>
+    <div {...props.scrollHtmlAttributes}>
       <Title sizeNotSelected={props.sizeNotSelected}>
         Size : <span className="size-color-name">Select Size to see price</span>
       </Title>
@@ -52,6 +47,8 @@ const ProductSizes = (props) => {
         placeholder='Select'
         selection
         options={sizeOptions}
+        onChange={props.handleSizeChange}
+        value={props.selectedSize}
       />
     </div>
   )
