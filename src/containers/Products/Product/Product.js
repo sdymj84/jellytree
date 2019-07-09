@@ -107,7 +107,6 @@ const Product = () => {
         && product.size === selectedSize
         && product.stock !== 0
     })
-    console.log(available)
     available.length === 0 && setSelectedSize("")
   }, [selectedColor])
 
@@ -140,6 +139,8 @@ const Product = () => {
           <ProductColors
             selectedColor={selectedColor}
             handleColorChange={handleColorChange}
+            variations={variations}
+            selectedSize={selectedSize}
             colors={colors} />
         </div>
 

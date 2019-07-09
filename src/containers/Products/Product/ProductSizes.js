@@ -43,7 +43,7 @@ const ProductSizes = (props) => {
   _.forEach(sizeOptions, option => {
     option.disabled = !(_.findIndex(availableSizeOptions, { 'value': option.value }) + 1)
   })
-  console.log(sizeOptions, availableSizeOptions)
+  // console.log(sizeOptions, availableSizeOptions)
 
   return (
     <div {...props.scrollHtmlAttributes}>
