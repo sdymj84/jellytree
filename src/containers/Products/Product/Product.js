@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Header, List, Button } from 'semantic-ui-react'
 import AmazonStars from '../../../components/AmazonStars'
 import styled from 'styled-components'
@@ -6,7 +6,7 @@ import theme from '../../../theme'
 import ProductImages from './ProductImages'
 import ProductSizes from './ProductSizes'
 import ProductColors from './ProductColors'
-import lodash from 'lodash'
+import _ from 'lodash'
 
 const isMobile = window.innerWidth < 600
 
@@ -77,25 +77,39 @@ const useScroll = () => {
 
 const Product = () => {
   const [selectedProductId, setSelectedProductId] = useState("")
-  const [selectedColor, setSelectedColor] = useState("")
+  const [selectedColor, setSelectedColor] = useState(colors[0].color)
   const [selectedSize, setSelectedSize] = useState("")
   const [sizeNotSelected, setSizeNotSelected] = useState(false)
   const [executeScroll, scrollHtmlAttributes] = useScroll()
 
   const handleAddToCart = () => {
-    if (selectedProductId === "") {
+    const product = _.find(variations, { 'color': selectedColor, 'size': selectedSize })
+    const sku = product && product.sku
+    if (sku) {
+      setSelectedProductId(sku)
+    } else {
       executeScroll()
       setSizeNotSelected(true)
     }
   }
 
   const handleSizeChange = (e, data) => {
-    console.log(data.value)
     setSelectedSize(data.value)
+    setSizeNotSelected(false)
   }
   const handleColorChange = (i) => {
-    console.log(i)
+    setSelectedColor(colors[i].color)
   }
+
+  useEffect(() => {
+    const available = _.filter(variations, (product) => {
+      return product.color === selectedColor
+        && product.size === selectedSize
+        && product.stock !== 0
+    })
+    console.log(available)
+    available.length === 0 && setSelectedSize("")
+  }, [selectedColor])
 
   return (
     <Container>
@@ -116,13 +130,17 @@ const Product = () => {
             sizeNotSelected={sizeNotSelected}
             selectedSize={selectedSize}
             handleSizeChange={handleSizeChange}
-            scrollHtmlAttributes={scrollHtmlAttributes} />
+            scrollHtmlAttributes={scrollHtmlAttributes}
+            variations={variations}
+            selectedColor={selectedColor}
+            sizes={sizes} />
         </div>
 
         <div className="options">
           <ProductColors
             selectedColor={selectedColor}
-            handleColorChange={handleColorChange} />
+            handleColorChange={handleColorChange}
+            colors={colors} />
         </div>
 
         <div className="options">
@@ -178,36 +196,50 @@ const Product = () => {
 const variations = [
   {
     sku: '8801',
-    color: 'white',
-    size: 's',
+    color: 'White',
+    size: 'S / 3-6 Months',
+    stock: 0,
   },
   {
     sku: '8802',
-    color: 'white',
-    size: 'm',
+    color: 'White',
+    size: 'M / 6-12 Months',
+    stock: 10,
   },
   {
     sku: '8803',
-    color: 'pink',
-    size: 's',
+    color: 'Pink',
+    size: 'S / 3-6 Months',
+    stock: 10,
   },
   {
     sku: '8804',
-    color: 'pink',
-    size: 'm',
+    color: 'Pink',
+    size: 'M / 6-12 Months',
+    stock: 10,
   },
   {
     sku: '8805',
-    color: 'navy',
-    size: 's',
+    color: 'Navy',
+    size: 'S / 3-6 Months',
+    stock: 10,
   },
   {
     sku: '8806',
-    color: 'navy',
-    size: 'm',
-  }
+    color: 'Navy',
+    size: 'M / 6-12 Months',
+    stock: 10,
+  },
+  {
+    sku: '8807',
+    color: 'Navy',
+    size: 'L / 12-24 Months',
+    stock: 10,
+  },
 ]
 
+const colors = _.uniqBy(variations, 'color')
+const sizes = _.uniqBy(variations, 'size')
 
 
 

@@ -1,19 +1,7 @@
 import React from 'react'
 import { Dropdown } from "semantic-ui-react";
 import styled from 'styled-components'
-
-const sizeOptions = [
-  {
-    key: 'S / 3-6 Months',
-    text: 'S / 3-6 Months',
-    value: 'S / 3-6 Months',
-  },
-  {
-    key: 'M / 6-12 Months',
-    text: 'M / 6-12 Months',
-    value: 'M / 6-12 Months',
-  },
-]
+import _ from 'lodash'
 
 const Title = styled.div`
   animation: ${p => p.sizeNotSelected ? 'shake 1.5s' : ''};
@@ -38,14 +26,36 @@ const Title = styled.div`
 `
 
 const ProductSizes = (props) => {
+  let sizeOptions = props.sizes.map(product => ({
+    key: product.size,
+    text: product.size,
+    value: product.size,
+    disabled: true,
+  }))
+  const availableSizeOptions = props.variations.map(product => {
+    if (product.color === props.selectedColor && product.stock !== 0) {
+      return { value: product.size }
+    } else {
+      return ""
+    }
+  }).filter(product => product !== "")
+
+  _.forEach(sizeOptions, option => {
+    option.disabled = !(_.findIndex(availableSizeOptions, { 'value': option.value }) + 1)
+  })
+  console.log(sizeOptions, availableSizeOptions)
+
   return (
     <div {...props.scrollHtmlAttributes}>
       <Title sizeNotSelected={props.sizeNotSelected}>
-        Size : <span className="size-color-name">Select Size to see price</span>
+        Size : <span className="size-color-name">
+          {props.selectedSize || 'Select size to see price'}
+        </span>
       </Title>
       <Dropdown
         placeholder='Select'
         selection
+        clearable
         options={sizeOptions}
         onChange={props.handleSizeChange}
         value={props.selectedSize}

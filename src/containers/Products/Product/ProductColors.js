@@ -31,9 +31,9 @@ const ProductColors = (props) => {
   }
   return (
     <div>
-      <div>Color : <span className="size-color-name">Pink</span></div>
+      <div>Color : <span className="size-color-name">{props.selectedColor}</span></div>
       <Color selectedIndex={selectedIndex}>
-        {_.times(8, i =>
+        {_.times(3, i =>
           <Image key={i} src="https://picsum.photos/100"
             onClick={(e) => handleColorClick(e, i)} />
         )}
