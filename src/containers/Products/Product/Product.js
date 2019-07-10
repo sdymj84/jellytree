@@ -76,12 +76,10 @@ const useScroll = () => {
 }
 
 const Product = () => {
-  const [selectedProductId, setSelectedProductId] = useState("")
-  const [selectedColor, setSelectedColor] = useState(colors[0].color)
-  const [selectedSize, setSelectedSize] = useState("")
   const [sizeNotSelected, setSizeNotSelected] = useState(false)
   const [executeScroll, scrollHtmlAttributes] = useScroll()
 
+  const [selectedProductId, setSelectedProductId] = useState("")
   const handleAddToCart = () => {
     const product = _.find(variations, { 'color': selectedColor, 'size': selectedSize })
     const sku = product && product.sku
@@ -92,15 +90,22 @@ const Product = () => {
       setSizeNotSelected(true)
     }
   }
+  useEffect(() => {
+    selectedProductId &&
+      alert(`Product ${selectedProductId} is added to cart.`)
+  }, [selectedProductId])
 
+
+  const [selectedSize, setSelectedSize] = useState("")
   const handleSizeChange = (e, data) => {
     setSelectedSize(data.value)
     setSizeNotSelected(false)
   }
+
+  const [selectedColor, setSelectedColor] = useState(colors[0].color)
   const handleColorChange = (i) => {
     setSelectedColor(colors[i].color)
   }
-
   useEffect(() => {
     const available = _.filter(variations, (product) => {
       return product.color === selectedColor
@@ -108,7 +113,10 @@ const Product = () => {
         && product.stock !== 0
     })
     available.length === 0 && setSelectedSize("")
+    // eslint-disable-next-line
   }, [selectedColor])
+
+
 
   return (
     <Container>
@@ -200,42 +208,69 @@ const variations = [
     color: 'White',
     size: 'S / 3-6 Months',
     stock: 0,
+    images: [
+      'https://picsum.photos/1000',
+      'https://picsum.photos/900',
+    ]
   },
   {
     sku: '8802',
     color: 'White',
     size: 'M / 6-12 Months',
     stock: 10,
+    images: [
+      'https://picsum.photos/1000',
+      'https://picsum.photos/900',
+    ]
   },
   {
     sku: '8803',
     color: 'Pink',
     size: 'S / 3-6 Months',
     stock: 10,
+    images: [
+      'https://picsum.photos/1000',
+      'https://picsum.photos/900',
+    ]
   },
   {
     sku: '8804',
     color: 'Pink',
     size: 'M / 6-12 Months',
     stock: 10,
+    images: [
+      'https://picsum.photos/1000',
+      'https://picsum.photos/900',
+    ]
   },
   {
     sku: '8805',
     color: 'Navy',
     size: 'S / 3-6 Months',
-    stock: 10,
+    stock: 10, images: [
+      'https://picsum.photos/1000',
+      'https://picsum.photos/900',
+    ]
   },
   {
     sku: '8806',
     color: 'Navy',
     size: 'M / 6-12 Months',
     stock: 10,
+    images: [
+      'https://picsum.photos/1000',
+      'https://picsum.photos/900',
+    ]
   },
   {
     sku: '8807',
     color: 'Navy',
     size: 'L / 12-24 Months',
     stock: 10,
+    images: [
+      'https://picsum.photos/1000',
+      'https://picsum.photos/900',
+    ]
   },
 ]
 

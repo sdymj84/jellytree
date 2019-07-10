@@ -35,24 +35,26 @@ const ProductColors = (props) => {
     value: product.color,
     disabled: false,
   }))
-  const availableColorOptions = props.variations.map(product => {
-    if (product.size === props.selectedSize && product.stock !== 0) {
-      return { value: product.color }
-    } else {
-      return ""
-    }
-  }).filter(product => product !== "")
 
-  _.forEach(colorOptions, option => {
-    option.disabled = !(_.findIndex(availableColorOptions, { 'value': option.value }) + 1)
-  })
+  let availableColorOptions = []
+  if (props.selectedSize !== "") {
+    availableColorOptions = props.variations.map(product => {
+      if (product.size === props.selectedSize && product.stock !== 0) {
+        return { value: product.color }
+      } else {
+        return ""
+      }
+    }).filter(product => product !== "")
+
+    _.forEach(colorOptions, option => {
+      option.disabled = !(_.findIndex(availableColorOptions, { 'value': option.value }) + 1)
+    })
+  }
 
   const handleColorClick = (e, i) => {
     setSelectedIndex(i)
     props.handleColorChange(i)
   }
-
-  console.log(props.variations, colorOptions, availableColorOptions)
 
   return (
     <div>
