@@ -35,10 +35,11 @@ const ProductColors = (props) => {
     value: product.color,
     disabled: false,
   }))
+  console.log(colorOptions)
 
   let availableColorOptions = []
   if (props.selectedSize !== "") {
-    availableColorOptions = props.variations.map(product => {
+    availableColorOptions = props.products.map(product => {
       if (product.size === props.selectedSize && product.stock !== 0) {
         return { value: product.color }
       } else {
@@ -60,7 +61,7 @@ const ProductColors = (props) => {
     <div>
       <div>Color : <span className="size-color-name">{props.selectedColor}</span></div>
       <Color selectedIndex={selectedIndex}>
-        {_.times(3, i =>
+        {_.times(colorOptions.length, i =>
           <Popup
             key={i}
             content='Not available in selected size'

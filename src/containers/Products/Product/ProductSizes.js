@@ -32,7 +32,7 @@ const ProductSizes = (props) => {
     value: product.size,
     disabled: true,
   }))
-  const availableSizeOptions = props.variations.map(product => {
+  const availableSizeOptions = props.products.map(product => {
     if (product.color === props.selectedColor && product.stock !== 0) {
       return { value: product.size }
     } else {
@@ -57,7 +57,9 @@ const ProductSizes = (props) => {
         clearable
         options={sizeOptions}
         onChange={props.handleSizeChange}
+        selectOnBlur={false}
         value={props.selectedSize}
+        text={props.selectedSize || "Select"}
       />
     </div>
   )

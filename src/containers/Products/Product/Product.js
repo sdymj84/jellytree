@@ -76,12 +76,12 @@ const useScroll = () => {
 }
 
 const Product = () => {
-  const [sizeNotSelected, setSizeNotSelected] = useState(false)
   const [executeScroll, scrollHtmlAttributes] = useScroll()
 
+  // When clicked Add to Cart
   const [selectedProductId, setSelectedProductId] = useState("")
   const handleAddToCart = () => {
-    const product = _.find(variations, { 'color': selectedColor, 'size': selectedSize })
+    const product = _.find(products, { 'color': selectedColor, 'size': selectedSize })
     const sku = product && product.sku
     if (sku) {
       setSelectedProductId(sku)
@@ -96,18 +96,28 @@ const Product = () => {
   }, [selectedProductId])
 
 
+  // When changed size from dropdown
   const [selectedSize, setSelectedSize] = useState("")
+  const [sizeNotSelected, setSizeNotSelected] = useState(false)
   const handleSizeChange = (e, data) => {
+    console.log('size changed')
     setSelectedSize(data.value)
     setSizeNotSelected(false)
   }
+  const handleSizeClose = () => {
+    console.log('dropdown closed')
+    if (sizeNotSelected) {
+      setSelectedSize("")
+    }
+  }
 
+  // When changed color
   const [selectedColor, setSelectedColor] = useState(colors[0].color)
   const handleColorChange = (i) => {
     setSelectedColor(colors[i].color)
   }
   useEffect(() => {
-    const available = _.filter(variations, (product) => {
+    const available = _.filter(products, (product) => {
       return product.color === selectedColor
         && product.size === selectedSize
         && product.stock !== 0
@@ -117,7 +127,7 @@ const Product = () => {
   }, [selectedColor])
 
 
-
+  // Render UI
   return (
     <Container>
       <ProductImages />
@@ -137,8 +147,9 @@ const Product = () => {
             sizeNotSelected={sizeNotSelected}
             selectedSize={selectedSize}
             handleSizeChange={handleSizeChange}
+            handleSizeClose={handleSizeClose}
             scrollHtmlAttributes={scrollHtmlAttributes}
-            variations={variations}
+            products={products}
             selectedColor={selectedColor}
             sizes={sizes} />
         </div>
@@ -147,7 +158,7 @@ const Product = () => {
           <ProductColors
             selectedColor={selectedColor}
             handleColorChange={handleColorChange}
-            variations={variations}
+            products={products}
             selectedSize={selectedSize}
             colors={colors} />
         </div>
@@ -201,81 +212,86 @@ const Product = () => {
 
 
 
-
-const variations = [
+const products = [
   {
-    sku: '8801',
+    pidType: 'EAN',
+    pid: '8801',
+    sku: 'JT-BH-WHS',
+    title: 'Summer Bonnet Breathable Double Gauze Beanie Cap, 3-18m',
     color: 'White',
+    colorMap: 'White',
     size: 'S / 3-6 Months',
+    sizeMap: 'Small',
+    material: 'Cotton',
+    price: '10.99',
     stock: 0,
+    mainImage: 'https://picsum.photos/1100',
     images: [
       'https://picsum.photos/1000',
       'https://picsum.photos/900',
+    ],
+    bulletPoints: [
+      '[ STYLE ] : Keep your little one stylish & protected with breathable cotton baby summer bonnet. HappyTree offers high quality, trustworthy materials crafted with special care for your babies. Simple but sophisticated designs & details, available in a variety of sizes with fresh colors for growing babies.',
+      '[ DESIGN ] : This toddler summer hat with chin ties keep the hat on your baby’s head and foldable sun brim protects their sensitive skin. Mix and match our fun & lovely sun hats / bonnets / scarves to add a little bit of cuteness and complete your young ones adorable outfit :)',
+      '[ PERFECT GIFT ] : Comfortable & easy-to-wear baby sun hat, great spring / summer /fall accessory for daily wear & outdoor activities: vacation trips, playgrounds, campfire nights, photoshoots, birthday gifts, etc. For any occasions, be more adorable and get more compliments!',
+      '[ MATERIAL & SIZE ] : 100% cotton, breathable cotton lined. Fit ranges from S: 3 to 6 months / M: 6 to 12 months / L: 12 to 18 months. Please check detailed measurements before placing your order.',
+      '[ 100% SATISFACTION ] : 30 Days 100% FREE returns and exchanges on any orders. If you are not satisfied with your experience with us, please contact us. It is our responsibility and policy to make sure that customers are 100% satisfied with our service.',
     ]
   },
   {
-    sku: '8802',
+    pidType: 'EAN',
+    pid: '8802',
+    sku: 'JT-BH-WHM',
+    title: 'Summer Bonnet Breathable Double Gauze Beanie Cap, 3-18m',
     color: 'White',
+    colorMap: 'White',
     size: 'M / 6-12 Months',
+    sizeMap: 'Medium',
+    material: 'Cotton',
+    price: '10.99',
     stock: 10,
+    mainImage: 'https://picsum.photos/1100',
     images: [
       'https://picsum.photos/1000',
       'https://picsum.photos/900',
+    ],
+    bulletPoints: [
+      '[ STYLE ] : Keep your little one stylish & protected with breathable cotton baby summer bonnet. HappyTree offers high quality, trustworthy materials crafted with special care for your babies. Simple but sophisticated designs & details, available in a variety of sizes with fresh colors for growing babies.',
+      '[ DESIGN ] : This toddler summer hat with chin ties keep the hat on your baby’s head and foldable sun brim protects their sensitive skin. Mix and match our fun & lovely sun hats / bonnets / scarves to add a little bit of cuteness and complete your young ones adorable outfit :)',
+      '[ PERFECT GIFT ] : Comfortable & easy-to-wear baby sun hat, great spring / summer /fall accessory for daily wear & outdoor activities: vacation trips, playgrounds, campfire nights, photoshoots, birthday gifts, etc. For any occasions, be more adorable and get more compliments!',
+      '[ MATERIAL & SIZE ] : 100% cotton, breathable cotton lined. Fit ranges from S: 3 to 6 months / M: 6 to 12 months / L: 12 to 18 months. Please check detailed measurements before placing your order.',
+      '[ 100% SATISFACTION ] : 30 Days 100% FREE returns and exchanges on any orders. If you are not satisfied with your experience with us, please contact us. It is our responsibility and policy to make sure that customers are 100% satisfied with our service.',
     ]
   },
   {
-    sku: '8803',
+    pidType: 'EAN',
+    pid: '8803',
+    sku: 'JT-BH-PKS',
+    title: 'Summer Bonnet Breathable Double Gauze Beanie Cap, 3-18m',
     color: 'Pink',
+    colorMap: 'Pink',
     size: 'S / 3-6 Months',
+    sizeMap: 'Small',
+    material: 'Cotton',
+    price: '10.99',
     stock: 10,
+    mainImage: 'https://picsum.photos/1100',
     images: [
       'https://picsum.photos/1000',
       'https://picsum.photos/900',
-    ]
-  },
-  {
-    sku: '8804',
-    color: 'Pink',
-    size: 'M / 6-12 Months',
-    stock: 10,
-    images: [
-      'https://picsum.photos/1000',
-      'https://picsum.photos/900',
-    ]
-  },
-  {
-    sku: '8805',
-    color: 'Navy',
-    size: 'S / 3-6 Months',
-    stock: 10, images: [
-      'https://picsum.photos/1000',
-      'https://picsum.photos/900',
-    ]
-  },
-  {
-    sku: '8806',
-    color: 'Navy',
-    size: 'M / 6-12 Months',
-    stock: 10,
-    images: [
-      'https://picsum.photos/1000',
-      'https://picsum.photos/900',
-    ]
-  },
-  {
-    sku: '8807',
-    color: 'Navy',
-    size: 'L / 12-24 Months',
-    stock: 10,
-    images: [
-      'https://picsum.photos/1000',
-      'https://picsum.photos/900',
+    ],
+    bulletPoints: [
+      '[ STYLE ] : Keep your little one stylish & protected with breathable cotton baby summer bonnet. HappyTree offers high quality, trustworthy materials crafted with special care for your babies. Simple but sophisticated designs & details, available in a variety of sizes with fresh colors for growing babies.',
+      '[ DESIGN ] : This toddler summer hat with chin ties keep the hat on your baby’s head and foldable sun brim protects their sensitive skin. Mix and match our fun & lovely sun hats / bonnets / scarves to add a little bit of cuteness and complete your young ones adorable outfit :)',
+      '[ PERFECT GIFT ] : Comfortable & easy-to-wear baby sun hat, great spring / summer /fall accessory for daily wear & outdoor activities: vacation trips, playgrounds, campfire nights, photoshoots, birthday gifts, etc. For any occasions, be more adorable and get more compliments!',
+      '[ MATERIAL & SIZE ] : 100% cotton, breathable cotton lined. Fit ranges from S: 3 to 6 months / M: 6 to 12 months / L: 12 to 18 months. Please check detailed measurements before placing your order.',
+      '[ 100% SATISFACTION ] : 30 Days 100% FREE returns and exchanges on any orders. If you are not satisfied with your experience with us, please contact us. It is our responsibility and policy to make sure that customers are 100% satisfied with our service.',
     ]
   },
 ]
 
-const colors = _.uniqBy(variations, 'color')
-const sizes = _.uniqBy(variations, 'size')
+const colors = _.uniqBy(products, 'color')
+const sizes = _.uniqBy(products, 'size')
 
 
 
