@@ -1,7 +1,6 @@
 import React from 'react'
 import { Card, Image, Popup } from 'semantic-ui-react'
 import styled from 'styled-components'
-import DotBonnet from '../../assets/products/babies/dot-bonnet.jpg'
 import AmazonStars from '../../components/AmazonStars';
 import { Link } from 'react-router-dom'
 
@@ -24,12 +23,12 @@ const StyledLink = styled(Link)`
   }
 `
 
-const ProductCard = () => {
+const ProductCard = (props) => {
   return (
     <StyledLink to="/product/8809681780568">
       <StyledCard fluid color="green">
         <Popup
-          trigger={<Image src={DotBonnet} style={{ objectFit: 'cover' }} />}
+          trigger={<Image src={props.image} style={{ objectFit: 'cover' }} />}
           content="Summer Bonnet Breathable Double Gauze (Cotton), 3-18m"
           position="top center"
         />

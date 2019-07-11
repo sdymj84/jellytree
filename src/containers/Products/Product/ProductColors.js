@@ -1,3 +1,18 @@
+/*
+availableColors 
+  - variations objects which is stock > 0 and unique colors
+  - color option UI shows based on this array
+selectedColor
+  - best selling variation is set to initial selected color
+    (pre-calculated on parent component)
+  - 
+productInfo
+  - whole product info
+selectedSize
+handleColorChange
+*/
+
+
 import React, { useState } from 'react'
 import { Image, Popup } from "semantic-ui-react";
 import styled from 'styled-components'
@@ -29,17 +44,18 @@ const Color = styled.div`
 `
 
 const ProductColors = (props) => {
-  const [selectedIndex, setSelectedIndex] = useState(0)
+  const initialSelectedIndex = _.findIndex(props.availableColors,
+    obj => obj.color === props.selectedColor)
+  const [selectedIndex, setSelectedIndex] = useState(initialSelectedIndex)
 
-  let colorOptions = props.colors.map(product => ({
+  let colorOptions = props.availableColors.map(product => ({
     value: product.color,
     disabled: false,
   }))
-  console.log(colorOptions)
 
   let availableColorOptions = []
   if (props.selectedSize !== "") {
-    availableColorOptions = props.products.map(product => {
+    availableColorOptions = props.productInfo.variations.map(product => {
       if (product.size === props.selectedSize && product.stock !== 0) {
         return { value: product.color }
       } else {

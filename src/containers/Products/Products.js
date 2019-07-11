@@ -35,9 +35,9 @@ const Products = () => {
 
           <Grid columns={4} doubling stackable>
             <Grid.Row>
-              {_.times(10, i => (
+              {_.times(images.length, i => (
                 <Grid.Column key={i}>
-                  <ProductCard />
+                  <ProductCard image={images[i]} />
                 </Grid.Column>
               ))}
             </Grid.Row>
@@ -54,5 +54,16 @@ const Products = () => {
     </StyledContainer>
   )
 }
+
+
+const images = [
+  'https://picsum.photos/200',
+  'https://picsum.photos/200',
+  'https://picsum.photos/200',
+  'https://picsum.photos/200',
+  'https://picsum.photos/200',
+  'https://picsum.photos/200',
+  'https://picsum.photos/200',
+]
 
 export default Products

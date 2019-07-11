@@ -32,7 +32,7 @@ const ProductSizes = (props) => {
     value: product.size,
     disabled: true,
   }))
-  const availableSizeOptions = props.products.map(product => {
+  const availableSizeOptions = props.productInfo.variations.map(product => {
     if (product.color === props.selectedColor && product.stock !== 0) {
       return { value: product.size }
     } else {

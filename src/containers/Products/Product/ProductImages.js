@@ -1,22 +1,50 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import { Image } from 'semantic-ui-react'
 import Slider from "react-slick";
 import ReactImageMagnify from 'react-image-magnify'
+import _ from 'lodash'
+import styled from 'styled-components'
 
 const isMobile = window.innerWidth < 600
 
-const Images = () => {
+const Thumbnails = styled(Image)`
+  box-shadow: ${p => p.selectedIndex === p.i
+    ? "0 0 2px 1px tomato" : ""};
+
+  :hover {
+    box-shadow: 0 0 2px 1px tomato;
+  }
+`
+
+const Images = (props) => {
+  const selectedOption = _.find(props.availableColors, obj =>
+    obj.color === props.selectedColor)
+  const images = [
+    selectedOption.mainImage,
+    ...selectedOption.images
+  ]
+
+  const [selectedImage, setSelectedImage] = useState(images[0])
+  const [selectedIndex, setSelectedIndex] = useState(0)
+
+  const handleThumbnailClick = (e, i) => {
+    e.persist()
+    console.log(i)
+    setSelectedImage(e.target.src)
+    // setSelectedIndex(i)
+  }
+
   return (
     <Fragment>
       {!isMobile &&
         <div className="thumbnails">
-          <Image src="https://picsum.photos/100" />
-          <Image src="https://picsum.photos/100" />
-          <Image src="https://picsum.photos/100" />
-          <Image src="https://picsum.photos/100" />
-          <Image src="https://picsum.photos/100" />
-          <Image src="https://picsum.photos/100" />
-          <Image src="https://picsum.photos/100" />
+          {_.map(images, (image, i) =>
+            <Thumbnails key={i} src={image} alt="product images"
+              selectedIndex={selectedIndex}
+              i={i}
+              // onMouseOver={() => console.log('hover')}
+              onClick={(e) => handleThumbnailClick(e, i)} />
+          )}
         </div>}
 
       <div className="main-image">
@@ -28,12 +56,11 @@ const Images = () => {
               speed={500}
               slidesToShow={1}
               slidesToScroll={1}>
-              <Image src="https://picsum.photos/1000"
-                style={{ marginBottom: '2em' }} />
-              <Image src="https://picsum.photos/1000"
-                style={{ marginBottom: '2em' }} />
-              <Image src="https://picsum.photos/1000"
-                style={{ marginBottom: '2em' }} />
+              {_.map(images, (image, i) =>
+                <Image key={i} src={image}
+                  alt="product images"
+                  style={{ marginBottom: '2em' }} />
+              )}
             </Slider>
           </div>
 
@@ -51,10 +78,10 @@ const Images = () => {
               smallImage: {
                 alt: 'Product image',
                 isFluidWidth: true,
-                src: "https://picsum.photos/1000"
+                src: selectedImage
               },
               largeImage: {
-                src: "https://picsum.photos/1000",
+                src: selectedImage,
                 width: 1500,
                 height: 1500
               }
