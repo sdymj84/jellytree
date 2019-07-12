@@ -1,3 +1,22 @@
+/* 
+** Props **
+productInfo
+  - get availableSizeOptions from this
+sizeNotSelected
+  - if sizeNotSelected, show error when add to cart
+selectedSize
+  - show size on title and dropdown
+selectedColor
+  - disable unavailable sizes based on selectedColor
+sizes
+  - all sizes : make sizeOptions array out of this
+
+scrollHtmlAttributes
+  - indicate the element that should be scrolled to
+handleSizeChange
+handleSizeClose
+*/
+
 import React from 'react'
 import { Dropdown } from "semantic-ui-react";
 import styled from 'styled-components'

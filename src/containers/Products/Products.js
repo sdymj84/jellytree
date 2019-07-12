@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Grid, Ref, Rail, Sticky
 } from 'semantic-ui-react'
@@ -26,7 +26,12 @@ const ProductsContainer = styled.div`
 `
 
 const Products = () => {
-  const contextRef = React.createRef()
+  const [contextRef, setContextRef] = useState(React.createRef())
+  useEffect(() => {
+    if (!contextRef.current) {
+      setContextRef(React.createRef())
+    }
+  }, [contextRef])
 
   return (
     <StyledContainer>

@@ -4,9 +4,8 @@ availableColors
   - variations objects which is stock > 0 and unique colors
   - color option UI shows based on this array
 selectedColor
-  - best selling variation is set to initial selected color
+  - best selling variation is set as initially selected color
     (pre-calculated on parent component)
-  - 
 productInfo
   - whole product info
 selectedSize
@@ -24,6 +23,7 @@ const Color = styled.div`
   flex-wrap: wrap;
   img {
     width: 50px;
+    height: 50px;
     margin: 0.5em 0.5em 0.5em 0;
     border-radius: 50%;
     border: 1px solid grey;

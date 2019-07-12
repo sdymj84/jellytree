@@ -132,7 +132,6 @@ const Product = () => {
   return (
     <Container>
       <ProductImages
-        productInfo={productInfo}
         availableColors={availableColors}
         selectedColor={selectedColor} />
 

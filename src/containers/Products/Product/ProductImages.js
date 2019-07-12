@@ -1,8 +1,7 @@
 /* 
 ** Props **
-availableColors
+availableColors 
 selectedColor
-  - 
 
 ** States **
 selectedImage
