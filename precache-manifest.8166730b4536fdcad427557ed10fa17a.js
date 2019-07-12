@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "4291739b2f6017569508538107ef5679",
+    "revision": "11e3f00286afb37886072a369bd8711e",
     "url": "/index.html"
   },
   {
-    "revision": "4f132cf593b3b7433dae",
-    "url": "/static/css/main.4c9976cd.chunk.css"
+    "revision": "cdcc8f7c8de1a68fa089",
+    "url": "/static/css/main.40b10b29.chunk.css"
   },
   {
-    "revision": "ae742e92064df0d93be9",
-    "url": "/static/js/2.22c131f2.chunk.js"
+    "revision": "cc7440d7d736057d508a",
+    "url": "/static/js/2.13c630b3.chunk.js"
   },
   {
-    "revision": "4f132cf593b3b7433dae",
-    "url": "/static/js/main.6488c194.chunk.js"
+    "revision": "cdcc8f7c8de1a68fa089",
+    "url": "/static/js/main.5a99b6b4.chunk.js"
   },
   {
     "revision": "42ac5946195a7306e2a5",
@@ -26,10 +26,6 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "ce0c68b64ec3a89fd3e7e2624aa53994",
     "url": "/static/media/collections_main.ce0c68b6.jpg"
-  },
-  {
-    "revision": "449b18053ea06792c1f91224476e0f3e",
-    "url": "/static/media/dot-bonnet.449b1805.jpg"
   },
   {
     "revision": "6eff882c11e372a7dadb3fa8c541e279",
