@@ -1,4 +1,5 @@
 /*
+** Props **
 availableColors 
   - variations objects which is stock > 0 and unique colors
   - color option UI shows based on this array

@@ -1,4 +1,21 @@
-import React, { Fragment, useState } from 'react'
+/* 
+** Props **
+availableColors
+selectedColor
+  - 
+
+** States **
+selectedImage
+  - image url that's used in Image's src attribute
+  - value determined by thumbnail click and color change 
+    (selectedOption change from prop)
+selectedIndex
+  - index in thumbnails to show css effect
+  - value determined by thumbnail click and color change 
+    (selectedOption change from prop)
+*/
+
+import React, { Fragment, useState, useEffect } from 'react'
 import { Image } from 'semantic-ui-react'
 import Slider from "react-slick";
 import ReactImageMagnify from 'react-image-magnify'
@@ -8,7 +25,7 @@ import styled from 'styled-components'
 const isMobile = window.innerWidth < 600
 
 const Thumbnails = styled(Image)`
-  box-shadow: ${p => p.selectedIndex === p.i
+  box-shadow: ${p => p.selectedindex === p.i
     ? "0 0 2px 1px tomato" : ""};
 
   :hover {
@@ -26,23 +43,25 @@ const Images = (props) => {
 
   const [selectedImage, setSelectedImage] = useState(images[0])
   const [selectedIndex, setSelectedIndex] = useState(0)
+  useEffect(() => {
+    setSelectedImage(images[0])
+    setSelectedIndex(0)
+    // eslint-disable-next-line
+  }, [selectedOption])
 
   const handleThumbnailClick = (e, i) => {
     e.persist()
-    console.log(i)
     setSelectedImage(e.target.src)
-    // setSelectedIndex(i)
+    setSelectedIndex(i)
   }
-
   return (
     <Fragment>
       {!isMobile &&
         <div className="thumbnails">
           {_.map(images, (image, i) =>
             <Thumbnails key={i} src={image} alt="product images"
-              selectedIndex={selectedIndex}
+              selectedindex={selectedIndex}
               i={i}
-              // onMouseOver={() => console.log('hover')}
               onClick={(e) => handleThumbnailClick(e, i)} />
           )}
         </div>}
@@ -64,7 +83,7 @@ const Images = (props) => {
             </Slider>
           </div>
 
-          : < ReactImageMagnify
+          : <ReactImageMagnify
             enlargedImagePosition={window.innerWidth < 1046 ? "over" : "beside"}
             enlargedImageContainerDimensions={{
               width: '150%', height: '110%'

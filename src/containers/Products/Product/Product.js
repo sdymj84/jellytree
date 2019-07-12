@@ -240,7 +240,7 @@ const productInfo = {
       price: '10.99',
       stock: 0,
       soldCount: 30,
-      mainImage: 'https://picsum.photos/1100',
+      mainImage: 'https://picsum.photos/1000',
       thumbnail: 'https://picsum.photos/100',
       images: [
         'https://picsum.photos/1000',
@@ -267,7 +267,7 @@ const productInfo = {
       price: '10.99',
       stock: 10,
       soldCount: 20,
-      mainImage: 'https://picsum.photos/1100',
+      mainImage: 'https://picsum.photos/1000',
       thumbnail: 'https://picsum.photos/100',
       images: [
         'https://picsum.photos/1000',
