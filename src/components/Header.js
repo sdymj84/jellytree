@@ -8,9 +8,9 @@ import { Grid } from 'semantic-ui-react'
 const Container = styled.div`
   &&&& {
     .flex-center {
-      display: flex !important;
-      justify-content: center !important;
-      align-items: center !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 `

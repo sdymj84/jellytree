@@ -64,16 +64,16 @@ const MobileNavbar = (props) => {
           <Item>Home</Item>
         </StyledLink>
         <Item>New Arrivals</Item>
-        <StyledLink to="babies">
+        <StyledLink to="/babies">
           <Item>Babies</Item>
         </StyledLink>
-        <StyledLink to="toddlers">
+        <StyledLink to="/toddlers">
           <Item>Toddlers</Item>
         </StyledLink>
-        <StyledLink to="boys-girls">
+        <StyledLink to="/boys-girls">
           <Item>Boys & Girls</Item>
         </StyledLink>
-        <StyledLink to="all-collections" onClick={props.handleHide}>
+        <StyledLink to="/all-collections" onClick={props.handleHide}>
           <Item>All Collections</Item>
         </StyledLink>
       </ItemContainer>

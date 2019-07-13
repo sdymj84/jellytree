@@ -13,6 +13,7 @@
     "react-pose": "^4.0.8",
     "react-pose-text": "^3.1.0",
     "react-router-dom": "^5.0.1",
+    "react-router-scroll-memory": "^2.0.3",
     "react-scripts": "3.0.1",
     "react-slick": "^0.24.0",
     "react-stars": "^2.2.5",

@@ -54,7 +54,7 @@ const Account = () => {
   return (
     <Container>
       <SignContainer>
-        <StyledLink to="signin">
+        <StyledLink to="/signin">
           <Sign>
             <Icon name="sign in" />
             <span>Sign In</span>

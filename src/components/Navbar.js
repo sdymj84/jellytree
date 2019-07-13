@@ -23,7 +23,7 @@ const Nav = styled.div`
   display: flex;
   max-width: 800px;
   margin: auto;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
 `
 const Item = styled.div`

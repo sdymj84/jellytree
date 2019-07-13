@@ -7,8 +7,7 @@ import Routes from './containers/Routes'
 import { Ref } from 'semantic-ui-react'
 
 const Container = styled.div`
-  margin: auto;
-  /* padding: 1em; */
+  /* margin: auto; */
 `
 
 function App() {

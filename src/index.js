@@ -3,15 +3,16 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { HashRouter } from "react-router-dom";
-import ScrollToTop from './components/ScrollToTop'
+import { BrowserRouter } from "react-router-dom";
+import ScrollMemory from 'react-router-scroll-memory'
 
 ReactDOM.render(
-  <HashRouter basename="/">
-    <ScrollToTop>
+  <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <div>
+      <ScrollMemory />
       <App />
-    </ScrollToTop>
-  </HashRouter>
+    </div>
+  </BrowserRouter>
   , document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
