@@ -69,10 +69,10 @@ const Images = (props) => {
         {isMobile
           ? <div style={{ width: window.innerWidth, textAlign: 'center' }}>
             <Slider
+              speed={100}
               arrows={false}
               dots={true}
               infinite={true}
-              speed={500}
               slidesToShow={1}
               slidesToScroll={1}>
               {_.map(images, (image, i) =>

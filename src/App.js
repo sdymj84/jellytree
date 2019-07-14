@@ -3,7 +3,7 @@ import Header from './components/Header'
 import MobileHeader from './components/MobileHeader'
 import Footer from './components/Footer'
 import Routes from './containers/Routes'
-import { Container, Ref } from 'semantic-ui-react'
+import { Ref } from 'semantic-ui-react'
 
 function App() {
   const contextRef = React.createRef()

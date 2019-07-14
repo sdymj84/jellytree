@@ -4,7 +4,6 @@ import { Image } from 'semantic-ui-react'
 import JellyTree from '../assets/jellytree_logo.jpg'
 import { Link } from "react-router-dom";
 
-
 const StyledImage = styled(Image)`
   @media (max-width: 600px) {
     &&& {
@@ -23,6 +22,9 @@ const StyledImage = styled(Image)`
 
   :hover {
     animation: jello-active 0.5s infinite;
+    @media (max-width: 600px) {
+      animation: jello-active 0.5s;
+    }
   }
 `
 
