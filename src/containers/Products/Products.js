@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import {
-  Grid, Ref, Rail, Sticky, Button
+  Grid, Ref, Rail, Sticky
 } from 'semantic-ui-react'
 import styled from 'styled-components'
 import ProductCard from './ProductCard'
@@ -33,9 +33,6 @@ const Products = () => {
     }
   }, [contextRef])
 
-  const handleTopClick = () => {
-    window.scrollTo(0, 0)
-  }
   return (
     <StyledContainer>
       <Ref innerRef={contextRef}>
@@ -59,7 +56,6 @@ const Products = () => {
             </Rail>}
         </ProductsContainer>
       </Ref>
-      <Button onClick={handleTopClick} />
     </StyledContainer>
   )
 }

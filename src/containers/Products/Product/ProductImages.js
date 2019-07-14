@@ -69,6 +69,7 @@ const Images = (props) => {
         {isMobile
           ? <div style={{ width: window.innerWidth, textAlign: 'center' }}>
             <Slider
+              arrows={false}
               dots={true}
               infinite={true}
               speed={500}

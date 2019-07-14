@@ -9,6 +9,10 @@ import { Grid, Icon } from 'semantic-ui-react'
 
 const Container = styled.div`
   background-color: white;
+  .ui.grid {
+    margin-right: 0;
+    margin-left: 0;
+  }
 
   &&& {
     .mobile-logo-container {
