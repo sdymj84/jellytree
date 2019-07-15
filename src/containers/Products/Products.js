@@ -45,9 +45,9 @@ const Products = () => {
                   <ProductCard image={images[i]} />
                 </Grid.Column>
               ))} */}
-              {_.map(products, i => (
-                <Grid.Column key={i}>
-                  <ProductCard image={images[i]} />
+              {_.map(products, product => (
+                <Grid.Column key={product.sku}>
+                  <ProductCard productInfo={product} />
                 </Grid.Column>
               ))}
             </Grid.Row>
@@ -65,16 +65,6 @@ const Products = () => {
   )
 }
 
-
-const images = [
-  'https://picsum.photos/200',
-  'https://picsum.photos/200',
-  'https://picsum.photos/200',
-  'https://picsum.photos/200',
-  'https://picsum.photos/200',
-  'https://picsum.photos/200',
-  'https://picsum.photos/200',
-]
 
 const products = [
   {
@@ -180,7 +170,7 @@ const products = [
     colorMap: ['White', 'Pink'],
     soldCount: 60,
     stock: 10,
-    frontProductId: '8802',
+    frontProductId: '8812',
     variations: [
       {
         pidType: 'EAN',
@@ -269,8 +259,8 @@ const products = [
     sku: 'JT-DH-P',
     title: 'Denim Hat',
     minPrice: '11.99',
-    maxPrice: '13.99',
-    sizeMap: ['Small', 'Medium'],
+    maxPrice: '11.99',
+    sizeMap: ['Small', 'Large'],
     colorMap: ['White', 'Pink'],
     soldCount: 60,
     stock: 10,
@@ -337,8 +327,8 @@ const products = [
         title: 'Summer Bonnet Breathable Double Gauze Beanie Cap, 3-18m',
         color: 'Pink',
         colorMap: 'Pink',
-        size: 'S / 3-6 Months',
-        sizeMap: 'Small',
+        size: 'L / 6-12 Months',
+        sizeMap: 'Large',
         material: 'Cotton',
         price: '10.99',
         stock: 10,

@@ -75,10 +75,10 @@ const Filter = () => {
       </div>
       <div className="sub-container">
         <Header as='h3'>Size</Header>
-        <Checkbox label="0-3 Months" />
-        <Checkbox label="3-6 Months" />
-        <Checkbox label="6-12 Months" />
-        <Checkbox label="12-24 Months" />
+        <Checkbox label="Small (0-3M)" />
+        <Checkbox label="Medium (3-6M)" />
+        <Checkbox label="Large (6-12M)" />
+        <Checkbox label="X-Large (12-24M)" />
       </div>
     </Container >
   )

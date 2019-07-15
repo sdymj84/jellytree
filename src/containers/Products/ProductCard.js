@@ -3,6 +3,7 @@ import { Card, Image, Popup } from 'semantic-ui-react'
 import styled from 'styled-components'
 import AmazonStars from '../../components/AmazonStars';
 import { Link } from 'react-router-dom'
+import _ from 'lodash'
 
 const isMobile = window.innerWidth < 600
 
@@ -23,19 +24,33 @@ const StyledLink = styled(Link)`
   }
 `
 
-const ProductCard = (props) => {
+const ProductCard = ({ productInfo }) => {
+  const product = _.find(productInfo.variations,
+    { 'pid': productInfo.frontProductId })
+  const minPrice = productInfo.minPrice.split('.')
+  const maxPrice = productInfo.maxPrice.split('.')
+
   return (
     <StyledLink to="/product/8809681780568">
       <StyledCard fluid color="green">
         <Popup
-          trigger={<Image src={props.image} style={{ objectFit: 'cover' }} />}
-          content="Summer Bonnet Breathable Double Gauze (Cotton), 3-18m"
+          trigger={
+            <Image
+              src={product.mainImage}
+              style={{ objectFit: 'cover' }} />}
+          content={productInfo.title}
           position="top center"
         />
         <Card.Content>
           <Card.Header id="price">
-            <small>$</small>10<small>.99</small>{' - '}
-            <small>$</small>12<small>.99</small>
+            {productInfo.minPrice !== productInfo.maxPrice
+              ? <span>
+                <small>$</small>{minPrice[0]}
+                <small>.{minPrice[1]}</small>{' - '}
+              </span>
+              : null}
+            <small>$</small>{maxPrice[0]}
+            <small>.{maxPrice[1]}</small>
           </Card.Header>
           <Card.Description>
             <AmazonStars />
