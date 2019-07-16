@@ -4,19 +4,24 @@ import MobileHeader from './components/MobileHeader'
 import Footer from './components/Footer'
 import Routes from './containers/Routes'
 import { Ref } from 'semantic-ui-react'
+import ProductContextProvider from './contexts/ProductContext';
 
 function App() {
   const contextRef = React.createRef()
   return (
+
     <Ref innerRef={contextRef}>
       <div>
-        {window.innerWidth < 600
-          ? <MobileHeader />
-          : <Header contextRef={contextRef} />}
-        <Routes />
-        <Footer />
+        <ProductContextProvider>
+          {window.innerWidth < 600
+            ? <MobileHeader />
+            : <Header contextRef={contextRef} />}
+          <Routes />
+          <Footer />
+        </ProductContextProvider>
       </div>
     </Ref>
+
   );
 }
 

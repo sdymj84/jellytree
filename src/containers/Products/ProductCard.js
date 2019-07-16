@@ -29,9 +29,9 @@ const ProductCard = ({ productInfo }) => {
     { 'pid': productInfo.frontProductId })
   const minPrice = productInfo.minPrice.split('.')
   const maxPrice = productInfo.maxPrice.split('.')
-
+  console.log(productInfo)
   return (
-    <StyledLink to="/product/8809681780568">
+    <StyledLink to={`/product/${productInfo.pid}`}>
       <StyledCard fluid color="green">
         <Popup
           trigger={
