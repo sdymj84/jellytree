@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Grid, Ref, Rail, Sticky
 } from 'semantic-ui-react'
@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import ProductCard from './ProductCard'
 import _ from 'lodash'
 import Filter from './Filter'
-import { ProductContext } from '../../contexts/ProductContext';
+import axios from 'axios'
 
 const isMobile = window.innerWidth < 600
 
@@ -34,7 +34,22 @@ const Products = () => {
     }
   }, [contextRef])
 
-  const { products } = useContext(ProductContext)
+
+  // const { products } = useContext(ProductContext)
+  const [products, setProducts] = useState([])
+  useEffect(() => {
+    async function listProducts() {
+      try {
+        const res = await axios.get('https://us-central1-jellytree-3cb33.cloudfunctions.net/listProducts')
+        setProducts(res.data)
+      } catch (e) {
+        console.log("Error gettings products data", e)
+      }
+    }
+    listProducts()
+  }, [])
+
+  console.log(products)
 
   return (
     <StyledContainer>
@@ -44,8 +59,11 @@ const Products = () => {
           <Grid columns={4} doubling stackable>
             <Grid.Row>
               {_.map(products, product => (
-                <Grid.Column key={product.sku}>
-                  <ProductCard productInfo={product} />
+                <Grid.Column key={product.id}>
+                  {product &&
+                    <ProductCard
+                      productDocId={product.id}
+                      productInfo={product.data} />}
                 </Grid.Column>
               ))}
             </Grid.Row>
