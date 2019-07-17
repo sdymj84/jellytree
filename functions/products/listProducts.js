@@ -7,13 +7,14 @@ const listProducts = async (req, res) => {
     try {
       const result = []
       const snapshot = await db.collection('products').get()
-      _.forEach(snapshot, doc => {
+      snapshot.forEach(doc => {
         result.push({
           id: doc.id,
           data: doc.data()
         })
       })
-      res.json(result)
+      res.status(200).json(result)
+      // res.json(result)
     } catch (e) {
       const msg = "Error getting documents"
       console.log(msg, e)

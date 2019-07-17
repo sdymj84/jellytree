@@ -7,6 +7,7 @@ import ProductImages from './ProductImages'
 import ProductSizes from './ProductSizes'
 import ProductColors from './ProductColors'
 import _ from 'lodash'
+import axios from 'axios'
 
 const isMobile = window.innerWidth < 600
 
@@ -80,8 +81,22 @@ const useScroll = () => {
 //=========================================================================
 
 
-const Product = () => {
+const Product = (props) => {
   const [executeScroll, scrollHtmlAttributes] = useScroll()
+
+  console.log(props.match.params.id)
+  const [product, setProduct] = useState("")
+  useEffect(() => {
+    async function getProduct() {
+      try {
+        const res = await axios.get(`https://us-central1-jellytree-3cb33.cloudfunctions.net/getProduct?${props.match.params.id}`)
+        console.log(res.data)
+      } catch (e) {
+        console.log("Error getting a document", e)
+      }
+    }
+    getProduct()
+  }, [props.match.params.id])
 
   // When clicked Add to Cart
   const [selectedProductId, setSelectedProductId] = useState("")
