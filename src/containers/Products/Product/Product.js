@@ -89,7 +89,8 @@ const Product = (props) => {
   useEffect(() => {
     async function getProduct() {
       try {
-        const res = await axios.get(`https://us-central1-jellytree-3cb33.cloudfunctions.net/getProduct?${props.match.params.id}`)
+        const res = await axios.get(`https://us-central1-jellytree-3cb33.cloudfunctions.net/getProduct?id=${props.match.params.id}`)
+        // const res = await axios.get(`http://localhost:5001/jellytree-3cb33/us-central1/getProduct?id=${props.match.params.id}`)
         console.log(res.data)
       } catch (e) {
         console.log("Error getting a document", e)

@@ -25,7 +25,7 @@ const StyledLink = styled(Link)`
 `
 
 const ProductCard = ({ productDocId, productInfo }) => {
-  console.log('ProductCards 28', productInfo)
+  console.log(productInfo)
   const product = _.find(productInfo.variations,
     { 'pid': productInfo.frontProductId })
   const minPrice = productInfo.minPrice.split('.')

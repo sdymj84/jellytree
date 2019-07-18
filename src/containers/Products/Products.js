@@ -40,7 +40,7 @@ const Products = () => {
   useEffect(() => {
     async function listProducts() {
       try {
-        const res = await axios.get('https://us-central1-jellytree-3cb33.cloudfunctions.net/listProducts ')
+        const res = await axios.get('https://us-central1-jellytree-3cb33.cloudfunctions.net/listProducts')
         setProducts(res.data)
       } catch (e) {
         console.log("Error getting products data", e)
