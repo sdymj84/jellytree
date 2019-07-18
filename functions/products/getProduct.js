@@ -10,7 +10,7 @@ const getProduct = async (req, res) => {
       const doc = await productRef.get()
       if (!doc.exists) {
         console.log("No such product found")
-        res.end("No such product found")
+        res.send("No such product found")
       }
       res.status(200).json(doc.data())
     } catch (e) {
