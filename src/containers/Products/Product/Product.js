@@ -8,11 +8,13 @@ import ProductSizes from './ProductSizes'
 import ProductColors from './ProductColors'
 import _ from 'lodash'
 import axios from 'axios'
+import JellyLoader from '../../../components/JellyLoader'
 
 const isMobile = window.innerWidth < 600
 
 const Container = styled.div`
   margin: 3em 10em;
+  min-height: 600px;
   
   @media (max-width: 1300px) {
     margin: ${isMobile ? '0' : '3em 4em'};
@@ -171,94 +173,80 @@ const Product = (props) => {
 
 
 
+
+
   // Render UI
-  if (!productInfo || !selectedColor) {
-    return null
-  }
-
   return (
-    <Container>
-      <ProductImages
-        availableColors={availableColors}
-        selectedColor={selectedColor} />
+    <JellyLoader
+      isLoading={!productInfo || !selectedColor}>
+      <Container>
+        <ProductImages
+          availableColors={availableColors}
+          selectedColor={selectedColor} />
 
-      <div className="product-details">
-        <Header as="h1">
-          {productInfo.title}
-        </Header>
-        <AmazonStars />
-        <hr />
-        <div className="options">
-          Price : <Price>${selectedOption ? selectedOption.price : " ??"}</Price>
-        </div>
+        <div className="product-details">
+          <Header as="h1">
+            {productInfo.title}
+          </Header>
+          <AmazonStars />
+          <hr />
+          <div className="options">
+            Price : <Price>${selectedOption ? selectedOption.price : " ??"}</Price>
+          </div>
 
-        <div className="options">
-          <ProductSizes
-            sizeNotSelected={sizeNotSelected}
-            selectedSize={selectedSize}
-            handleSizeChange={handleSizeChange}
-            handleSizeClose={handleSizeClose}
-            scrollHtmlAttributes={scrollHtmlAttributes}
-            productInfo={productInfo}
-            selectedColor={selectedColor}
-            sizes={sizes} />
-        </div>
+          <div className="options">
+            <ProductSizes
+              sizeNotSelected={sizeNotSelected}
+              selectedSize={selectedSize}
+              handleSizeChange={handleSizeChange}
+              handleSizeClose={handleSizeClose}
+              scrollHtmlAttributes={scrollHtmlAttributes}
+              productInfo={productInfo}
+              selectedColor={selectedColor}
+              sizes={sizes} />
+          </div>
 
-        <div className="options">
-          <ProductColors
-            availableColors={availableColors}
-            selectedColor={selectedColor}
-            handleColorChange={handleColorChange}
-            productInfo={productInfo}
-            selectedSize={selectedSize} />
-        </div>
+          <div className="options">
+            <ProductColors
+              availableColors={availableColors}
+              selectedColor={selectedColor}
+              handleColorChange={handleColorChange}
+              productInfo={productInfo}
+              selectedSize={selectedSize} />
+          </div>
 
-        <div className="options">
-          Product ID : <span style={{ fontFamily: "Arial" }}>
-            {selectedOption && selectedOption.pid}
-          </span>
-        </div>
+          <div className="options">
+            Product ID : <span style={{ fontFamily: "Arial" }}>
+              {selectedOption && selectedOption.pid}
+            </span>
+          </div>
 
-        <StyledButton fluid
-          size="big" color="orange"
-          onClick={handleAddToCart}>
-          Add to Cart
+          <StyledButton fluid
+            size="big" color="orange"
+            onClick={handleAddToCart}>
+            Add to Cart
         </StyledButton>
-
-        <List>
-          <List.Item>
-            <List.Icon name="thumbs up outline" />
-            <List.Content>
-              <span>[ STYLE ]</span> : Keep your little one stylish & protected with breathable cotton baby summer bonnet. HappyTree offers high quality, trustworthy materials crafted with special care for your babies. Simple but sophisticated designs & details, available in a variety of sizes with fresh colors for growing babies.
-              </List.Content>
-          </List.Item>
-          <List.Item>
-            <List.Icon name="thumbs up outline" />
-            <List.Content>
-              <span>[ DESIGN ]</span> : This toddler summer hat with chin ties keep the hat on your baby’s head and foldable sun brim protects their sensitive skin. Mix and match our fun & lovely sun hats / bonnets / scarves to add a little bit of cuteness and complete your young ones adorable outfit :)
-              </List.Content>
-          </List.Item>
-          <List.Item>
-            <List.Icon name="thumbs up outline" />
-            <List.Content>
-              <span>[ PERFECT GIFT ]</span> : Comfortable & easy-to-wear baby sun hat, great spring / summer /fall accessory for daily wear & outdoor activities: vacation trips, playgrounds, campfire nights, photoshoots, birthday gifts, etc. For any occasions, be more adorable and get more compliments!
-              </List.Content>
-          </List.Item>
-          <List.Item>
-            <List.Icon name="thumbs up outline" />
-            <List.Content>
-              <span>[ MATERIAL & SIZE ]</span> : 100% cotton, breathable cotton lined. Fit ranges from S: 3 to 6 months / M: 6 to 12 months / L: 12 to 18 months. Please check detailed measurements before placing your order.
-              </List.Content>
-          </List.Item>
-          <List.Item>
-            <List.Icon name="thumbs up outline" />
-            <List.Content>
-              <span>[ 100% SATISFACTION ]</span> : 30 Days 100% FREE returns and exchanges on any orders. If you are not satisfied with your experience with us, please contact us. It is our responsibility and policy to make sure that customers are 100% satisfied with our service.
-              </List.Content>
-          </List.Item>
-        </List>
-      </div>
-    </Container>
+          <List>
+            {selectedOption
+              ? selectedOption.bulletPoints.map((item, i) =>
+                <List.Item key={i}>
+                  <List.Icon name="thumbs up outline" />
+                  <List.Content>
+                    <span>{item.split(':')[0]}</span> : {item.split(':').splice(1)}
+                  </List.Content>
+                </List.Item>
+              )
+              : productInfo && productInfo.bulletPoints.map((item, i) =>
+                <List.Item key={i}>
+                  <List.Icon name="thumbs up outline" />
+                  <List.Content>
+                    <span>{item.split(':')[0]}</span> : {item.split(':').splice(1)}
+                  </List.Content>
+                </List.Item>)}
+          </List>
+        </div>
+      </Container>
+    </JellyLoader>
   )
 }
 

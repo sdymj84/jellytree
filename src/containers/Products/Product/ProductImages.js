@@ -33,7 +33,6 @@ const Thumbnails = styled(Image)`
 `
 
 const Images = (props) => {
-  console.log(props)
   const selectedOption = _.find(props.availableColors, obj =>
     obj.color === props.selectedColor)
   const images = [

@@ -58,14 +58,14 @@ const Navbar = (props) => {
       <Container pose={isFixed ? "fix" : "unfix"}>
         <Nav>
           <Item>New Arrivals</Item>
-          <StyledLink to="/babies">
-            <Item>Babies</Item>
+          <StyledLink to="/bonnets">
+            <Item>Bonnets</Item>
           </StyledLink>
           <StyledLink to="/toddlers">
-            <Item>Toddlers</Item>
+            <Item>Hats</Item>
           </StyledLink>
           <StyledLink to="/boys-girls">
-            <Item>Boys & Girls</Item>
+            <Item>Scarves</Item>
           </StyledLink>
           <StyledLink to="/all-collections">
             <Item>All Collections</Item>

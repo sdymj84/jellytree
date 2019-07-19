@@ -7,6 +7,7 @@ import ProductCard from './ProductCard'
 import _ from 'lodash'
 import Filter from './Filter'
 import axios from 'axios'
+import JellyLoader from '../../components/JellyLoader'
 
 const isMobile = window.innerWidth < 600
 
@@ -52,32 +53,33 @@ const Products = () => {
   console.log(products)
 
   return (
-    <StyledContainer>
-      <Ref innerRef={contextRef}>
-        <ProductsContainer>
+    <JellyLoader isLoading={!products}>
+      <StyledContainer>
+        <Ref innerRef={contextRef}>
+          <ProductsContainer>
+            <Grid columns={4} doubling stackable>
+              <Grid.Row>
+                {_.map(products, product => (
+                  <Grid.Column key={product.id}>
+                    {product &&
+                      <ProductCard
+                        productDocId={product.id}
+                        productInfo={product.data} />}
+                  </Grid.Column>
+                ))}
+              </Grid.Row>
+            </Grid>
 
-          <Grid columns={4} doubling stackable>
-            <Grid.Row>
-              {_.map(products, product => (
-                <Grid.Column key={product.id}>
-                  {product &&
-                    <ProductCard
-                      productDocId={product.id}
-                      productInfo={product.data} />}
-                </Grid.Column>
-              ))}
-            </Grid.Row>
-          </Grid>
-
-          {!isMobile &&
-            <Rail dividing internal position='left'>
-              <Sticky context={contextRef} offset={80}>
-                <Filter />
-              </Sticky>
-            </Rail>}
-        </ProductsContainer>
-      </Ref>
-    </StyledContainer>
+            {!isMobile &&
+              <Rail dividing internal position='left'>
+                <Sticky context={contextRef} offset={80}>
+                  <Filter />
+                </Sticky>
+              </Rail>}
+          </ProductsContainer>
+        </Ref>
+      </StyledContainer>
+    </JellyLoader>
   )
 }
 
