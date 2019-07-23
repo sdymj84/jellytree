@@ -24,7 +24,7 @@ const StyledLink = styled(Link)`
   }
 `
 
-const ProductCard = ({ productDocId, productInfo }) => {
+const ProductCard = ({ productInfo }) => {
   console.log(productInfo)
   const product = _.find(productInfo.variations,
     { 'pid': productInfo.frontProductId })
@@ -32,7 +32,7 @@ const ProductCard = ({ productDocId, productInfo }) => {
   const maxPrice = productInfo.maxPrice.split('.')
 
   return (
-    <StyledLink to={`/product/${productDocId}`}>
+    <StyledLink to={`/product/${productInfo.id}`}>
       <StyledCard fluid color="green">
         <Popup
           trigger={

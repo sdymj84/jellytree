@@ -64,7 +64,7 @@ const Products = () => {
                     {product &&
                       <ProductCard
                         productDocId={product.id}
-                        productInfo={product.data} />}
+                        productInfo={product} />}
                   </Grid.Column>
                 ))}
               </Grid.Row>

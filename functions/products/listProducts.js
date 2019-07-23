@@ -13,7 +13,7 @@ const listProducts = async (req, res) => {
       snapshot.forEach(doc => {
         result.push({
           id: doc.id,
-          data: doc.data()
+          ...doc.data()
         })
       })
       res.status(200).json(result)
