@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "jellytree-3cb33"
+  },
+  "targets": {
+    "jellytree-3cb33": {
+      "hosting": {
+        "shop": [
+          "jellytree-3cb33"
+        ]
+      }
+    }
   }
 }
