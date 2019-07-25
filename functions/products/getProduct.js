@@ -10,13 +10,16 @@ const getProduct = async (req, res) => {
       const doc = await productRef.get()
       if (!doc.exists) {
         console.log("No such product found")
-        res.send("No such product found")
+        return res.send("No such product found")
       }
-      res.status(200).json(doc.data())
+      return res.status(200).json(doc.data())
     } catch (e) {
-      const msg = "Error getting a document"
-      console.log(msg, e)
-      res.status(500).json({ msg, err: e.response })
+      console.log(e)
+      return res.status(500).json({
+        name: e.name,
+        message: e.message,
+        stack: e.stack,
+      })
     }
   })
 }

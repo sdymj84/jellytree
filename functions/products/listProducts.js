@@ -8,19 +8,25 @@ const listProducts = async (req, res) => {
       const snapshot = await db.collection('products').get()
       if (snapshot.empty) {
         console.log("There's no product")
-        return
-      }
-      snapshot.forEach(doc => {
-        result.push({
-          id: doc.id,
-          ...doc.data()
+      } else {
+        snapshot.forEach(doc => {
+          result.push({
+            id: doc.id,
+            ...doc.data()
+          })
         })
-      })
-      res.status(200).json(result)
+      }
+      return res.status(200).json(result)
     } catch (e) {
-      const msg = "Error getting documents"
-      console.log(msg, e)
-      res.status(500).json({ msg, e })
+      // const msg = "Error getting documents"
+      // console.log(msg, e)
+      // res.status(500).json({ msg, e })
+      console.log(e)
+      return res.status(500).json({
+        name: e.name,
+        message: e.message,
+        stack: e.stack,
+      })
     }
   })
 }

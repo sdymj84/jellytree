@@ -9,7 +9,7 @@ const setProducts = async (req, res) => {
       console.log(data)
 
       // Data validation
-      data.map(product => {
+      data.forEach(product => {
         if (product.sku.trim() === "") {
           throw new Error("SKU cannot be empty.")
         }
@@ -18,7 +18,7 @@ const setProducts = async (req, res) => {
       // Get a new write batch
       const batch = db.batch();
 
-      data.map(product => {
+      data.forEach(product => {
         // Set the value of each product
         let productRef = db.collection('products').doc(product.id || uuidv1());
         batch.set(productRef, product);
@@ -26,11 +26,15 @@ const setProducts = async (req, res) => {
 
       // Commit the batch
       const result = await batch.commit()
-      res.status(200).json(result)
+      return res.status(200).json(result)
 
     } catch (e) {
       console.log(e)
-      res.status(500).json({ error: e })
+      return res.status(500).json({
+        name: e.name,
+        message: e.message,
+        stack: e.stack,
+      })
     }
   })
 }
