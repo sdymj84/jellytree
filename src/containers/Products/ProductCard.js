@@ -25,7 +25,11 @@ const StyledLink = styled(Link)`
 `
 
 const ProductCard = ({ productInfo }) => {
-  console.log(productInfo)
+  // Don't show when product doesn't have variations
+  if (productInfo.variations.length === 0) {
+    return null
+  }
+
   const product = _.find(productInfo.variations,
     { 'pid': productInfo.frontProductId })
   const minPrice = productInfo.minPrice.split('.')

@@ -8,6 +8,13 @@ const setProducts = async (req, res) => {
       const data = req.body
       console.log(data)
 
+      // Data validation
+      data.map(product => {
+        if (product.sku.trim() === "") {
+          throw new Error("SKU cannot be empty.")
+        }
+      })
+
       // Get a new write batch
       const batch = db.batch();
 
@@ -22,9 +29,8 @@ const setProducts = async (req, res) => {
       res.status(200).json(result)
 
     } catch (e) {
-      const msg = "Error setting documents"
-      console.log(msg, e)
-      res.status(500).json({ msg, e })
+      console.log(e)
+      res.status(500).json({ error: e })
     }
   })
 }
