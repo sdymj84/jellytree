@@ -26,7 +26,9 @@ const StyledLink = styled(Link)`
 
 const ProductCard = ({ productInfo }) => {
   // Don't show when product doesn't have variations
-  if (productInfo.variations.length === 0) {
+  if (productInfo.variations.length === 0 ||
+    // TODO: Business decision if product should show 'sold out' or just hide it
+    Number(productInfo.stock) === 0) {
     return null
   }
 
