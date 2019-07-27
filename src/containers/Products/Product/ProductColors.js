@@ -51,6 +51,7 @@ const ProductColors = (props) => {
 
   let colorOptions = props.availableColors.map(product => ({
     value: product.color,
+    image: product.thumbnail,
     disabled: false,
   }))
 
@@ -85,7 +86,7 @@ const ProductColors = (props) => {
             position="top center"
             disabled={!colorOptions[i].disabled}
             trigger={
-              <Image src="https://picsum.photos/100"
+              <Image src={colorOptions[i].image}
                 className={colorOptions[i].disabled ? 'disabled' : ''}
                 alt={colorOptions[i].value}
                 title={colorOptions[i].value}

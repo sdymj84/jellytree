@@ -36,7 +36,6 @@ const Products = () => {
   }, [contextRef])
 
 
-  // const { products } = useContext(ProductContext)
   const [products, setProducts] = useState([])
   useEffect(() => {
     async function listProducts() {
@@ -49,8 +48,6 @@ const Products = () => {
     }
     listProducts()
   }, [])
-
-  console.log(products)
 
   return (
     <JellyLoader isLoading={!products}>

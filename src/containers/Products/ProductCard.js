@@ -33,7 +33,7 @@ const ProductCard = ({ productInfo }) => {
   }
 
   const product = _.find(productInfo.variations,
-    { 'pid': productInfo.frontProductId })
+    { 'sku': productInfo.frontProductSku })
   const minPrice = productInfo.minPrice.split('.')
   const maxPrice = productInfo.maxPrice.split('.')
 

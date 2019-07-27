@@ -186,7 +186,7 @@ const Product = (props) => {
 
         <div className="product-details">
           <Header as="h1">
-            {productInfo.title}
+            {selectedOption ? selectedOption.title : productInfo.title}
           </Header>
           <AmazonStars />
           <hr />
