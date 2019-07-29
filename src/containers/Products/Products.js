@@ -36,18 +36,69 @@ const Products = () => {
   }, [contextRef])
 
 
+  // Get products data from db and save to state
   const [products, setProducts] = useState([])
   useEffect(() => {
+    let isMounted = true
     async function listProducts() {
       try {
         const res = await axios.get('https://us-central1-jellytree-3cb33.cloudfunctions.net/listProducts')
-        setProducts(res.data)
+        isMounted && setProducts(res.data)
       } catch (e) {
         console.log("Error getting products data", e)
       }
     }
     listProducts()
+    return () => {
+      isMounted = false
+    }
   }, [])
+
+
+  // Extract Color Map and Size Map from products and save to array
+  let colorMap = []
+  let sizeMap = []
+  _.forEach(products, product => {
+    colorMap.push(...product.colorMap)
+    sizeMap.push(...product.sizeMap)
+  })
+  colorMap = _.uniq(colorMap).sort()
+  sizeMap = _.uniq(sizeMap).sort()
+
+
+  // Controlled filter states
+  const [colorFilters, setColorFilters] = useState(
+    JSON.parse(localStorage.getItem('colorFilters')) || []
+  )
+  const [sizeFilters, setSizeFilters] = useState(
+    JSON.parse(localStorage.getItem('sizeFilters')) || []
+  )
+  useEffect(() => {
+    localStorage.setItem('colorFilters', JSON.stringify(colorFilters))
+    localStorage.setItem('sizeFilters', JSON.stringify(sizeFilters))
+  }, [colorFilters, sizeFilters])
+
+  const handleColorFilter = (e) => {
+    e.persist()
+    const selectedColor = e.target.innerText
+    const newColorFilters = _.filter(colorFilters, v => v !== selectedColor)
+    if (colorFilters.length === newColorFilters.length) {
+      setColorFilters(prevColorFilters => [...prevColorFilters, selectedColor])
+    } else {
+      setColorFilters(newColorFilters)
+    }
+  }
+  const handleSizeFilter = (e) => {
+    e.persist()
+    const selectedSize = e.target.innerText
+    const newSizeFilters = _.filter(sizeFilters, v => v !== selectedSize)
+    if (sizeFilters.length === newSizeFilters.length) {
+      setSizeFilters(prevSizeFilters => [...prevSizeFilters, selectedSize])
+    } else {
+      setSizeFilters(newSizeFilters)
+    }
+  }
+
 
   return (
     <JellyLoader isLoading={!products}>
@@ -60,8 +111,9 @@ const Products = () => {
                   <Grid.Column key={product.id}>
                     {product &&
                       <ProductCard
-                        productDocId={product.id}
-                        productInfo={product} />}
+                        productInfo={product}
+                        colorFilters={colorFilters}
+                        sizeFilters={sizeFilters} />}
                   </Grid.Column>
                 ))}
               </Grid.Row>
@@ -70,7 +122,13 @@ const Products = () => {
             {!isMobile &&
               <Rail dividing internal position='left'>
                 <Sticky context={contextRef} offset={80}>
-                  <Filter />
+                  <Filter
+                    colorMap={colorMap}
+                    colorFilters={colorFilters}
+                    sizeFilters={sizeFilters}
+                    sizeMap={sizeMap}
+                    handleColorFilter={handleColorFilter}
+                    handleSizeFilter={handleSizeFilter} />
                 </Sticky>
               </Rail>}
           </ProductsContainer>

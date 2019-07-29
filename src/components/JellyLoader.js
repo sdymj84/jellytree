@@ -7,6 +7,7 @@ size=[sm/lg]
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import theme from '../theme'
+import LoadingLogo from '../assets/jellytree_logo_loading.jpg'
 
 const Container = styled.div`
   height: 600px;
@@ -14,11 +15,9 @@ const Container = styled.div`
   justify-content: center;
   padding-top: 100px;
 `
-const Loader = styled.div`
+const LoadingImage = styled.img`
   width: ${p => p.size === 'sm' ? '50px' : '80px'};
   height: ${p => p.size === 'sm' ? '50px' : '80px'};
-  border-radius: 50%;
-  background-color: ${p => p.theme.color};
   animation: jello-active 0.5s infinite;
   z-index: 9999;
   margin-right: 1em;
@@ -60,7 +59,7 @@ const JellyLoader = (props) => {
     <Fragment>
       {props.isLoading
         ? <Container>
-          <Loader theme={theme} size={size} />
+          <LoadingImage size={size} src={LoadingLogo} />
           <TextWrap size={size}>
             <LoadingText theme={theme} size={size}>
               Loading...

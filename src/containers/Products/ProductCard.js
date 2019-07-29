@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import AmazonStars from '../../components/AmazonStars';
 import { Link } from 'react-router-dom'
 import _ from 'lodash'
+import ProductErrorImage from '../../assets/jellytree_logo_full.jpg'
 
 const isMobile = window.innerWidth < 600
 
@@ -24,11 +25,16 @@ const StyledLink = styled(Link)`
   }
 `
 
-const ProductCard = ({ productInfo }) => {
-  // Don't show when product doesn't have variations
+const ProductCard = ({ productInfo, colorFilters, sizeFilters }) => {
+  // Don't show when ...
+  // product doesn't have variations
   if (productInfo.variations.length === 0 ||
-    // TODO: Business decision if product should show 'sold out' or just hide it
-    Number(productInfo.stock) === 0) {
+    // (Business decision) product doesn't have stock
+    Number(productInfo.stock) === 0 ||
+    // product's colorMap doesn't include all selected color filters
+    _.difference(colorFilters, productInfo.colorMap).length !== 0 ||
+    // product's sizeMap doesn't include all selected size filters
+    _.difference(sizeFilters, productInfo.sizeMap).length !== 0) {
     return null
   }
 
@@ -43,7 +49,11 @@ const ProductCard = ({ productInfo }) => {
         <Popup
           trigger={
             <Image
-              src={product && product.mainImage}
+              src={product && product.thumbnail}
+              onError={e => {
+                e.target.onerror = null
+                e.target.src = ProductErrorImage
+              }}
               style={{ objectFit: 'cover' }} />}
           content={productInfo.title}
           position="top center"
