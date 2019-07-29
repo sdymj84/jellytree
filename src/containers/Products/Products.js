@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import {
-  Grid, Ref, Rail, Sticky
-} from 'semantic-ui-react'
+import { Ref, Rail, Sticky } from 'semantic-ui-react'
 import styled from 'styled-components'
-import ProductCard from './ProductCard'
 import _ from 'lodash'
 import Filter from './Filter'
 import axios from 'axios'
 import JellyLoader from '../../components/JellyLoader'
+
+import FilteredProducts from './FilteredProducts'
 
 const isMobile = window.innerWidth < 600
 
@@ -105,19 +104,10 @@ const Products = () => {
       <StyledContainer>
         <Ref innerRef={contextRef}>
           <ProductsContainer>
-            <Grid columns={4} doubling stackable>
-              <Grid.Row>
-                {_.map(products, product => (
-                  <Grid.Column key={product.id}>
-                    {product &&
-                      <ProductCard
-                        productInfo={product}
-                        colorFilters={colorFilters}
-                        sizeFilters={sizeFilters} />}
-                  </Grid.Column>
-                ))}
-              </Grid.Row>
-            </Grid>
+            <FilteredProducts
+              products={products}
+              colorFilters={colorFilters}
+              sizeFilters={sizeFilters} />
 
             {!isMobile &&
               <Rail dividing internal position='left'>
