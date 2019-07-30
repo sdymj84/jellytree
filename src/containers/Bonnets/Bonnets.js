@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import MainImage from '../../assets/main-photos/baby_main.jpg'
 import DownArrowIcon from '../../components/DownArrowIcon'
@@ -27,12 +27,20 @@ const Title = styled.div`
 `
 
 const Bonnets = () => {
+  const [isScrollDownClicked, setIsScrollDownClicked] = useState(
+    sessionStorage.getItem('isScrollDownClicked')
+  )
+  const handleScrollDown = () => {
+    setIsScrollDownClicked(true)
+    sessionStorage.setItem('isScrollDownClicked', true)
+  }
   return (
     <Container>
-      <Jumbotron>
-        <Title>Special care for babies</Title>
-        <DownArrowIcon />
-      </Jumbotron>
+      {!isScrollDownClicked &&
+        <Jumbotron>
+          <Title>Special care for babies</Title>
+          <DownArrowIcon handleScrollDown={handleScrollDown} />
+        </Jumbotron>}
       <Products />
       <div style={{ height: '1000px' }}></div>
     </Container>

@@ -67,14 +67,14 @@ const Products = () => {
 
   // Controlled filter states
   const [colorFilters, setColorFilters] = useState(
-    JSON.parse(localStorage.getItem('colorFilters')) || []
+    JSON.parse(sessionStorage.getItem('colorFilters')) || []
   )
   const [sizeFilters, setSizeFilters] = useState(
-    JSON.parse(localStorage.getItem('sizeFilters')) || []
+    JSON.parse(sessionStorage.getItem('sizeFilters')) || []
   )
   useEffect(() => {
-    localStorage.setItem('colorFilters', JSON.stringify(colorFilters))
-    localStorage.setItem('sizeFilters', JSON.stringify(sizeFilters))
+    sessionStorage.setItem('colorFilters', JSON.stringify(colorFilters))
+    sessionStorage.setItem('sizeFilters', JSON.stringify(sizeFilters))
   }, [colorFilters, sizeFilters])
 
   const handleColorFilter = (e) => {

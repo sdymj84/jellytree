@@ -30,11 +30,7 @@ const ProductCard = ({ productInfo, colorFilters, sizeFilters }) => {
   // product doesn't have variations
   if (productInfo.variations.length === 0 ||
     // (Business decision) product doesn't have stock
-    Number(productInfo.stock) === 0 ||
-    // product's colorMap doesn't include all selected color filters
-    _.difference(colorFilters, productInfo.colorMap).length !== 0 ||
-    // product's sizeMap doesn't include all selected size filters
-    _.difference(sizeFilters, productInfo.sizeMap).length !== 0) {
+    Number(productInfo.stock) === 0) {
     return null
   }
 
@@ -43,6 +39,29 @@ const ProductCard = ({ productInfo, colorFilters, sizeFilters }) => {
   const minPrice = productInfo.minPrice.split('.')
   const maxPrice = productInfo.maxPrice.split('.')
 
+  const handleImageError = (e) => {
+    e.target.onerror = null
+    e.target.src = ProductErrorImage
+    e.target.style.width = '40%'
+    e.target.style.margin = 'auto'
+    e.target.outerHTML =
+      `<div
+        style='text-align: center;
+        margin: 1em;
+        color: black; font-size: 1.5em;'>
+        ${productInfo.title}
+      </div>
+      ${e.target.outerHTML}
+      <div 
+        style='text-align: center; 
+        margin: 1em;
+        color: tomato; font-size: 1.3em;'>
+        Error on image loading
+      </div>`
+    console.log(e.target)
+  }
+
+
   return (
     <StyledLink to={`/product/${productInfo.id}`}>
       <StyledCard fluid color="green">
@@ -50,10 +69,7 @@ const ProductCard = ({ productInfo, colorFilters, sizeFilters }) => {
           trigger={
             <Image
               src={product && product.thumbnail}
-              onError={e => {
-                e.target.onerror = null
-                e.target.src = ProductErrorImage
-              }}
+              onError={handleImageError}
               style={{ objectFit: 'cover' }} />}
           content={productInfo.title}
           position="top center"

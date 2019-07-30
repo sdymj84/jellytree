@@ -43,11 +43,12 @@ const DownDown = styled(Icon)`
   }
 `
 
-const DownArrowIcon = () => {
+const DownArrowIcon = (props) => {
   return (
     <DownDown
       name="angle double down"
-      size="huge" inverted />
+      size="huge" inverted
+      onClick={props.handleScrollDown} />
   )
 }
 
