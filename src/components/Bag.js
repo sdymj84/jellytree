@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { Icon } from 'semantic-ui-react'
+import { CartContext } from '../contexts/CartContext'
 
 const Container = styled.div`
   margin-left: 0.4em;
@@ -24,9 +25,10 @@ const Container = styled.div`
   }
 `
 
-const Bag = () => {
+const Bag = (props) => {
+  const { dispatchCart } = useContext(CartContext)
   return (
-    <Container>
+    <Container onClick={() => dispatchCart({ type: 'OPEN_CART' })}>
       <div>
         <Icon name="shopping bag" size="big"
           style={{ margin: 'auto' }} />

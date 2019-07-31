@@ -50,7 +50,7 @@ const StyledLink = styled(Link)`
   }
 `
 
-const Account = () => {
+const Account = (props) => {
   return (
     <Container>
       <SignContainer>

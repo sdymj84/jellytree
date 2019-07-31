@@ -58,7 +58,6 @@ const ProductCard = ({ productInfo, colorFilters, sizeFilters }) => {
         color: tomato; font-size: 1.3em;'>
         Error on image loading
       </div>`
-    console.log(e.target)
   }
 
 

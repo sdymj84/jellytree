@@ -100,7 +100,7 @@ const Products = () => {
 
 
   return (
-    <JellyLoader isLoading={!products}>
+    <JellyLoader isLoading={!products.length}>
       <StyledContainer>
         <Ref innerRef={contextRef}>
           <ProductsContainer>

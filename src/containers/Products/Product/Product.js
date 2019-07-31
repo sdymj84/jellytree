@@ -91,7 +91,6 @@ const Product = (props) => {
     async function getProduct() {
       try {
         const res = await axios.get(`https://us-central1-jellytree-3cb33.cloudfunctions.net/getProduct?id=${props.match.params.id}`)
-        console.log(res.data)
         isMounted && setProductInfo(res.data)
       } catch (e) {
         console.log("Error getting a document", e)
@@ -228,7 +227,7 @@ const Product = (props) => {
             size="big" color="orange"
             onClick={handleAddToCart}>
             Add to Cart
-        </StyledButton>
+          </StyledButton>
           <List>
             {selectedOption
               ? selectedOption.bulletPoints.map((item, i) =>
