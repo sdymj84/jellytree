@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { Container, Button } from 'semantic-ui-react'
+import { Container, Button, Segment, Header, Icon } from 'semantic-ui-react'
 import { CartContext } from '../../contexts/CartContext'
 import styled from 'styled-components'
 import CartProduct from './CartProduct'
@@ -12,12 +12,23 @@ const StyledButton = styled(Button)`
   }
 `
 
-
 const Cart = () => {
-  const { productsInCart } = useContext(CartContext)
+  const { cartProducts } = useContext(CartContext)
+  if (!cartProducts.length) {
+    return (
+      <Container>
+        <Segment placeholder>
+          <Header icon as='h2'>
+            <Icon name="cart arrow down" />
+            Your JellyTree Cart is empty
+          </Header>
+        </Segment>
+      </Container>
+    )
+  }
   return (
     <Container>
-      {productsInCart.map(product =>
+      {cartProducts.map(product =>
         <CartProduct
           key={product.id}
           product={product} />

@@ -1,5 +1,6 @@
-import React, { createContext, useState, useReducer } from 'react'
+import React, { createContext, useReducer, useEffect } from 'react'
 import uuidv1 from 'uuid/v1'
+import useAxios from 'axios-hooks'
 
 export const CartContext = createContext()
 
@@ -14,33 +15,64 @@ const cartReducer = (visibleCart, action) => {
   }
 }
 
-const CartContextProvider = (props) => {
-  const [productsInCart, setProductsInCart] = useState([
-    {
-      id: 1,
-      title: "100% Combed Cotton Pilot Caps",
-      thumbnail: "https://firebasestorage.googleapis.com/v0/b/jellytree-3cb33.appspot.com/o/products%2Fpilot%20cap%2Fmain_BW_re1.jpg?alt=media&token=0e8b48c6-b337-4d59-948f-d7f899c63420",
-      color: "Blue",
-      size: "S / 0-3 Months",
-      price: "12.99",
-      quantity: 1,
-      totalPrice: "12.99",
-    }
-  ])
-  const addProduct = (title, price) => {
-    setProductsInCart([...productsInCart, {
-      id: uuidv1(), title, price
-    }])
+const cartProductReducer = (cartProducts, action) => {
+  switch (action.type) {
+    case 'CHANGE_QTY':
+      return cartProducts.map(cartProduct => {
+        if (cartProduct.id === action.payload.id) {
+          return {
+            ...cartProduct,
+            quantity: action.payload.quantity,
+            totalPrice: Number(cartProduct.price) * Number(action.payload.quantity)
+          }
+        } else {
+          return cartProduct
+        }
+      })
+    case 'INITIAL_PRODUCTS':
+      return action.payload.cartProducts
+    case 'ADD_PRODUCT':
+      return [...cartProducts, action.payload.newProduct]
+    case 'REMOVE_PRODUCT':
+      return cartProducts.filter(cartProduct => cartProduct.id !== action.payload.id)
+    default:
+      break;
   }
-  const removeProduct = (id) => {
-    setProductsInCart(productsInCart.filter(product => product.id !== id))
-  }
+}
 
+const CartContextProvider = (props) => {
+  const [{ data, loading, error }, refetch] = useAxios(
+    'https://us-central1-jellytree-3cb33.cloudfunctions.net/listCartProducts'
+  )
+  const [cartProducts, dispatchCartProducts] = useReducer(cartProductReducer, [])
+  useEffect(() => {
+    const setCartProducts = (data, loading, error) => {
+      if (loading) {
+        console.log('loading')
+        return []
+      } else {
+        if (error) {
+          console.log('error')
+          return []
+        } else if (data) {
+          console.log('data')
+          return dispatchCartProducts({
+            type: 'INITIAL_PRODUCTS',
+            payload: { cartProducts: data }
+          })
+        }
+      }
+    }
+    setCartProducts(data, loading, error)
+  }, [data, loading, error])
   const [visibleCart, dispatchCart] = useReducer(cartReducer, true)
+
+  console.log(data, loading, error)
+  console.log(cartProducts)
 
   return (
     <CartContext.Provider value={{
-      productsInCart, addProduct, removeProduct,
+      cartProducts, dispatchCartProducts,
       visibleCart, dispatchCart
     }}>
       {props.children}

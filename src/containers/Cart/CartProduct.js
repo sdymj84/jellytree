@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import styled from 'styled-components'
 import { Segment, Image, Input, Button } from 'semantic-ui-react'
+import { CartContext } from '../../contexts/CartContext'
 
 const Product = styled(Segment)`
   display: flex;
-  img {
-    margin-right: 1.5em;
-  }
   &&& {
     input {
       padding: 5px 2px 5px 7px;
@@ -16,25 +14,40 @@ const Product = styled(Segment)`
 `
 
 const CartProduct = ({ product }) => {
-  const [quantity, setQuantity] = useState(product.quantity)
+  const { dispatchCartProducts } = useContext(CartContext)
   const handleQuantityChange = (e) => {
     e.persist()
-    setQuantity(e.target.value)
+    dispatchCartProducts({
+      type: 'CHANGE_QTY',
+      payload: {
+        id: product.id,
+        quantity: e.target.value
+      }
+    })
+  }
+  const handleDelete = () => {
+    dispatchCartProducts({
+      type: 'REMOVE_PRODUCT',
+      payload: {
+        id: product.id
+      }
+    })
   }
 
   const [isQuantityError, setIsQuantityError] = useState(false)
   useEffect(() => {
-    setIsQuantityError(!/^(0|[1-9]\d*)$/.test(quantity))
-  }, [quantity])
+    setIsQuantityError(!/^(0|[1-9]\d*)$/.test(product.quantity))
+  }, [product.quantity])
 
   return (
     <Product>
-      <div>
+      <div style={{ flexBasis: '23%' }}>
         <Image
+          style={{ marginRight: '1.5em' }}
           src={product.thumbnail}
           size="tiny" />
       </div>
-      <div>
+      <div style={{ flexBasis: '77%' }}>
         <div style={{ fontSize: '1.3em' }}>{product.title}</div>
         <div>Color : {product.color}</div>
         <div>Size : {product.size}</div>
@@ -45,9 +58,18 @@ const CartProduct = ({ product }) => {
             min={1}
             size="mini"
             error={isQuantityError}
-            style={{ width: '100px' }}
+            style={{ width: '80px' }}
             onChange={handleQuantityChange}
-            value={quantity} />
+            value={product.quantity} />
+          {}
+          <Button
+            style={{
+              margin: '0 0 0 5px',
+              padding: '7px'
+            }}
+            size="mini" color="green">
+            Update
+           </Button>
         </div>
         <div
           style={{
@@ -56,13 +78,17 @@ const CartProduct = ({ product }) => {
             alignItems: 'center',
             marginTop: '5px',
           }}>
-          <div>Total Price : ${product.totalPrice}</div>
+          <div>Total : ${product.totalPrice}</div>
           <div>
             <Button
-              size="mini">
-              Later
+              size="mini" color="yellow">
+              Save for Later
             </Button>
-
+            <Button
+              size="mini" color="red"
+              onClick={handleDelete}>
+              Remove
+            </Button>
           </div>
         </div>
       </div>
