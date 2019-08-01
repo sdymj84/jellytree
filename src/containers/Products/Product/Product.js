@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useContext } from 'react'
 import { Header, List, Button } from 'semantic-ui-react'
 import AmazonStars from '../../../components/AmazonStars'
 import styled from 'styled-components'
@@ -9,6 +9,9 @@ import ProductColors from './ProductColors'
 import _ from 'lodash'
 import axios from 'axios'
 import JellyLoader from '../../../components/JellyLoader'
+import urls from '../../../urls'
+import { CartContext } from '../../../contexts/CartContext'
+import uuidv1 from 'uuid/v1'
 
 const isMobile = window.innerWidth < 600
 
@@ -90,10 +93,10 @@ const Product = (props) => {
     let isMounted = true
     async function getProduct() {
       try {
-        const res = await axios.get(`https://us-central1-jellytree-3cb33.cloudfunctions.net/getProduct?id=${props.match.params.id}`)
+        const res = await axios.get(urls.getProductUrl + props.match.params.id)
         isMounted && setProductInfo(res.data)
       } catch (e) {
-        console.log("Error getting a document", e)
+        console.log("Error getting a document", e.response)
       }
     }
     getProduct()
@@ -160,10 +163,31 @@ const Product = (props) => {
       setSizeNotSelected(true)
     }
   }
+  const { dispatchCartProducts, dispatchCart } = useContext(CartContext)
   useEffect(() => {
-    selectedProductId &&
-      alert(`Product ${selectedProductId} is added to cart.`)
-  }, [selectedProductId])
+    const addCartProduct = async () => {
+      if (!selectedProductId) { return }
+      try {
+        dispatchCart({ type: 'OPEN_CART' })
+        dispatchCartProducts({
+          type: 'ADD_PRODUCT_LOADING',
+          payload: { id: uuidv1(), loading: true }
+        })
+        const newCartProduct = await axios.post(urls.setCartProductUrl, {
+          product: productInfo,
+          pid: selectedProductId
+        })
+        dispatchCartProducts({
+          type: 'ADD_PRODUCT_SUCCESS',
+          payload: { newCartProduct: newCartProduct.data }
+        })
+      } catch (e) {
+        console.log("Error while moving product to cart", e.response)
+      }
+    }
+    addCartProduct()
+  }, [productInfo, selectedProductId, dispatchCartProducts, dispatchCart])
+
 
 
   const [selectedOption, setSelectedOption] = useState("")

@@ -26,6 +26,7 @@ const CartProduct = ({ product }) => {
     })
   }
   const handleDelete = () => {
+    // TODO: Delete from database
     dispatchCartProducts({
       type: 'REMOVE_PRODUCT',
       payload: {
@@ -38,6 +39,13 @@ const CartProduct = ({ product }) => {
   useEffect(() => {
     setIsQuantityError(!/^(0|[1-9]\d*)$/.test(product.quantity))
   }, [product.quantity])
+
+
+  if (product.loading) {
+    return (
+      <Segment placeholder loading />
+    )
+  }
 
   return (
     <Product>

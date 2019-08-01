@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useEffect } from 'react'
-import uuidv1 from 'uuid/v1'
 import useAxios from 'axios-hooks'
+import urls from '../urls';
 
 export const CartContext = createContext()
 
@@ -29,10 +29,22 @@ const cartProductReducer = (cartProducts, action) => {
           return cartProduct
         }
       })
-    case 'INITIAL_PRODUCTS':
+
+    case 'INITIAL_PRODUCTS_LOADING':
+      return { loading: action.payload.loading }
+    case 'INITIAL_PRODUCTS_ERROR':
+      return { error: action.payload.error }
+    case 'INITIAL_PRODUCTS_SUCCESS':
       return action.payload.cartProducts
-    case 'ADD_PRODUCT':
-      return [...cartProducts, action.payload.newProduct]
+
+    case 'ADD_PRODUCT_LOADING':
+      return [...cartProducts, action.payload]
+    case 'ADD_PRODUCT_ERROR':
+      return cartProducts.filter(product => product.loading !== true)
+        .concat(action.payload.newCartProduct)
+    case 'ADD_PRODUCT_SUCCESS':
+      return cartProducts.filter(product => product.loading !== true)
+        .concat(action.payload.newCartProduct)
     case 'REMOVE_PRODUCT':
       return cartProducts.filter(cartProduct => cartProduct.id !== action.payload.id)
     default:
@@ -42,22 +54,26 @@ const cartProductReducer = (cartProducts, action) => {
 
 const CartContextProvider = (props) => {
   const [{ data, loading, error }, refetch] = useAxios(
-    'https://us-central1-jellytree-3cb33.cloudfunctions.net/listCartProducts'
+    urls.listCartProducts
   )
-  const [cartProducts, dispatchCartProducts] = useReducer(cartProductReducer, [])
+  const [cartProducts, dispatchCartProducts] = useReducer(cartProductReducer, { loading: true })
   useEffect(() => {
     const setCartProducts = (data, loading, error) => {
       if (loading) {
-        console.log('loading')
-        return []
+        return dispatchCartProducts({
+          type: 'INITIAL_PRODUCTS_LOADING',
+          payload: { loading }
+        })
       } else {
         if (error) {
-          console.log('error')
-          return []
-        } else if (data) {
-          console.log('data')
-          return dispatchCartProducts({
-            type: 'INITIAL_PRODUCTS',
+          dispatchCartProducts({
+            type: 'INITIAL_PRODUCTS_ERROR',
+            payload: { error }
+          })
+        } else {
+          console.log(data)
+          dispatchCartProducts({
+            type: 'INITIAL_PRODUCTS_SUCCESS',
             payload: { cartProducts: data }
           })
         }
@@ -65,14 +81,13 @@ const CartContextProvider = (props) => {
     }
     setCartProducts(data, loading, error)
   }, [data, loading, error])
-  const [visibleCart, dispatchCart] = useReducer(cartReducer, true)
+  const [visibleCart, dispatchCart] = useReducer(cartReducer, false)
 
-  console.log(data, loading, error)
-  console.log(cartProducts)
 
   return (
     <CartContext.Provider value={{
       cartProducts, dispatchCartProducts,
+      refetch,
       visibleCart, dispatchCart
     }}>
       {props.children}

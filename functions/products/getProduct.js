@@ -5,7 +5,6 @@ const util = require('util')
 const getProduct = async (req, res) => {
   cors(req, res, async () => {
     try {
-      const result = []
       const productRef = await db.collection('products').doc(req.query.id)
       const doc = await productRef.get()
       if (!doc.exists) {

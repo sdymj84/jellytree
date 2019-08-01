@@ -1,5 +1,8 @@
 import React, { useContext } from 'react'
-import { Container, Button, Segment, Header, Icon } from 'semantic-ui-react'
+import {
+  Container, Button, Segment,
+  Header, Icon
+} from 'semantic-ui-react'
 import { CartContext } from '../../contexts/CartContext'
 import styled from 'styled-components'
 import CartProduct from './CartProduct'
@@ -13,7 +16,37 @@ const StyledButton = styled(Button)`
 `
 
 const Cart = () => {
-  const { cartProducts } = useContext(CartContext)
+  const { cartProducts, refetch } = useContext(CartContext)
+  console.log(cartProducts)
+  if (cartProducts.loading) {
+    return (
+      <Container>
+        <Segment placeholder loading />
+      </Container>
+    )
+  }
+
+  if (cartProducts.error) {
+    return (
+      <Container>
+        <Segment placeholder>
+          <Header icon as='h2'>
+            <Icon name="warning circle" />
+            Something went wrong
+          </Header>
+          <Button
+            color="olive"
+            onClick={refetch}>
+            RETRY
+          </Button>
+          <Header as='h3' textAlign="center">
+            Please contact customer service if the problem persists
+          </Header>
+        </Segment>
+      </Container>
+    )
+  }
+
   if (!cartProducts.length) {
     return (
       <Container>
@@ -26,6 +59,7 @@ const Cart = () => {
       </Container>
     )
   }
+
   return (
     <Container>
       {cartProducts.map(product =>

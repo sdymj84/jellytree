@@ -7,6 +7,7 @@ import axios from 'axios'
 import JellyLoader from '../../components/JellyLoader'
 
 import FilteredProducts from './FilteredProducts'
+import urls from '../../urls';
 
 const isMobile = window.innerWidth < 600
 
@@ -41,10 +42,10 @@ const Products = () => {
     let isMounted = true
     async function listProducts() {
       try {
-        const res = await axios.get('https://us-central1-jellytree-3cb33.cloudfunctions.net/listProducts')
+        const res = await axios.get(urls.listProducts)
         isMounted && setProducts(res.data)
       } catch (e) {
-        console.log("Error getting products data", e)
+        console.log("Error getting products data", e.response)
       }
     }
     listProducts()
