@@ -93,10 +93,10 @@ const Product = (props) => {
     let isMounted = true
     async function getProduct() {
       try {
-        const res = await axios.get(urls.getProductUrl + props.match.params.id)
+        const res = await axios.get(urls.getProductUrl + '?id=' + props.match.params.id)
         isMounted && setProductInfo(res.data)
       } catch (e) {
-        console.log("Error getting a document", e.response)
+        console.log("Error getting a document", e.response.data.message)
       }
     }
     getProduct()
@@ -105,36 +105,69 @@ const Product = (props) => {
     }
   }, [props.match.params.id])
 
-  const availableOptions = _.filter(productInfo.variations, v => v.stock > 0)
+  const availableOptions = _.filter(productInfo.variations, v => Number(v.stock) > 0)
   const availableColors = _.uniqBy(availableOptions, 'color')
   const sizes = _.uniqBy(productInfo.variations, 'size')
+
+  const [initialState, setInitialState] = useState(props.location.state)
+  const [initialColor, setInitialColor] = useState(initialState ? initialState.product.color : "")
+  const [initialSize, setInitialSize] = useState(initialState ? initialState.product.size : "")
+
+  // const initialColor = initialState ? initialState.product.color : ""
+  // const initialSize = initialState ? initialState.product.size : ""
+
+  useEffect(() => {
+    const { state } = props.location
+    setInitialState(state)
+    if (state) {
+      // setSelectedColor(state.product.color)
+      // setSelectedSize(state.product.size)
+      setInitialColor(state.product.color)
+      setInitialSize(state.product.size)
+    }
+  }, [props.location.state])
 
 
 
   // When changed color
   const frontProduct = _.maxBy(availableColors, 'soldCount')
-  const [selectedColor, setSelectedColor] = useState("")
+  const [selectedColor, setSelectedColor] = useState(initialColor)
   const handleColorChange = (i) => {
     setSelectedColor(availableColors[i].color)
+    setInitialState("")
   }
   useEffect(() => {
-    const available = _.filter(productInfo.variations, (product) => {
-      return product.color === selectedColor
-        && product.size === selectedSize
-        && product.stock !== 0
-    })
-    available.length === 0 && setSelectedSize("")
+    // redirected from cart > get initial color/size and apply
+    if (initialState) {
+      const available = productInfo && _.filter(productInfo.variations, (product) => {
+        return product.color === initialColor
+          && product.size === initialSize
+          && Number(product.stock) !== 0
+      })
+      setSelectedSize(available.length ? initialSize : "")
+      setSelectedColor(available.length ? initialColor : frontProduct && frontProduct.color)
+
+      // entered from products > set best selling color and no size
+    } else {
+      const available = productInfo && _.filter(productInfo.variations, (product) => {
+        return product.color === selectedColor
+          && product.size === selectedSize
+          && Number(product.stock) !== 0
+      })
+      available.length === 0 && setSelectedSize("")
+    }
     // eslint-disable-next-line
-  }, [selectedColor])
+  }, [productInfo, selectedColor, initialState])
   useEffect(() => {
-    setSelectedColor(frontProduct && frontProduct.color)
+    !initialState && setSelectedColor(frontProduct && frontProduct.color)
+    // eslint-disable-next-line
   }, [frontProduct])
 
 
 
 
   // When changed size from dropdown
-  const [selectedSize, setSelectedSize] = useState("")
+  const [selectedSize, setSelectedSize] = useState(initialSize)
   const [sizeNotSelected, setSizeNotSelected] = useState(false)
   const handleSizeChange = (e, data) => {
     console.log('size changed')
@@ -147,8 +180,6 @@ const Product = (props) => {
       setSelectedSize("")
     }
   }
-
-
 
 
   // When clicked Add to Cart
@@ -182,7 +213,7 @@ const Product = (props) => {
           payload: { newCartProduct: newCartProduct.data }
         })
       } catch (e) {
-        console.log("Error while moving product to cart", e.response)
+        console.log("Error while moving product to cart", e.response.data.message)
       }
     }
     addCartProduct()
@@ -196,8 +227,6 @@ const Product = (props) => {
     setSelectedOption(product)
     // eslint-disable-next-line
   }, [selectedColor, selectedSize])
-
-
 
 
 

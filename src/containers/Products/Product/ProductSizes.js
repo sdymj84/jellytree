@@ -52,7 +52,7 @@ const ProductSizes = (props) => {
     disabled: true,
   }))
   const availableSizeOptions = props.productInfo.variations.map(product => {
-    if (product.color === props.selectedColor && product.stock !== 0) {
+    if (product.color === props.selectedColor && Number(product.stock) !== 0) {
       return { value: product.size }
     } else {
       return ""

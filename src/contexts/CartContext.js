@@ -23,6 +23,17 @@ const cartProductReducer = (cartProducts, action) => {
           return {
             ...cartProduct,
             quantity: action.payload.quantity,
+          }
+        } else {
+          return cartProduct
+        }
+      })
+    case 'UPDATE_QTY':
+      return cartProducts.map(cartProduct => {
+        if (cartProduct.id === action.payload.id) {
+          return {
+            ...cartProduct,
+            quantity: action.payload.quantity,
             totalPrice: Number(cartProduct.price) * Number(action.payload.quantity)
           }
         } else {
@@ -45,7 +56,8 @@ const cartProductReducer = (cartProducts, action) => {
     case 'ADD_PRODUCT_SUCCESS':
       return cartProducts.filter(product => product.loading !== true)
         .concat(action.payload.newCartProduct)
-    case 'REMOVE_PRODUCT':
+
+    case 'REMOVE_PRODUCT_SUCCESS':
       return cartProducts.filter(cartProduct => cartProduct.id !== action.payload.id)
     default:
       break;
@@ -71,7 +83,6 @@ const CartContextProvider = (props) => {
             payload: { error }
           })
         } else {
-          console.log(data)
           dispatchCartProducts({
             type: 'INITIAL_PRODUCTS_SUCCESS',
             payload: { cartProducts: data }

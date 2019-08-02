@@ -20,12 +20,14 @@ const setCartProduct = async (req, res) => {
       const cartProduct = {
         productId: product.id,
         pid: pid,
+        sku: variation.sku,
         title: variation.title,
         color: variation.color,
         size: variation.size,
         price: variation.price,
         thumbnail: variation.thumbnail,
         quantity: 1,
+        totalPrice: variation.price,
       }
       console.log('cartProduct : ', cartProduct)
       const id = uuidv1()

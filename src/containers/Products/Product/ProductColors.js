@@ -13,7 +13,7 @@ handleColorChange
 */
 
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Image, Popup } from "semantic-ui-react";
 import styled from 'styled-components'
 import _ from 'lodash'
@@ -48,6 +48,10 @@ const ProductColors = (props) => {
   const initialSelectedIndex = _.findIndex(props.availableColors,
     obj => obj.color === props.selectedColor)
   const [selectedIndex, setSelectedIndex] = useState(initialSelectedIndex)
+  useEffect(() => {
+    setSelectedIndex(initialSelectedIndex)
+  }, [initialSelectedIndex])
+
 
   let colorOptions = props.availableColors.map(product => ({
     value: product.color,

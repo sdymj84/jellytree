@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { withRouter } from 'react-router-dom'
 import {
   Container, Button, Segment,
   Header, Icon
@@ -15,9 +16,15 @@ const StyledButton = styled(Button)`
   }
 `
 
-const Cart = () => {
-  const { cartProducts, refetch } = useContext(CartContext)
-  console.log(cartProducts)
+const Cart = (props) => {
+  const { cartProducts, refetch, dispatchCart } = useContext(CartContext)
+
+  const handleCheckout = () => {
+    dispatchCart({
+      type: 'CLOSE_CART'
+    })
+    props.history.push('/checkout')
+  }
   if (cartProducts.loading) {
     return (
       <Container>
@@ -68,11 +75,12 @@ const Cart = () => {
           product={product} />
       )}
       <StyledButton fluid
-        size="big" color="orange">
+        size="big" color="orange"
+        onClick={handleCheckout}>
         Proceed to Checkout
       </StyledButton>
     </Container>
   )
 }
 
-export default Cart
+export default withRouter(Cart)
