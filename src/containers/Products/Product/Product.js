@@ -30,7 +30,6 @@ const Container = styled.div`
   & > div {
     margin: 1em;
   }
-
   .thumbnails {
     flex: 0 0 50px;
     img {
@@ -40,7 +39,6 @@ const Container = styled.div`
   .main-image {
     flex: 1 1 400px;
   }
-  
   .product-details {
     flex: 4 1 400px;
     margin-top: ${isMobile ? '3em' : '1em'};
@@ -48,12 +46,17 @@ const Container = styled.div`
       color: ${theme.color};
     }
   }
-
   .options {
     margin-bottom: 2em;
     .size-color-name {
       font-family: "Exo 2";
     }
+  }
+  .small-stock {
+    color: red;
+    position: relative;
+    bottom: 15px;
+    font-size: 16px;
   }
 `
 const Price = styled.span`
@@ -229,7 +232,6 @@ const Product = (props) => {
   }, [selectedColor, selectedSize])
 
 
-
   // Render UI
   return (
     <JellyLoader
@@ -275,6 +277,12 @@ const Product = (props) => {
               {selectedOption && selectedOption.pid}
             </span>
           </div>
+
+          {selectedOption && selectedOption.stock <= 20 &&
+            <div className="small-stock">
+              Only {selectedOption.stock} left in stock - order soon.
+            </div>}
+
 
           <StyledButton fluid
             size="big" color="orange"
