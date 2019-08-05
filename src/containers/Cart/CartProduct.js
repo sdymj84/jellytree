@@ -7,6 +7,7 @@ import axios from 'axios';
 import urls from '../../urls'
 import theme from '../../theme'
 
+
 const Product = styled(Segment)`
   display: flex;
   &&& {
@@ -29,6 +30,10 @@ const Product = styled(Segment)`
       animation: scale-up 0.3s;
       transform: scale(1.1, 1.1);
     }
+  }
+  .small-stock {
+    color: red;
+    margin-top: 5px;
   }
 `
 
@@ -154,6 +159,12 @@ const CartProduct = ({ product, history }) => {
               Update
            </Button>}
         </div>
+
+        {product.stock <= 20 &&
+          <div className="small-stock">
+            Only {product.stock} left in stock - order soon.
+          </div>}
+
         <div
           style={{
             display: 'flex',

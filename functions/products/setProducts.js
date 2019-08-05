@@ -7,8 +7,6 @@ const setProducts = async (req, res) => {
   cors(req, res, async () => {
     try {
       const { data, deletedDocIds } = req.body
-      console.log(data)
-      console.log(deletedDocIds)
 
       // Validate data
       data.forEach(product => {

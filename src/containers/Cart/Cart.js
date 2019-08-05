@@ -18,7 +18,6 @@ const StyledButton = styled(Button)`
 
 const Cart = (props) => {
   const { cartProducts, refetch, dispatchCart } = useContext(CartContext)
-
   const handleCheckout = () => {
     dispatchCart({
       type: 'CLOSE_CART'

@@ -116,15 +116,11 @@ const Product = (props) => {
   const [initialColor, setInitialColor] = useState(initialState ? initialState.product.color : "")
   const [initialSize, setInitialSize] = useState(initialState ? initialState.product.size : "")
 
-  // const initialColor = initialState ? initialState.product.color : ""
-  // const initialSize = initialState ? initialState.product.size : ""
 
   useEffect(() => {
-    const { state } = props.location
+    const state = props.location.state
     setInitialState(state)
     if (state) {
-      // setSelectedColor(state.product.color)
-      // setSelectedSize(state.product.size)
       setInitialColor(state.product.color)
       setInitialSize(state.product.size)
     }
