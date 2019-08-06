@@ -14,7 +14,6 @@ sizes
 scrollHtmlAttributes
   - indicate the element that should be scrolled to
 handleSizeChange
-handleSizeClose
 */
 
 import React from 'react'

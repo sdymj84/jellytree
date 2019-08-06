@@ -6,6 +6,7 @@ import theme from '../../../theme'
 import ProductImages from './ProductImages'
 import ProductSizes from './ProductSizes'
 import ProductColors from './ProductColors'
+import StockTrack from '../../../components/StockTrack';
 import _ from 'lodash'
 import axios from 'axios'
 import JellyLoader from '../../../components/JellyLoader'
@@ -51,12 +52,6 @@ const Container = styled.div`
     .size-color-name {
       font-family: "Exo 2";
     }
-  }
-  .small-stock {
-    color: red;
-    position: relative;
-    bottom: 15px;
-    font-size: 16px;
   }
 `
 const Price = styled.span`
@@ -134,6 +129,7 @@ const Product = (props) => {
   const handleColorChange = (i) => {
     setSelectedColor(availableColors[i].color)
     setInitialState("")
+    handleSelectOption(availableColors[i].color, null)
   }
   useEffect(() => {
     // redirected from cart > get initial color/size and apply
@@ -169,16 +165,23 @@ const Product = (props) => {
   const [selectedSize, setSelectedSize] = useState(initialSize)
   const [sizeNotSelected, setSizeNotSelected] = useState(false)
   const handleSizeChange = (e, data) => {
-    console.log('size changed')
     setSelectedSize(data.value)
     setSizeNotSelected(false)
+    handleSelectOption(null, data.value)
   }
-  const handleSizeClose = () => {
-    console.log('dropdown closed')
-    if (sizeNotSelected) {
-      setSelectedSize("")
-    }
+
+
+  const [selectedOption, setSelectedOption] = useState("")
+  // useEffect(() => {
+  //   const product = _.find(productInfo.variations, { 'color': selectedColor, 'size': selectedSize })
+  //   setSelectedOption(product)
+  //   // eslint-disable-next-line
+  // }, [selectedColor, selectedSize])
+  const handleSelectOption = (color = null, size = null) => {
+    const product = _.find(productInfo.variations, { 'color': color || selectedColor, 'size': size || selectedSize })
+    setSelectedOption(product)
   }
+
 
 
   // When clicked Add to Cart
@@ -220,13 +223,6 @@ const Product = (props) => {
 
 
 
-  const [selectedOption, setSelectedOption] = useState("")
-  useEffect(() => {
-    const product = _.find(productInfo.variations, { 'color': selectedColor, 'size': selectedSize })
-    setSelectedOption(product)
-    // eslint-disable-next-line
-  }, [selectedColor, selectedSize])
-
 
   // Render UI
   return (
@@ -252,7 +248,6 @@ const Product = (props) => {
               sizeNotSelected={sizeNotSelected}
               selectedSize={selectedSize}
               handleSizeChange={handleSizeChange}
-              handleSizeClose={handleSizeClose}
               scrollHtmlAttributes={scrollHtmlAttributes}
               productInfo={productInfo}
               selectedColor={selectedColor}
@@ -274,11 +269,9 @@ const Product = (props) => {
             </span>
           </div>
 
-          {selectedOption && selectedOption.stock <= 20 &&
-            <div className="small-stock">
-              Only {selectedOption.stock} left in stock - order soon.
-            </div>}
-
+          <StockTrack
+            productId={productInfo.id}
+            pid={selectedOption && selectedOption.pid} />
 
           <StyledButton fluid
             size="big" color="orange"
