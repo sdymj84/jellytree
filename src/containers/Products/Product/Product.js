@@ -53,6 +53,10 @@ const Container = styled.div`
       font-family: "Exo 2";
     }
   }
+  .small-stock {
+    position: relative;
+    bottom: 15px;
+  }
 `
 const Price = styled.span`
   &&& {
@@ -167,16 +171,12 @@ const Product = (props) => {
   const handleSizeChange = (e, data) => {
     setSelectedSize(data.value)
     setSizeNotSelected(false)
-    handleSelectOption(null, data.value)
+    handleSelectOption(null, data.value || '0')
   }
 
 
+  // selectedOption function that's triggered when color/size changes
   const [selectedOption, setSelectedOption] = useState("")
-  // useEffect(() => {
-  //   const product = _.find(productInfo.variations, { 'color': selectedColor, 'size': selectedSize })
-  //   setSelectedOption(product)
-  //   // eslint-disable-next-line
-  // }, [selectedColor, selectedSize])
   const handleSelectOption = (color = null, size = null) => {
     const product = _.find(productInfo.variations, { 'color': color || selectedColor, 'size': size || selectedSize })
     setSelectedOption(product)
@@ -269,9 +269,11 @@ const Product = (props) => {
             </span>
           </div>
 
-          <StockTrack
-            productId={productInfo.id}
-            pid={selectedOption && selectedOption.pid} />
+          <div className="small-stock">
+            <StockTrack
+              productId={productInfo.id}
+              pid={selectedOption && selectedOption.pid} />
+          </div>
 
           <StyledButton fluid
             size="big" color="orange"

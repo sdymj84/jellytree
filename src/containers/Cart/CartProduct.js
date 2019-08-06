@@ -6,6 +6,7 @@ import { CartContext } from '../../contexts/CartContext'
 import axios from 'axios';
 import urls from '../../urls'
 import theme from '../../theme'
+import StockTrack from '../../components/StockTrack'
 
 
 const Product = styled(Segment)`
@@ -32,7 +33,6 @@ const Product = styled(Segment)`
     }
   }
   .small-stock {
-    color: red;
     margin-top: 5px;
   }
 `
@@ -121,6 +121,7 @@ const CartProduct = ({ product, history }) => {
     )
   }
 
+
   return (
     <Product loading={isLoading}>
       <div style={{ flexBasis: '23%' }}>
@@ -160,10 +161,11 @@ const CartProduct = ({ product, history }) => {
            </Button>}
         </div>
 
-        {product.stock <= 20 &&
-          <div className="small-stock">
-            Only {product.stock} left in stock - order soon.
-          </div>}
+        <div className="small-stock">
+          <StockTrack
+            productId={product.productId}
+            pid={product.pid} />
+        </div>
 
         <div
           style={{

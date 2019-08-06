@@ -1,4 +1,5 @@
 export default {
+  getConfig: 'https://us-central1-jellytree-3cb33.cloudfunctions.net/getConfig',
   setCartProductUrl: 'https://us-central1-jellytree-3cb33.cloudfunctions.net/setCartProduct',
   getProductUrl: 'https://us-central1-jellytree-3cb33.cloudfunctions.net/getProduct',
   listProducts: 'https://us-central1-jellytree-3cb33.cloudfunctions.net/listProducts',
