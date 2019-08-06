@@ -11,13 +11,13 @@ import _ from 'lodash'
 //   })
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAJ1o7m1Oyd6VG0QO6jnHD1dXpfPigwT3I",
-  authDomain: "jellytree-3cb33.firebaseapp.com",
-  databaseURL: "https://jellytree-3cb33.firebaseio.com",
-  projectId: "jellytree-3cb33",
-  storageBucket: "jellytree-3cb33.appspot.com",
-  messagingSenderId: "12612427352",
-  appId: "1:12612427352:web:1e2b19cad82b60ab"
+  apiKey: process.env.apiKey,
+  authDomain: process.env.authDomain,
+  databaseURL: process.env.databaseURL,
+  projectId: process.env.projectId,
+  storageBucket: process.env.storageBucket,
+  messagingSenderId: process.env.messagingSenderId,
+  appId: process.env.appId
 }
 firebase.initializeApp(firebaseConfig)
 const db = firebase.firestore()
