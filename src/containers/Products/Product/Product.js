@@ -127,6 +127,17 @@ const Product = (props) => {
 
 
 
+  // When changed size from dropdown
+  const [selectedSize, setSelectedSize] = useState(initialSize)
+  const [sizeNotSelected, setSizeNotSelected] = useState(false)
+  const handleSizeChange = (e, data) => {
+    setSelectedSize(data.value)
+    setSizeNotSelected(false)
+    handleSelectOption(null, data.value || '0')
+  }
+
+
+
   // When changed color
   const frontProduct = _.maxBy(availableColors, 'soldCount')
   const [selectedColor, setSelectedColor] = useState(initialColor)
@@ -145,6 +156,7 @@ const Product = (props) => {
       })
       setSelectedSize(available.length ? initialSize : "")
       setSelectedColor(available.length ? initialColor : frontProduct && frontProduct.color)
+      handleSelectOption(initialColor, initialSize)
 
       // entered from products > set best selling color and no size
     } else {
@@ -157,22 +169,14 @@ const Product = (props) => {
     }
     // eslint-disable-next-line
   }, [productInfo, selectedColor, initialState])
+
+  // set best selling color on first launch only
   useEffect(() => {
     !initialState && setSelectedColor(frontProduct && frontProduct.color)
     // eslint-disable-next-line
   }, [frontProduct])
 
 
-
-
-  // When changed size from dropdown
-  const [selectedSize, setSelectedSize] = useState(initialSize)
-  const [sizeNotSelected, setSizeNotSelected] = useState(false)
-  const handleSizeChange = (e, data) => {
-    setSelectedSize(data.value)
-    setSizeNotSelected(false)
-    handleSelectOption(null, data.value || '0')
-  }
 
 
   // selectedOption function that's triggered when color/size changes
