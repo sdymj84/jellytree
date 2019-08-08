@@ -33,6 +33,7 @@ const Bag = (props) => {
         <Icon name="shopping bag" size="big"
           style={{ margin: 'auto' }} />
       </div>
+      {/* TODO: Should show number of products in cart */}
       <div>Bag (0)</div>
     </Container>
   )

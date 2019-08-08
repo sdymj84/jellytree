@@ -11,7 +11,7 @@ import urls from '../../urls';
 
 const isMobile = window.innerWidth < 600
 
-const StyledContainer = styled.div`
+const Container = styled.div`
   margin: ${isMobile ? '3em 10px' : '3em 40px'};
 
   .ui.left.rail {
@@ -102,7 +102,7 @@ const Products = () => {
 
   return (
     <JellyLoader isLoading={!products.length}>
-      <StyledContainer>
+      <Container>
         <Ref innerRef={contextRef}>
           <ProductsContainer>
             <FilteredProducts
@@ -124,7 +124,7 @@ const Products = () => {
               </Rail>}
           </ProductsContainer>
         </Ref>
-      </StyledContainer>
+      </Container>
     </JellyLoader>
   )
 }

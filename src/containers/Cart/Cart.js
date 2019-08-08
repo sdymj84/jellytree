@@ -18,6 +18,7 @@ const StyledButton = styled(Button)`
 
 const Cart = (props) => {
   const { cartProducts, refetch, dispatchCart } = useContext(CartContext)
+  // TODO: cartProducts should be sorted by added time desc (the last one on the top)
   const handleCheckout = () => {
     dispatchCart({
       type: 'CLOSE_CART'
