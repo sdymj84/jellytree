@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import './custom.scss'
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from "react-router-dom";
 import ScrollMemory from 'react-router-scroll-memory'
+
 
 ReactDOM.render(
   <BrowserRouter basename={process.env.PUBLIC_URL}>

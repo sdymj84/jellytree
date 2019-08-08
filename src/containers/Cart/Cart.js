@@ -8,6 +8,12 @@ import { CartContext } from '../../contexts/CartContext'
 import styled from 'styled-components'
 import CartProduct from './CartProduct'
 
+const isMobile = window.innerWidth < 600
+
+const StyledContainer = styled(Container)`
+  padding-left: ${isMobile && 0};
+  padding-right: ${isMobile && 0};
+`
 const StyledButton = styled(Button)`
   &&& {
     box-shadow: 0 0 15px -4px grey;
@@ -16,9 +22,10 @@ const StyledButton = styled(Button)`
   }
 `
 
+
 const Cart = (props) => {
   const { cartProducts, refetch, dispatchCart } = useContext(CartContext)
-  // TODO: cartProducts should be sorted by added time desc (the last one on the top)
+
   const handleCheckout = () => {
     dispatchCart({
       type: 'CLOSE_CART'
@@ -27,15 +34,15 @@ const Cart = (props) => {
   }
   if (cartProducts.loading) {
     return (
-      <Container>
+      <StyledContainer>
         <Segment placeholder loading />
-      </Container>
+      </StyledContainer>
     )
   }
 
   if (cartProducts.error) {
     return (
-      <Container>
+      <StyledContainer>
         <Segment placeholder>
           <Header icon as='h2'>
             <Icon name="warning circle" />
@@ -50,25 +57,31 @@ const Cart = (props) => {
             Please contact customer service if the problem persists
           </Header>
         </Segment>
-      </Container>
+      </StyledContainer>
     )
   }
 
   if (!cartProducts.length) {
     return (
-      <Container>
+      <StyledContainer>
         <Segment placeholder>
           <Header icon as='h2'>
             <Icon name="cart arrow down" />
             Your JellyTree Cart is empty
           </Header>
         </Segment>
-      </Container>
+      </StyledContainer>
     )
   }
 
   return (
-    <Container>
+    <StyledContainer>
+      {cartProducts.length > 2 &&
+        <StyledButton fluid
+          size="big" color="orange"
+          onClick={handleCheckout}>
+          Proceed to Checkout
+      </StyledButton>}
       {cartProducts.map(product =>
         <CartProduct
           key={product.id}
@@ -79,7 +92,7 @@ const Cart = (props) => {
         onClick={handleCheckout}>
         Proceed to Checkout
       </StyledButton>
-    </Container>
+    </StyledContainer>
   )
 }
 

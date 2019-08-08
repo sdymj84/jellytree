@@ -8,6 +8,7 @@ import urls from '../../urls'
 import theme from '../../theme'
 import StockTrack from '../../components/StockTrack'
 
+const isMobile = window.innerWidth < 600
 
 const Product = styled(Segment)`
   display: flex;
@@ -38,7 +39,7 @@ const Product = styled(Segment)`
 `
 
 const CartProduct = ({ product, history }) => {
-  const { dispatchCartProducts } = useContext(CartContext)
+  const { dispatchCartProducts, dispatchCart } = useContext(CartContext)
 
 
   // Quantity change controls and update
@@ -109,6 +110,9 @@ const CartProduct = ({ product, history }) => {
 
   // Click product and redirect
   const handleProductClick = () => {
+    isMobile && dispatchCart({
+      type: 'CLOSE_CART'
+    })
     history.push({
       pathname: `/product/${product.productId}`,
       state: { product }

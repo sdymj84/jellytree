@@ -3,6 +3,7 @@ import { Ref, Rail, Sticky } from 'semantic-ui-react'
 import styled from 'styled-components'
 import _ from 'lodash'
 import Filter from './Filter'
+import MobileFilter from './MobileFilter'
 import axios from 'axios'
 import JellyLoader from '../../components/JellyLoader'
 
@@ -12,7 +13,7 @@ import urls from '../../urls';
 const isMobile = window.innerWidth < 600
 
 const Container = styled.div`
-  margin: ${isMobile ? '3em 10px' : '3em 40px'};
+  margin: ${isMobile ? '1em 10px' : '3em 40px'};
 
   .ui.left.rail {
     z-index: 0;
@@ -99,29 +100,39 @@ const Products = () => {
     }
   }
 
+  const [filteredProducts, setFilteredProducts] = useState(products)
 
   return (
     <JellyLoader isLoading={!products.length}>
       <Container>
         <Ref innerRef={contextRef}>
           <ProductsContainer>
-            <FilteredProducts
-              products={products}
-              colorFilters={colorFilters}
-              sizeFilters={sizeFilters} />
-
-            {!isMobile &&
-              <Rail dividing internal position='left'>
+            {isMobile
+              ? <MobileFilter
+                colorMap={colorMap}
+                colorFilters={colorFilters}
+                sizeMap={sizeMap}
+                sizeFilters={sizeFilters}
+                handleColorFilter={handleColorFilter}
+                handleSizeFilter={handleSizeFilter}
+                filteredProducts={filteredProducts} />
+              : <Rail dividing internal position='left'>
                 <Sticky context={contextRef} offset={80}>
                   <Filter
                     colorMap={colorMap}
                     colorFilters={colorFilters}
-                    sizeFilters={sizeFilters}
                     sizeMap={sizeMap}
+                    sizeFilters={sizeFilters}
                     handleColorFilter={handleColorFilter}
                     handleSizeFilter={handleSizeFilter} />
                 </Sticky>
               </Rail>}
+            <FilteredProducts
+              products={products}
+              colorFilters={colorFilters}
+              sizeFilters={sizeFilters}
+              filteredProducts={filteredProducts}
+              setFilteredProducts={setFilteredProducts} />
           </ProductsContainer>
         </Ref>
       </Container>

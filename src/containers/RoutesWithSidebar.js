@@ -6,6 +6,8 @@ import Routes from './Routes'
 import styled from 'styled-components'
 import theme from '../theme'
 
+const isMobile = window.innerWidth < 600
+
 const CloseButton = styled.div`
   margin-right: 1em;
   height: 70px;
@@ -28,6 +30,7 @@ const RoutesWithSidebar = () => {
         secondary
         visible={visibleCart}
         width='very wide'
+        style={isMobile ? { width: '100%' } : {}}
       >
         <CloseButton>
           <Icon name="angle right" size="huge"
