@@ -1,41 +1,30 @@
 import React, { useContext } from 'react'
-import { withRouter } from 'react-router-dom'
 import {
   Container, Button, Segment,
   Header, Icon
 } from 'semantic-ui-react'
 import { CartContext } from '../../contexts/CartContext'
 import styled from 'styled-components'
-import CartProduct from './CartProduct'
+import SaveForLaterProduct from './SaveForLaterProduct';
 
 const isMobile = window.innerWidth < 600
 
 const StyledContainer = styled(Container)`
   padding-left: ${isMobile && 0};
   padding-right: ${isMobile && 0};
-`
-const StyledButton = styled(Button)`
-  &&& {
-    box-shadow: 0 0 15px -4px grey;
-    margin-bottom: 3em;
-    max-width: 500px;
+  .ui.placeholder.segment {
+    min-height: 10rem;
   }
 `
 
 
-const Cart = (props) => {
+const SaveForLater = (props) => {
   const {
-    dispatchCart,
-    cartProducts, cartRefetch,
+    saveForLaterProducts,
+    saveForLaterRefetch,
   } = useContext(CartContext)
 
-  const handleCheckout = () => {
-    dispatchCart({
-      type: 'CLOSE_CART'
-    })
-    props.history.push('/checkout')
-  }
-  if (cartProducts.loading) {
+  if (saveForLaterProducts.loading) {
     return (
       <StyledContainer>
         <Segment placeholder loading />
@@ -43,7 +32,7 @@ const Cart = (props) => {
     )
   }
 
-  if (cartProducts.error) {
+  if (saveForLaterProducts.error) {
     return (
       <StyledContainer>
         <Segment placeholder>
@@ -53,7 +42,7 @@ const Cart = (props) => {
           </Header>
           <Button
             color="olive"
-            onClick={cartRefetch}>
+            onClick={saveForLaterRefetch}>
             RETRY
           </Button>
           <Header as='h3' textAlign="center">
@@ -64,13 +53,13 @@ const Cart = (props) => {
     )
   }
 
-  if (!cartProducts.length) {
+  if (!saveForLaterProducts.length) {
     return (
       <StyledContainer>
-        <Segment placeholder>
+        <Segment
+          placeholder>
           <Header icon as='h2'>
-            <Icon name="cart arrow down" />
-            Your JellyTree Cart is empty
+            No items saved for later
           </Header>
         </Segment>
       </StyledContainer>
@@ -79,24 +68,13 @@ const Cart = (props) => {
 
   return (
     <StyledContainer>
-      {cartProducts.length > 2 &&
-        <StyledButton fluid
-          size="big" color="orange"
-          onClick={handleCheckout}>
-          Proceed to Checkout
-      </StyledButton>}
-      {cartProducts.map(product =>
-        <CartProduct
+      {saveForLaterProducts.map(product =>
+        <SaveForLaterProduct
           key={product.id}
           product={product} />
       )}
-      <StyledButton fluid
-        size="big" color="orange"
-        onClick={handleCheckout}>
-        Proceed to Checkout
-      </StyledButton>
     </StyledContainer>
   )
 }
 
-export default withRouter(Cart)
+export default SaveForLater

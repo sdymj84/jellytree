@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Grid } from 'semantic-ui-react'
 import ProductCard from './ProductCard'
 import _ from 'lodash'
 
 
-const FilteredProducts = ({ products, colorFilters, sizeFilters }) => {
+const FilteredProducts = ({ products, colorFilters, sizeFilters,
+  filteredProducts, setFilteredProducts }) => {
 
-  const [filteredProducts, setFilteredProducts] = useState(products)
   useEffect(() => {
     const newProducts = _.filter(products, product =>
       _.difference(colorFilters, product.colorMap).length === 0 &&
       _.difference(sizeFilters, product.sizeMap).length === 0)
     setFilteredProducts(newProducts)
-  }, [products, colorFilters, sizeFilters])
+  }, [products, colorFilters, sizeFilters,
+      setFilteredProducts])
 
 
   return (

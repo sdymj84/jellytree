@@ -8,6 +8,7 @@ import urls from '../../urls'
 import theme from '../../theme'
 import StockTrack from '../../components/StockTrack'
 
+const isMobile = window.innerWidth < 600
 
 const Product = styled(Segment)`
   display: flex;
@@ -38,7 +39,10 @@ const Product = styled(Segment)`
 `
 
 const CartProduct = ({ product, history }) => {
-  const { dispatchCartProducts } = useContext(CartContext)
+  const {
+    dispatchCartProducts, dispatchCart,
+    dispatchSaveForLaterProducts,
+  } = useContext(CartContext)
 
 
   // Quantity change controls and update
@@ -107,8 +111,36 @@ const CartProduct = ({ product, history }) => {
   }
 
 
+  // Handle Save For Later click event
+  const handleSaveForLater = async () => {
+    try {
+      setIsLoading(true)
+      const newProduct = await axios.put(urls.moveToSaveForLater, {
+        cartProduct: product
+      })
+      setIsLoading(false)
+      dispatchCartProducts({
+        type: 'REMOVE_PRODUCT_SUCCESS',
+        payload: { id: product.id }
+      })
+      console.log(newProduct.data)
+      dispatchSaveForLaterProducts({
+        type: 'ADD_PRODUCT_SUCCESS',
+        payload: { newSaveForLaterProducts: newProduct.data }
+      })
+    } catch (e) {
+      setIsLoading(false)
+      console.log("Error while moving to Save For Later : ",
+        e.response.data.message)
+    }
+  }
+
+
   // Click product and redirect
   const handleProductClick = () => {
+    isMobile && dispatchCart({
+      type: 'CLOSE_CART'
+    })
     history.push({
       pathname: `/product/${product.productId}`,
       state: { product }
@@ -177,7 +209,8 @@ const CartProduct = ({ product, history }) => {
           <div>Total : ${product.totalPrice}</div>
           <div>
             <Button
-              size="mini" color="yellow">
+              size="mini" color="yellow"
+              onClick={handleSaveForLater}>
               Save for Later
             </Button>
             <Button

@@ -2,13 +2,13 @@ const cors = require('cors')({ origin: true })
 const db = require('../database')
 const _ = require('lodash')
 
-const listCartProducts = async (req, res) => {
+const listSaveForLaterProducts = async (req, res) => {
   cors(req, res, async () => {
     try {
       const result = []
-      const cartSnapshot = await db.collection('cart').get()
+      const cartSnapshot = await db.collection('saveForLater').get()
       if (cartSnapshot.empty) {
-        console.log("There's no product in cart")
+        console.log("There's no product in Save For Later")
       } else {
         cartSnapshot.forEach(cartDoc => {
           result.push({
@@ -29,4 +29,4 @@ const listCartProducts = async (req, res) => {
   })
 }
 
-module.exports = listCartProducts
+module.exports = listSaveForLaterProducts

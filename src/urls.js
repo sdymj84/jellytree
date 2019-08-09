@@ -6,4 +6,8 @@ export default {
   listCartProducts: 'https://us-central1-jellytree-3cb33.cloudfunctions.net/listCartProducts',
   deleteCartProduct: 'https://us-central1-jellytree-3cb33.cloudfunctions.net/deleteCartProduct',
   updateCartProductQty: 'https://us-central1-jellytree-3cb33.cloudfunctions.net/updateCartProductQty',
+  moveToSaveForLater: 'https://us-central1-jellytree-3cb33.cloudfunctions.net/moveToSaveForLater',
+  listSaveForLaterProducts: 'https://us-central1-jellytree-3cb33.cloudfunctions.net/listSaveForLaterProducts',
+  deleteSaveForLaterProduct: 'https://us-central1-jellytree-3cb33.cloudfunctions.net/deleteSaveForLaterProduct',
+  moveToCart: 'https://us-central1-jellytree-3cb33.cloudfunctions.net/moveToCart',
 }

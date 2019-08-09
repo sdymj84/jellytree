@@ -26,14 +26,14 @@ const Container = styled.div`
 `
 
 const Bag = (props) => {
-  const { dispatchCart } = useContext(CartContext)
+  const { dispatchCart, cartProducts } = useContext(CartContext)
   return (
     <Container onClick={() => dispatchCart({ type: 'OPEN_CART' })}>
       <div>
         <Icon name="shopping bag" size="big"
           style={{ margin: 'auto' }} />
       </div>
-      <div>Bag (0)</div>
+      <div>Bag ({cartProducts.length})</div>
     </Container>
   )
 }
