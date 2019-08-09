@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Sidebar, Segment, Icon } from 'semantic-ui-react'
-import Cart from './Cart/Cart'
+import CartContainer from './Cart/CartContainer'
 import { CartContext } from '../contexts/CartContext'
 import Routes from './Routes'
 import styled from 'styled-components'
@@ -36,7 +36,7 @@ const RoutesWithSidebar = () => {
           <Icon name="angle right" size="huge"
             onClick={() => dispatchCart({ type: 'CLOSE_CART' })} />
         </CloseButton>
-        <Cart />
+        <CartContainer />
       </Sidebar>
       <Sidebar.Pusher>
         <Routes />

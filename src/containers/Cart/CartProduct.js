@@ -39,7 +39,10 @@ const Product = styled(Segment)`
 `
 
 const CartProduct = ({ product, history }) => {
-  const { dispatchCartProducts, dispatchCart } = useContext(CartContext)
+  const {
+    dispatchCartProducts, dispatchCart,
+    dispatchSaveForLaterProducts,
+  } = useContext(CartContext)
 
 
   // Quantity change controls and update
@@ -103,6 +106,31 @@ const CartProduct = ({ product, history }) => {
     } catch (e) {
       setIsLoading(false)
       console.log("Error while deleting cart product : ",
+        e.response.data.message)
+    }
+  }
+
+
+  // Handle Save For Later click event
+  const handleSaveForLater = async () => {
+    try {
+      setIsLoading(true)
+      const newProduct = await axios.put(urls.moveToSaveForLater, {
+        cartProduct: product
+      })
+      setIsLoading(false)
+      dispatchCartProducts({
+        type: 'REMOVE_PRODUCT_SUCCESS',
+        payload: { id: product.id }
+      })
+      console.log(newProduct.data)
+      dispatchSaveForLaterProducts({
+        type: 'ADD_PRODUCT_SUCCESS',
+        payload: { newSaveForLaterProducts: newProduct.data }
+      })
+    } catch (e) {
+      setIsLoading(false)
+      console.log("Error while moving to Save For Later : ",
         e.response.data.message)
     }
   }
@@ -181,7 +209,8 @@ const CartProduct = ({ product, history }) => {
           <div>Total : ${product.totalPrice}</div>
           <div>
             <Button
-              size="mini" color="yellow">
+              size="mini" color="yellow"
+              onClick={handleSaveForLater}>
               Save for Later
             </Button>
             <Button

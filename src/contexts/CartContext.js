@@ -17,17 +17,6 @@ const cartReducer = (visibleCart, action) => {
 
 const cartProductReducer = (cartProducts, action) => {
   switch (action.type) {
-    case 'CHANGE_QTY':
-      return cartProducts.map(cartProduct => {
-        if (cartProduct.id === action.payload.id) {
-          return {
-            ...cartProduct,
-            quantity: action.payload.quantity,
-          }
-        } else {
-          return cartProduct
-        }
-      })
     case 'UPDATE_QTY':
       return cartProducts.map(cartProduct => {
         if (cartProduct.id === action.payload.id) {
@@ -64,10 +53,40 @@ const cartProductReducer = (cartProducts, action) => {
   }
 }
 
+const saveForLaterProductReducer = (saveForLaterProducts, action) => {
+  switch (action.type) {
+    case 'INITIAL_PRODUCTS_LOADING':
+      return { loading: action.payload.loading }
+    case 'INITIAL_PRODUCTS_ERROR':
+      return { error: action.payload.error }
+    case 'INITIAL_PRODUCTS_SUCCESS':
+      return action.payload.saveForLaterProducts
+
+    case 'ADD_PRODUCT_LOADING':
+      return [...saveForLaterProducts, action.payload]
+    case 'ADD_PRODUCT_ERROR':
+      return saveForLaterProducts.filter(product => product.loading !== true)
+        .concat(action.payload.newSaveForLaterProducts)
+    case 'ADD_PRODUCT_SUCCESS':
+
+      return saveForLaterProducts.filter(product => product.loading !== true)
+        .concat(action.payload.newSaveForLaterProducts)
+
+    case 'REMOVE_PRODUCT_SUCCESS':
+      return saveForLaterProducts.filter(product => product.id !== action.payload.id)
+    default:
+      break;
+  }
+}
+
 const CartContextProvider = (props) => {
-  const [{ data, loading, error }, refetch] = useAxios(
+  const [cart, cartRefetch] = useAxios(
     urls.listCartProducts
   )
+  const [saveForLater, saveForLaterRefetch] = useAxios(
+    urls.listSaveForLaterProducts
+  )
+
   const [cartProducts, dispatchCartProducts] = useReducer(cartProductReducer, { loading: true })
   useEffect(() => {
     const setCartProducts = (data, loading, error) => {
@@ -90,15 +109,41 @@ const CartContextProvider = (props) => {
         }
       }
     }
-    setCartProducts(data, loading, error)
-  }, [data, loading, error])
+    setCartProducts(cart.data, cart.loading, cart.error)
+  }, [cart])
+
+  const [saveForLaterProducts, dispatchSaveForLaterProducts] = useReducer(saveForLaterProductReducer, { loading: true })
+  useEffect(() => {
+    const setSaveForLaterProducts = (data, loading, error) => {
+      if (loading) {
+        return dispatchSaveForLaterProducts({
+          type: 'INITIAL_PRODUCTS_LOADING',
+          payload: { loading }
+        })
+      } else {
+        if (error) {
+          dispatchSaveForLaterProducts({
+            type: 'INITIAL_PRODUCTS_ERROR',
+            payload: { error }
+          })
+        } else {
+          dispatchSaveForLaterProducts({
+            type: 'INITIAL_PRODUCTS_SUCCESS',
+            payload: { saveForLaterProducts: data }
+          })
+        }
+      }
+    }
+    setSaveForLaterProducts(saveForLater.data, saveForLater.loading, saveForLater.error)
+  }, [saveForLater])
+
   const [visibleCart, dispatchCart] = useReducer(cartReducer, false)
 
 
   return (
     <CartContext.Provider value={{
-      cartProducts, dispatchCartProducts,
-      refetch,
+      cartProducts, dispatchCartProducts, cartRefetch,
+      saveForLaterProducts, dispatchSaveForLaterProducts, saveForLaterRefetch,
       visibleCart, dispatchCart
     }}>
       {props.children}
