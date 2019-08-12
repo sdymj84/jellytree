@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { Icon } from 'semantic-ui-react'
 import Bag from './Bag'
 import { Link } from "react-router-dom";
 import theme from '../theme'
+import { AuthContext } from '../contexts/AuthContext'
 
 const Container = styled.div`
   display: flex;
@@ -51,20 +52,36 @@ const StyledLink = styled(Link)`
 `
 
 const Account = (props) => {
+  const { user, signOut } = useContext(AuthContext)
+  if (user === 'loading') {
+    return (
+      <Container>
+        <Bag />
+      </Container>
+    )
+  }
+
   return (
     <Container>
-      <SignContainer>
-        <StyledLink to="/signin">
-          <Sign>
-            <Icon name="sign in" />
-            <span>Sign In</span>
+      {user
+        ? <SignContainer>
+          <Sign onClick={signOut}>
+            <Icon name="sign-out" />
+            <span>Sign Out</span>
           </Sign>
-        </StyledLink>
-        <Sign>
-          <Icon name="signup" />
-          <span>Sign Up</span>
-        </Sign>
-      </SignContainer>
+        </SignContainer>
+        : <SignContainer>
+          <StyledLink to="/signin">
+            <Sign>
+              <Icon name="sign in" />
+              <span>Sign In</span>
+            </Sign>
+          </StyledLink>
+          <Sign>
+            <Icon name="signup" />
+            <span>Sign Up</span>
+          </Sign>
+        </SignContainer>}
       <Bag />
     </Container>
   )

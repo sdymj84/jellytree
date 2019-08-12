@@ -6,6 +6,7 @@ import RoutesWithSidebar from './containers/RoutesWithSidebar'
 import { Ref } from 'semantic-ui-react'
 import CartContextProvider from './contexts/CartContext';
 import DbContextProvider from './contexts/DbContext';
+import AuthContextProvider from './contexts/AuthContext';
 
 function App() {
   const contextRef = React.createRef()
@@ -13,14 +14,16 @@ function App() {
     <Ref innerRef={contextRef}>
       <div>
         <DbContextProvider>
-          <CartContextProvider>
-            {window.innerWidth < 600
-              ? <MobileHeader />
-              : <Header
-                contextRef={contextRef} />}
-            <RoutesWithSidebar />
-            <Footer />
-          </CartContextProvider>
+          <AuthContextProvider>
+            <CartContextProvider>
+              {window.innerWidth < 600
+                ? <MobileHeader />
+                : <Header
+                  contextRef={contextRef} />}
+              <RoutesWithSidebar />
+              <Footer />
+            </CartContextProvider>
+          </AuthContextProvider>
         </DbContextProvider>
       </div>
     </Ref>

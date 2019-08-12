@@ -1,7 +1,7 @@
 import React from 'react'
 import { Switch, Route } from "react-router-dom";
 import Home from './Home';
-import SignIn from './Account/SignIn';
+import SignIn from './Auth/SignIn';
 import Bonnets from './Bonnets/Bonnets'
 import Toddlers from './Toddlers/Toddlers'
 import BoysGirls from './BoysGirls/BoysGirls'
