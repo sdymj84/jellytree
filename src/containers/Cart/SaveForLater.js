@@ -12,6 +12,7 @@ const isMobile = window.innerWidth < 600
 const StyledContainer = styled(Container)`
   padding-left: ${isMobile && 0};
   padding-right: ${isMobile && 0};
+  margin-bottom: 3em;
   .ui.placeholder.segment {
     min-height: 10rem;
   }
