@@ -7,6 +7,8 @@ import {
 import { CartContext } from '../../contexts/CartContext'
 import styled from 'styled-components'
 import CartProduct from './CartProduct'
+import theme from '../../theme'
+import _ from 'lodash'
 
 const isMobile = window.innerWidth < 600
 
@@ -19,6 +21,13 @@ const StyledButton = styled(Button)`
     box-shadow: 0 0 15px -4px grey;
     margin-bottom: 3em;
     max-width: 500px;
+  }
+`
+const Subtotal = styled.div`
+  font-size: 1.5em;
+  margin: 0 0 10px 10px;
+  .price {
+    color: ${theme.contrastColor};
   }
 `
 
@@ -35,6 +44,10 @@ const Cart = (props) => {
     })
     props.history.push('/checkout')
   }
+
+  const itemCounts = cartProducts.length
+  const subtotal = _.sumBy(cartProducts, product => Number(product.totalPrice))
+
   if (cartProducts.loading) {
     return (
       <StyledContainer>
@@ -64,7 +77,7 @@ const Cart = (props) => {
     )
   }
 
-  if (!cartProducts.length) {
+  if (!itemCounts) {
     return (
       <StyledContainer>
         <Segment placeholder>
@@ -79,7 +92,7 @@ const Cart = (props) => {
 
   return (
     <StyledContainer>
-      {cartProducts.length > 2 &&
+      {itemCounts > 2 &&
         <StyledButton fluid
           size="big" color="orange"
           onClick={handleCheckout}>
@@ -90,6 +103,12 @@ const Cart = (props) => {
           key={product.id}
           product={product} />
       )}
+      <Subtotal>
+        Subtotal ({itemCounts} items): {' '}
+        <span className="price">
+          {!isNaN(subtotal) && '$' + subtotal}
+        </span>
+      </Subtotal>
       <StyledButton fluid
         size="big" color="orange"
         onClick={handleCheckout}>
