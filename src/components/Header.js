@@ -4,6 +4,8 @@ import Logo from './Logo'
 import Account from './Account'
 import styled from 'styled-components'
 import { Grid } from 'semantic-ui-react'
+import { withRouter } from "react-router-dom";
+
 
 const Container = styled.div`
   &&&& {
@@ -16,6 +18,9 @@ const Container = styled.div`
 `
 
 const Header = (props) => {
+  if (props.location.pathname === '/checkout') {
+    return null
+  }
   return (
     <Container>
       <Grid doubling columns={3}>
@@ -34,4 +39,4 @@ const Header = (props) => {
   )
 }
 
-export default Header
+export default withRouter(Header)

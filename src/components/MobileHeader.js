@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import MobileNavbar from './MobileNavbar'
 import Logo from './Logo'
 import Account from './Account'
 import MobileAccount from './MobileAccount'
 import styled from 'styled-components'
 import { Grid, Icon } from 'semantic-ui-react'
+import { withRouter } from "react-router-dom";
 
 
 const Container = styled.div`
@@ -39,9 +40,16 @@ const MenuIcon = styled.div`
   transition: opacity 0.5s;
 `
 
-const Header = () => {
+const Header = (props) => {
   const [visible, setVisible] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    window.addEventListener('scroll', menuOpacity)
+    return () => {
+      window.removeEventListener('scroll', menuOpacity)
+    };
+  }, [])
 
   const handleShow = () => {
     setVisible(true)
@@ -55,7 +63,9 @@ const Header = () => {
       : setScrolled(false)
   }
 
-  window.addEventListener('scroll', menuOpacity)
+  if (props.location.pathname === '/checkout') {
+    return null
+  }
 
   return (
     <Container>
@@ -88,4 +98,4 @@ const Header = () => {
   )
 }
 
-export default Header
+export default withRouter(Header)
