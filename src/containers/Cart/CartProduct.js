@@ -156,7 +156,7 @@ const CartProduct = ({ product, history }) => {
 
   return (
     <Product loading={isLoading}>
-      <div style={{ flexBasis: '23%' }}>
+      <div style={{ flexBasis: '23%', marginRight: '8px' }}>
         <Image
           className="img_link"
           style={{ marginRight: '1.5em' }}

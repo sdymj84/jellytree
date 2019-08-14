@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import theme from '../../theme'
 import {
@@ -8,7 +9,9 @@ import CheckoutCart from '../Cart/CheckoutCart';
 import CheckoutSteps from './CheckoutSteps'
 
 const Container = styled.div`
-  margin: 3em 10em;
+  margin: 3em auto;
+  width: 70%;
+  min-width: 900px;
   min-height: 700px;
   .ui.right.dividing.rail {
     padding-left: 1rem;
@@ -32,7 +35,12 @@ const Head = styled.div`
     font-size: 2em;
   }
   .continue-shopping {
+    color: ${theme.color};
     cursor: pointer;
+    text-decoration: underline;
+    :hover {
+      color: ${theme.contrastColor};
+    }
   }
 `
 
@@ -48,7 +56,11 @@ const Checkout = () => {
     <Fragment>
       <Head>
         <div className="checkout">CHECKOUT</div>
-        <div className="continue-shopping">Continue Shopping</div>
+        <Link to="/">
+          <div className="continue-shopping">
+            Continue Shopping
+          </div>
+        </Link>
       </Head>
 
       <Container>

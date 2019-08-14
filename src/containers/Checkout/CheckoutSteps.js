@@ -2,6 +2,8 @@ import React, { Fragment } from 'react'
 import { Segment } from "semantic-ui-react";
 import ShippingAddress from './ShippingAddress';
 import DeliveryMethod from './DeliveryMethod'
+import Payment from './Payment';
+import ReviewAndOrder from './ReviewAndOrder'
 
 
 const CheckoutSteps = () => {
@@ -12,6 +14,13 @@ const CheckoutSteps = () => {
       </Segment>
       <Segment vertical padded="very">
         <DeliveryMethod />
+      </Segment>
+      <Segment vertical padded="very">
+        <Payment />
+      </Segment>
+      <Segment vertical padded="very"
+        style={{ borderBottom: 'none' }}>
+        <ReviewAndOrder />
       </Segment>
     </Fragment>
   )

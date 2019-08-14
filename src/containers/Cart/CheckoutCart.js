@@ -9,19 +9,13 @@ import styled from 'styled-components'
 import CartProduct from './CartProduct'
 import theme from '../../theme'
 import _ from 'lodash'
+import PlaceOrderButton from '../../components/PlaceOrderButton';
 
 const isMobile = window.innerWidth < 600
 
 const StyledContainer = styled(Container)`
   padding-left: ${isMobile && 0};
   padding-right: ${isMobile && 0};
-`
-const StyledButton = styled(Button)`
-  &&& {
-    box-shadow: 0 0 15px -4px grey;
-    margin: 1em 0;
-    max-width: 500px;
-  }
 `
 const OrderSummary = styled(Segment)`
   max-width: 500px;
@@ -44,16 +38,9 @@ const Subtotal = styled.div`
 
 const Cart = (props) => {
   const {
-    dispatchCart,
     cartProducts, cartRefetch,
   } = useContext(CartContext)
 
-  const handleCheckout = () => {
-    dispatchCart({
-      type: 'CLOSE_CART'
-    })
-    props.history.push('/checkout')
-  }
 
   const itemCounts = cartProducts.length
 
@@ -165,11 +152,7 @@ const Cart = (props) => {
 
   return (
     <StyledContainer>
-      <StyledButton fluid
-        size="big" color="orange"
-        onClick={handleCheckout}>
-        Place Your Order
-      </StyledButton>
+      <PlaceOrderButton />
       <OrderSummary>
         {calcOrderSummary()}
       </OrderSummary>
