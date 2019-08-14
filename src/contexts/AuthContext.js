@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react'
 import firebase from 'firebase/app'
-// import 'firebase/auth'
+import 'firebase/auth'
+import * as firebaseui from 'firebaseui'
 import { getAuth } from "../libs/getFbConfig";
 
 export const AuthContext = createContext()
@@ -9,8 +10,10 @@ const uiConfig = {
   signInFlow: 'popup',
   signInSuccessUrl: '/',
   signInOptions: [
+    firebase.auth.EmailAuthProvider.PROVIDER_ID,
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    firebase.auth.FacebookAuthProvider.PROVIDER_ID
+    firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+    firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID,
   ],
   callbacks: {
     signInSuccessWithAuthResult: function (authResult, redirectUrl) {
