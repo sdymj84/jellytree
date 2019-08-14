@@ -30,7 +30,10 @@ const RoutesWithSidebar = () => {
         secondary
         visible={visibleCart}
         width='very wide'
-        style={isMobile ? { width: '100%' } : {}}
+        style={isMobile ? { width: '100%' } : {
+          position: 'fixed',
+          zIndex: '1001'
+        }}
       >
         <CloseButton>
           <Icon name="angle right" size="huge"

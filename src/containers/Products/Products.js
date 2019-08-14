@@ -6,7 +6,6 @@ import Filter from './Filter'
 import MobileFilter from './MobileFilter'
 import axios from 'axios'
 import JellyLoader from '../../components/JellyLoader'
-
 import FilteredProducts from './FilteredProducts'
 import urls from '../../urls';
 
@@ -127,6 +126,66 @@ const Products = () => {
                     handleSizeFilter={handleSizeFilter} />
                 </Sticky>
               </Rail>}
+            <FilteredProducts
+              products={products}
+              colorFilters={colorFilters}
+              sizeFilters={sizeFilters}
+              filteredProducts={filteredProducts}
+              setFilteredProducts={setFilteredProducts} />
+            <FilteredProducts
+              products={products}
+              colorFilters={colorFilters}
+              sizeFilters={sizeFilters}
+              filteredProducts={filteredProducts}
+              setFilteredProducts={setFilteredProducts} />
+            <FilteredProducts
+              products={products}
+              colorFilters={colorFilters}
+              sizeFilters={sizeFilters}
+              filteredProducts={filteredProducts}
+              setFilteredProducts={setFilteredProducts} />
+            <FilteredProducts
+              products={products}
+              colorFilters={colorFilters}
+              sizeFilters={sizeFilters}
+              filteredProducts={filteredProducts}
+              setFilteredProducts={setFilteredProducts} />
+            <FilteredProducts
+              products={products}
+              colorFilters={colorFilters}
+              sizeFilters={sizeFilters}
+              filteredProducts={filteredProducts}
+              setFilteredProducts={setFilteredProducts} />
+            <FilteredProducts
+              products={products}
+              colorFilters={colorFilters}
+              sizeFilters={sizeFilters}
+              filteredProducts={filteredProducts}
+              setFilteredProducts={setFilteredProducts} />
+            <FilteredProducts
+              products={products}
+              colorFilters={colorFilters}
+              sizeFilters={sizeFilters}
+              filteredProducts={filteredProducts}
+              setFilteredProducts={setFilteredProducts} />
+            <FilteredProducts
+              products={products}
+              colorFilters={colorFilters}
+              sizeFilters={sizeFilters}
+              filteredProducts={filteredProducts}
+              setFilteredProducts={setFilteredProducts} />
+            <FilteredProducts
+              products={products}
+              colorFilters={colorFilters}
+              sizeFilters={sizeFilters}
+              filteredProducts={filteredProducts}
+              setFilteredProducts={setFilteredProducts} />
+            <FilteredProducts
+              products={products}
+              colorFilters={colorFilters}
+              sizeFilters={sizeFilters}
+              filteredProducts={filteredProducts}
+              setFilteredProducts={setFilteredProducts} />
             <FilteredProducts
               products={products}
               colorFilters={colorFilters}
