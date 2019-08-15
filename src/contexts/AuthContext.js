@@ -15,15 +15,21 @@ const uiConfig = {
     firebase.auth.FacebookAuthProvider.PROVIDER_ID,
     firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID,
   ],
-  callbacks: {
-    signInSuccessWithAuthResult: function (authResult, redirectUrl) {
-      console.log(authResult, redirectUrl)
-      return true;
-    },
-  }
+  // callbacks: {
+  //   signInSuccessWithAuthResult: function (authResult, redirectUrl) {
+  //     console.log(authResult, redirectUrl)
+  //     return false;
+  //   },
+  // }
 };
 
 const AuthContextProvider = (props) => {
+  /* 
+    user state
+    - from auth : uid, email, name,
+    - from db : shipping address, payment method,
+    - etc : hasAddress, hasPayment,
+  */
   const [user, setUser] = useState("loading")
   const [auth, setAuth] = useState("")
   useEffect(() => {
