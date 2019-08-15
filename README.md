@@ -28,8 +28,14 @@
 - Upgrade user experience with neat animation using react-pose and css animation
 ---
 
-## Issues
+## Issues/Difficulties
 - Update React state after component unmounted - usually happens when invoke async API call and set state
 - Semantic UI and Bootstrap have conflict styles on Modal : npm install bootstrap > modify bootstrap.css or scss/_modal.scss file > import in index.js before any other stylesheet
-- 
+
+- Figuring out all scenarios from user sign in was difficult 
+  - user signup
+  - signin
+  - new cart > signup
+  - new cart > signin
+  - new cart > signin with old cart
 
