@@ -1,3 +1,6 @@
+@import '~bootstrap/scss/bootstrap.scss';
+@import '~semantic-ui/dist/semantic.css';
+
 body {
   margin: 0;
   padding: 0;
@@ -20,10 +23,22 @@ code {
 
 
 /*=====================================================
+  Bootstrap overrides
+=====================================================*/
+.modal {
+  top: unset;
+  left: unset;
+  height: unset;
+}
+
+/*=====================================================
   Semantic UI React overrides
 =====================================================*/
 .ui.inverted.dimmer {
   background-color: rgba(255,255,255,0.5);
+}
+.pushable:not(body) {
+  transform: none;
 }
 
 

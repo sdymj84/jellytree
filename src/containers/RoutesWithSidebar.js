@@ -41,7 +41,8 @@ const RoutesWithSidebar = () => {
         </CloseButton>
         <CartContainer />
       </Sidebar>
-      <Sidebar.Pusher>
+      <Sidebar.Pusher
+        style={{ zIndex: '0' }}>
         <Routes />
       </Sidebar.Pusher>
     </Sidebar.Pushable>
