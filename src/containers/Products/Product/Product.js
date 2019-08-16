@@ -13,6 +13,7 @@ import JellyLoader from '../../../components/JellyLoader'
 import urls from '../../../urls'
 import { CartContext } from '../../../contexts/CartContext'
 import uuidv1 from 'uuid/v1'
+import { AuthContext } from '../../../contexts/AuthContext'
 
 const isMobile = window.innerWidth < 600
 
@@ -89,13 +90,14 @@ const useScroll = () => {
 
 
 const Product = (props) => {
+  const { user } = useContext(AuthContext)
   const [executeScroll, scrollHtmlAttributes] = useScroll()
   const [productInfo, setProductInfo] = useState("")
   useEffect(() => {
     let isMounted = true
     async function getProduct() {
       try {
-        const res = await axios.get(urls.getProductUrl + '?id=' + props.match.params.id)
+        const res = await axios.get(urls.getProduct + '?id=' + props.match.params.id)
         isMounted && setProductInfo(res.data)
       } catch (e) {
         console.log("Error getting a document", e.response.data.message)
@@ -210,21 +212,53 @@ const Product = (props) => {
           type: 'ADD_PRODUCT_LOADING',
           payload: { id: uuidv1(), loading: true }
         })
-        const newCartProduct = await axios.post(urls.setCartProductUrl, {
-          product: productInfo,
-          pid: selectedProductId
-        })
+
+        const newCartProduct = createCartProduct(productInfo, selectedProductId)
+
+        if (user) {
+          // When user logged in, save to db
+          await axios.post(urls.setCartProduct, {
+            newCartProduct
+          })
+        } else {
+          // When user NOT logged in, save to session storage
+          const cartProducts = JSON.parse(sessionStorage.getItem('cart')) || []
+          const newCartProducts = [...cartProducts, newCartProduct]
+          sessionStorage.setItem('cart', JSON.stringify(newCartProducts))
+        }
+
         dispatchCartProducts({
           type: 'ADD_PRODUCT_SUCCESS',
-          payload: { newCartProduct: newCartProduct.data }
+          payload: { newCartProduct }
         })
       } catch (e) {
         console.log("Error while moving product to cart", e.response.data.message)
       }
     }
     addCartProduct()
+    // eslint-disable-next-line
   }, [productInfo, selectedProductId, dispatchCartProducts, dispatchCart])
 
+
+
+  // Create cart from product
+  const createCartProduct = (product, pid) => {
+    const variation = _.find(product.variations, { 'pid': pid })
+    return {
+      id: uuidv1(),
+      uid: user ? user.uid : "",
+      productId: product.id,
+      pid: pid,
+      sku: variation.sku,
+      title: variation.title,
+      color: variation.color,
+      size: variation.size,
+      price: variation.price,
+      thumbnail: variation.thumbnail,
+      quantity: 1,
+      totalPrice: variation.price,
+    }
+  }
 
 
 

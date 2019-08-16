@@ -63,29 +63,30 @@ const AuthContextProvider = (props) => {
     -- user
     -> get uid from auth
     -> get doc from user db where 'uid' === uid
-      if there is user
+      if there is user  // existing user signin
         -> get user info from the doc
         -> store it in user state
-
-        -> get cart from session storage
-        -> add uid (from auth) on each cart products
-
-        -> get cart products from cart db where 'uid' === uid
-        -> store it in cart state
-      
-      else
+      else              // new user signup
         -> get user info from auth
         -> create user state with all user info
            (unknown info is saved as "")
         -> create doc in user db with user state
 
-        -> get cart from session storage
+    -> get cart from session storage
+      if there is cart  // user add cart anonymously and login
         -> add uid (from auth) on each cart products
-        -> store cart in cart state
-        -> store cart in cart db
-        -> delete cart in session storage
+        
+        -> query all cart products from cart db where 'uid' === uid
+        -> move those cart products to saveForLater db
+        
+        -> store session cart in cart db
+        -> delete session cart
+      else              // user login without adding cart
+        -> get cart products from cart db where 'uid' === uid
 
     
+
+    TODO: if add to cart when user logged in, add cart to db with uid
     
   */
   const [user, setUser] = useState("loading")
@@ -100,7 +101,6 @@ const AuthContextProvider = (props) => {
   useEffect(() => {
     if (auth) {
       const unsubscribe = auth.onAuthStateChanged(user => {
-        console.log(user)
         setUser(user)
       })
       return () => {

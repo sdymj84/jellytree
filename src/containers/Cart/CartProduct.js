@@ -123,7 +123,6 @@ const CartProduct = ({ product, history }) => {
         type: 'REMOVE_PRODUCT_SUCCESS',
         payload: { id: product.id }
       })
-      console.log(newProduct.data)
       dispatchSaveForLaterProducts({
         type: 'ADD_PRODUCT_SUCCESS',
         payload: { newSaveForLaterProducts: newProduct.data }

@@ -1,6 +1,7 @@
-import React, { createContext, useReducer, useEffect } from 'react'
+import React, { createContext, useReducer, useEffect, useContext } from 'react'
 import useAxios from 'axios-hooks'
 import urls from '../urls';
+import { AuthContext } from '../contexts/AuthContext'
 
 export const CartContext = createContext()
 
@@ -80,9 +81,15 @@ const saveForLaterProductReducer = (saveForLaterProducts, action) => {
 }
 
 const CartContextProvider = (props) => {
-  const [cart, cartRefetch] = useAxios(
-    urls.listCartProducts
-  )
+  const { user } = useContext(AuthContext)
+  const uid = user ? user.uid : ""
+
+  const [cart, cartRefetch] = useAxios({
+    url: urls.listCartProducts,
+    method: 'POST',
+    data: { uid },
+  })
+  console.log(uid)
   const [saveForLater, saveForLaterRefetch] = useAxios(
     urls.listSaveForLaterProducts
   )

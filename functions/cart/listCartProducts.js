@@ -5,8 +5,11 @@ const _ = require('lodash')
 const listCartProducts = async (req, res) => {
   cors(req, res, async () => {
     try {
+      const { uid } = req.body
       const result = []
-      const cartSnapshot = await db.collection('cart').get()
+      // Receive uid from client and query that user's cart > return
+      const cartSnapshot = await db.collection('cart')
+        .where('uid', '==', uid).get()
       if (cartSnapshot.empty) {
         console.log("There's no product in cart")
       } else {
