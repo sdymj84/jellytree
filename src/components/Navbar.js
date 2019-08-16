@@ -61,10 +61,10 @@ const Navbar = (props) => {
           <StyledLink to="/bonnets">
             <Item>Bonnets</Item>
           </StyledLink>
-          <StyledLink to="/toddlers">
+          <StyledLink to="/hats">
             <Item>Hats</Item>
           </StyledLink>
-          <StyledLink to="/boys-girls">
+          <StyledLink to="/scarves">
             <Item>Scarves</Item>
           </StyledLink>
           <StyledLink to="/all-collections">

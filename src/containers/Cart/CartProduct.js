@@ -3,10 +3,12 @@ import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { Segment, Image, Input, Button } from 'semantic-ui-react'
 import { CartContext } from '../../contexts/CartContext'
+import { AuthContext } from '../../contexts/AuthContext'
 import axios from 'axios';
 import urls from '../../urls'
 import theme from '../../theme'
 import StockTrack from '../../components/StockTrack'
+import _ from 'lodash'
 
 const isMobile = window.innerWidth < 600
 
@@ -39,6 +41,7 @@ const Product = styled(Segment)`
 `
 
 const CartProduct = ({ product, history }) => {
+  const { user } = useContext(AuthContext)
   const {
     dispatchCartProducts, dispatchCart,
     dispatchSaveForLaterProducts,
@@ -93,9 +96,17 @@ const CartProduct = ({ product, history }) => {
   const handleDelete = async () => {
     try {
       setIsLoading(true)
-      await axios.put(urls.deleteCartProduct, {
-        id: product.id
-      })
+      if (user) {
+        await axios.put(urls.deleteCartProduct, {
+          id: product.id
+        })
+      } else {
+        const cartProducts = JSON.parse(sessionStorage.getItem('cart'))
+        const newCartProducts = _.filter(cartProducts,
+          cartProduct => cartProduct.id !== product.id)
+        sessionStorage.setItem('cart', JSON.stringify(newCartProducts))
+      }
+
       setIsLoading(false)
       dispatchCartProducts({
         type: 'REMOVE_PRODUCT_SUCCESS',

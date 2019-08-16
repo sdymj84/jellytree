@@ -58,36 +58,35 @@ const AuthContextProvider = (props) => {
     -> add uid on each cart products and save to cart db/state
 
 
+    // TODO: Signin flow
+
     * Sign in
+        -- user
+        -> get uid from auth
+        -> get doc from user db where 'uid' === uid
+          if there is user  // existing user signin
+            -> get user info from the doc
+            -> store it in user state
+          else              // new user signup
+            -> get user info from auth
+            -> create user state with all user info
+              (unknown info is saved as "")
+            -> create doc in user db with user state
 
-    -- user
-    -> get uid from auth
-    -> get doc from user db where 'uid' === uid
-      if there is user  // existing user signin
-        -> get user info from the doc
-        -> store it in user state
-      else              // new user signup
-        -> get user info from auth
-        -> create user state with all user info
-           (unknown info is saved as "")
-        -> create doc in user db with user state
-
-    -> get cart from session storage
-      if there is cart  // user add cart anonymously and login
-        -> add uid (from auth) on each cart products
-        
-        -> query all cart products from cart db where 'uid' === uid
-        -> move those cart products to saveForLater db
-        
-        -> store session cart in cart db
-        -> delete session cart
-      else              // user login without adding cart
-        -> get cart products from cart db where 'uid' === uid
+        -> get cart from session storage
+          if there is cart  // user add cart anonymously and login
+            -> add uid (from auth) on each cart products
+            
+            -> query all cart products from cart db where 'uid' === uid
+            -> move those cart products to saveForLater db
+            
+            -> store session cart in cart db
+            -> delete session cart
+          else              // user login without adding cart
+            -> get cart products from cart db where 'uid' === uid
 
     
 
-    TODO: if add to cart when user logged in, add cart to db with uid
-    
   */
   const [user, setUser] = useState("loading")
   const [auth, setAuth] = useState("")

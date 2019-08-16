@@ -89,7 +89,6 @@ const CartContextProvider = (props) => {
     method: 'POST',
     data: { uid },
   })
-  console.log(uid)
   const [saveForLater, saveForLaterRefetch] = useAxios(
     urls.listSaveForLaterProducts
   )
@@ -109,9 +108,11 @@ const CartContextProvider = (props) => {
             payload: { error }
           })
         } else {
+          const cartData = data.length
+            ? data : JSON.parse(sessionStorage.getItem('cart')) || []
           dispatchCartProducts({
             type: 'INITIAL_PRODUCTS_SUCCESS',
-            payload: { cartProducts: data }
+            payload: { cartProducts: cartData }
           })
         }
       }

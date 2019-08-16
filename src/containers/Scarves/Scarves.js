@@ -25,7 +25,7 @@ const Title = styled.div`
   text-align: center;
 `
 
-const Babies = () => {
+const Scarves = () => {
   return (
     <Container>
       <Jumbotron>
@@ -37,4 +37,4 @@ const Babies = () => {
   )
 }
 
-export default Babies
+export default Scarves
