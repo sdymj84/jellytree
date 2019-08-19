@@ -9,6 +9,7 @@ import urls from '../../urls'
 import theme from '../../theme'
 import StockTrack from '../../components/StockTrack'
 import _ from 'lodash'
+import ConfirmModal from '../../components/ConfirmModal'
 
 const isMobile = window.innerWidth < 600
 
@@ -71,11 +72,25 @@ const CartProduct = ({ product, history }) => {
   const handleQtyUpdate = async () => {
     try {
       setIsLoading(true)
-      await axios.put(urls.updateCartProductQty, {
-        id: product.id,
-        price: product.price,
-        quantity: product.quantity
-      })
+      if (user) {
+        await axios.put(urls.updateCartProductQty, {
+          id: product.id,
+          price: product.price,
+          quantity
+        })
+      } else {
+        const cartProducts = JSON.parse(sessionStorage.getItem('cart'))
+        const newCartProducts = cartProducts.map(item =>
+          item.id === product.id
+            ? {
+              ...item, quantity,
+              totalPrice: Number(product.price) * Number(quantity)
+            }
+            : item
+        )
+        sessionStorage.setItem('cart', JSON.stringify(newCartProducts))
+      }
+
       setIsLoading(false)
       dispatchCartProducts({
         type: 'UPDATE_QTY',
@@ -121,9 +136,20 @@ const CartProduct = ({ product, history }) => {
     }
   }
 
-
+  const [modalShow, setModalShow] = useState(false)
+  const [modalMessage, setModalMessage] = useState("")
+  const handleModalClose = (yesOrNo) => {
+    setModalShow(false)
+    yesOrNo === 'no' && dispatchCart({ type: 'OPEN_CART' })
+  }
   // Handle Save For Later click event
   const handleSaveForLater = async () => {
+    if (!user) {
+      setModalShow(true)
+      setModalMessage("Need login to save for later, would you like to sign in now?")
+      return
+    }
+
     try {
       setIsLoading(true)
       const newProduct = await axios.put(urls.moveToSaveForLater, {
@@ -231,6 +257,15 @@ const CartProduct = ({ product, history }) => {
           </div>
         </div>
       </div>
+      <ConfirmModal
+        modalShow={modalShow}
+        modalMessage={modalMessage}
+        handleModalClose={handleModalClose}
+        iconName='sign in'
+        handleYesClick={() => {
+          history.push('/signin')
+          handleModalClose()
+        }} />
     </Product>
   )
 }

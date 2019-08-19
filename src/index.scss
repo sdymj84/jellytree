@@ -40,6 +40,9 @@ code {
 .pushable:not(body) {
   transform: none;
 }
+.ui.dimmer {
+  z-index: 1001;
+}
 
 
 /*=====================================================
