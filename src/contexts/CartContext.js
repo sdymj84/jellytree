@@ -108,8 +108,12 @@ const CartContextProvider = (props) => {
             payload: { error }
           })
         } else {
-          const cartData = data.length
-            ? data : JSON.parse(sessionStorage.getItem('cart')) || []
+          let cartData = []
+          if (!user) {
+            cartData = JSON.parse(sessionStorage.getItem('cart')) || []
+          } else {
+            cartData = data.length ? data : []
+          }
           dispatchCartProducts({
             type: 'INITIAL_PRODUCTS_SUCCESS',
             payload: { cartProducts: cartData }
@@ -118,6 +122,7 @@ const CartContextProvider = (props) => {
       }
     }
     setCartProducts(cart.data, cart.loading, cart.error)
+    // eslint-disable-next-line
   }, [cart])
 
   const [saveForLaterProducts, dispatchSaveForLaterProducts] = useReducer(saveForLaterProductReducer, { loading: true })

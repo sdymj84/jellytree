@@ -12,7 +12,7 @@ const Container = styled.div`
 `
 
 const SignIn = () => {
-  const { auth, uiConfig, setUser } = useContext(AuthContext)
+  const { auth, uiConfig } = useContext(AuthContext)
 
   return (
     <Container>

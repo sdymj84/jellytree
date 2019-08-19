@@ -1,8 +1,9 @@
-import React, { createContext, useState, useEffect } from 'react'
+import React, { createContext, useState, useEffect, useCallback } from 'react'
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import 'firebase/firestore'
 import * as firebaseui from 'firebaseui'
-import { getAuth } from "../libs/getFbConfig";
+import { getAuth, getDb } from "../libs/getFbConfig";
 
 export const AuthContext = createContext()
 
@@ -90,23 +91,65 @@ const AuthContextProvider = (props) => {
   */
   const [user, setUser] = useState("loading")
   const [auth, setAuth] = useState("")
+  const [db, setDb] = useState("")
+
   useEffect(() => {
     const getConfig = async () => {
       setAuth(await getAuth())
+      setDb(await getDb())
     }
     getConfig()
   }, [])
 
-  useEffect(() => {
-    if (auth) {
-      const unsubscribe = auth.onAuthStateChanged(user => {
-        setUser(user)
-      })
-      return () => {
-        unsubscribe()
+
+  const signIn = useCallback(async (authUser) => {
+    const { uid } = authUser
+    const userSnapshot = await db.collection('users')
+      .where('uid', '==', uid).get()
+
+    // New user signed up
+    if (userSnapshot.empty) {
+      console.log('welcome new user')
+      const nameArray = authUser.displayName.split(' ')
+      const newUser = {
+        uid: uid,
+        email: authUser.email,
+        displayName: authUser.displayName,
+        emailVerified: authUser.emailVerified,
+        isAnonymous: authUser.isAnonymous,
+        creationTime: authUser.metadata.creationTime,
+        lastSignInTime: authUser.metadata.lastSignInTime,
+        firstName: nameArray[0],
+        lastName: nameArray[nameArray.length - 1],
+        phoneNumber: '',
+        addresses: [],
+        shippingAddress: {},
+        paymentMethod: [],
+        cart: [],
+        hasAddress: false,
+        hasPayment: false,
+      }
+      setUser(newUser)
+      try {
+        await db.collection('users').doc(uid).set(newUser)
+      } catch (e) {
+        console.log("Error adding user data to DB", e)
+      }
+
+
+      // Existing user signed in
+    } else {
+      console.log('hello again')
+      try {
+        userSnapshot.forEach(userDoc => {
+          setUser(userDoc.data())
+        })
+      } catch (e) {
+        console.log("Error getting user data from DB", e)
       }
     }
-  }, [auth])
+  }, [db])
+
 
   const signOut = () => {
     if (auth) {
@@ -117,6 +160,23 @@ const AuthContextProvider = (props) => {
       })
     }
   }
+
+
+  useEffect(() => {
+    if (auth) {
+      const unsubscribe = auth.onAuthStateChanged(authUser => {
+        if (authUser) {
+          signIn(authUser)
+        } else {
+          setUser(authUser)
+        }
+      })
+      return () => {
+        unsubscribe()
+      }
+    }
+  }, [auth, signIn])
+
 
   return (
     <AuthContext.Provider value={{

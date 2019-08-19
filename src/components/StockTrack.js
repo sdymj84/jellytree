@@ -14,16 +14,20 @@ const StockTrack = ({ productId, pid }) => {
   const [stock, setStock] = useState(0)
   useEffect(() => {
     const getStock = async () => {
-      await db.collection('products').doc(productId)
-        .onSnapshot(doc => {
-          const product = doc.data()
-          const variation = _.find(product.variations, { 'pid': pid })
-          if (variation) {
-            setStock(variation.stock)
-          } else {
-            setStock(0)
-          }
-        })
+      try {
+        await db.collection('products').doc(productId)
+          .onSnapshot(doc => {
+            const product = doc.data()
+            const variation = _.find(product.variations, { 'pid': pid })
+            if (variation) {
+              setStock(variation.stock)
+            } else {
+              setStock(0)
+            }
+          })
+      } catch (e) {
+        console.log(e)
+      }
     }
     db && getStock()
   }, [db, productId, pid])
