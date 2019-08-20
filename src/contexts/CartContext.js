@@ -152,7 +152,6 @@ const CartContextProvider = (props) => {
 
   const [visibleCart, dispatchCart] = useReducer(cartReducer, false)
 
-
   return (
     <CartContext.Provider value={{
       cartProducts, dispatchCartProducts, cartRefetch,

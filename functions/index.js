@@ -9,6 +9,7 @@ const setCartProduct = require('./cart/setCartProduct')
 const deleteCartProduct = require('./cart/deleteCartProduct')
 const updateCartProductQty = require('./cart/updateCartProductQty')
 const moveToSaveForLater = require('./cart/moveToSaveForLater')
+const batchMoveToSaveForLater = require('./cart/batchMoveToSaveForLater')
 const listSaveForLaterProducts = require('./cart/listSaveForLaterProducts')
 const deleteSaveForLaterProduct = require('./cart/deleteSaveForLaterProduct')
 const moveToCart = require('./cart/moveToCart')
@@ -23,6 +24,7 @@ module.exports = {
   'deleteCartProduct': functions.https.onRequest(deleteCartProduct),
   'updateCartProductQty': functions.https.onRequest(updateCartProductQty),
   'moveToSaveForLater': functions.https.onRequest(moveToSaveForLater),
+  'batchMoveToSaveForLater': functions.https.onRequest(batchMoveToSaveForLater),
   'listSaveForLaterProducts': functions.https.onRequest(listSaveForLaterProducts),
   'deleteSaveForLaterProduct': functions.https.onRequest(deleteSaveForLaterProduct),
   'moveToCart': functions.https.onRequest(moveToCart),

@@ -12,7 +12,9 @@ const Div = styled.div`
 const StockTrack = ({ productId, pid }) => {
   const { db } = useContext(DbContext)
   const [stock, setStock] = useState(0)
+
   useEffect(() => {
+    let isMounted = true
     const getStock = async () => {
       try {
         await db.collection('products').doc(productId)
@@ -20,9 +22,9 @@ const StockTrack = ({ productId, pid }) => {
             const product = doc.data()
             const variation = _.find(product.variations, { 'pid': pid })
             if (variation) {
-              setStock(variation.stock)
+              isMounted && setStock(variation.stock)
             } else {
-              setStock(0)
+              isMounted && setStock(0)
             }
           })
       } catch (e) {
@@ -30,6 +32,9 @@ const StockTrack = ({ productId, pid }) => {
       }
     }
     db && getStock()
+    return () => {
+      isMounted = false
+    }
   }, [db, productId, pid])
 
   if (Number(stock) === 0 || Number(stock) > 20) {

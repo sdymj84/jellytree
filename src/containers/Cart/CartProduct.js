@@ -260,8 +260,10 @@ const CartProduct = ({ product, history }) => {
       <ConfirmModal
         modalShow={modalShow}
         modalMessage={modalMessage}
-        handleModalClose={handleModalClose}
+        handleNoClick={handleModalClose}
         iconName='sign in'
+        yesButton="Yes, Sign In"
+        noButton="No, Stay Anonymous"
         handleYesClick={() => {
           history.push('/signin')
           handleModalClose()

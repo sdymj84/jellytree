@@ -9,7 +9,7 @@ const ConfirmModal = (props) => {
       <Header icon={props.iconName} content={props.modalMessage} />
       <Modal.Actions>
         <Button basic color='red' inverted
-          onClick={() => props.handleModalClose('no')} >
+          onClick={() => props.handleNoClick('no')} >
           <Icon name='remove' /> {props.noButton}
         </Button>
         <Button color='green' inverted

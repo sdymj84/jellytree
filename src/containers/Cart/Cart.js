@@ -90,6 +90,7 @@ const Cart = (props) => {
     )
   }
 
+
   return (
     <StyledContainer>
       {itemCounts > 2 &&
