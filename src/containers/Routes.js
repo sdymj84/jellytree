@@ -8,6 +8,7 @@ import Scarves from './Scarves/Scarves'
 import AllCollections from './AllCollections/AllCollections';
 import Product from './Products/Product/Product'
 import Checkout from './Checkout/Checkout';
+import AuthenticatedRoute from '../components/AuthenticatedRoute';
 
 
 const Routes = () => {
@@ -20,7 +21,7 @@ const Routes = () => {
       <Route path="/scarves" component={Scarves} />
       <Route path="/all-collections" component={AllCollections} />
       <Route path="/product/:id" component={Product} />
-      <Route path="/checkout" component={Checkout} />
+      <AuthenticatedRoute path="/checkout" component={Checkout} />
     </Switch>
   )
 }

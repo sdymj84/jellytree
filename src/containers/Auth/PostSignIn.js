@@ -79,6 +79,7 @@ const PostSignIn = () => {
         hasPayment: false,
       }
       setUser(newUser)
+      sessionStorage.setItem('user', JSON.stringify(newUser))
       try {
         await db.collection('users').doc(uid).set(newUser)
       } catch (e) {
@@ -92,6 +93,7 @@ const PostSignIn = () => {
       try {
         userSnapshot.forEach(userDoc => {
           setUser(userDoc.data())
+          sessionStorage.setItem('user', JSON.stringify(userDoc.data()))
         })
         const sessionCart = JSON.parse(sessionStorage.getItem('cart')) || []
         setSessionCart(sessionCart)

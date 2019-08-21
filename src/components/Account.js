@@ -5,6 +5,7 @@ import Bag from './Bag'
 import { Link } from "react-router-dom";
 import theme from '../theme'
 import { AuthContext } from '../contexts/AuthContext'
+import { withRouter } from 'react-router-dom'
 
 const Container = styled.div`
   display: flex;
@@ -71,20 +72,16 @@ const Account = (props) => {
           </Sign>
         </SignContainer>
         : <SignContainer>
-          <StyledLink to="/signin">
+          <StyledLink to={`/signin?redirectUrl=${props.location.pathname}`}>
             <Sign>
               <Icon name="sign in" />
-              <span>Sign In</span>
+              <span>SignIn / SignUp</span>
             </Sign>
           </StyledLink>
-          <Sign>
-            <Icon name="signup" />
-            <span>Sign Up</span>
-          </Sign>
         </SignContainer>}
       <Bag />
     </Container>
   )
 }
 
-export default Account
+export default withRouter(Account)

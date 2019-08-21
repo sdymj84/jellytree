@@ -1,4 +1,7 @@
-import React, { createContext, useReducer, useEffect, useContext } from 'react'
+import React, {
+  createContext, useReducer,
+  useEffect, useContext
+} from 'react'
 import useAxios from 'axios-hooks'
 import urls from '../urls';
 import { AuthContext } from '../contexts/AuthContext'
@@ -69,7 +72,6 @@ const saveForLaterProductReducer = (saveForLaterProducts, action) => {
       return saveForLaterProducts.filter(product => product.loading !== true)
         .concat(action.payload.newSaveForLaterProducts)
     case 'ADD_PRODUCT_SUCCESS':
-
       return saveForLaterProducts.filter(product => product.loading !== true)
         .concat(action.payload.newSaveForLaterProducts)
 
@@ -87,11 +89,72 @@ const CartContextProvider = (props) => {
   const [cart, cartRefetch] = useAxios({
     url: urls.listCartProducts,
     method: 'POST',
-    data: { uid },
+    data: { uid: uid || "" },
   })
   const [saveForLater, saveForLaterRefetch] = useAxios(
     urls.listSaveForLaterProducts
   )
+
+  // const [cart, setCart] = useState({
+  //   loading: true,
+  //   error: null,
+  //   data: []
+  // })
+  // console.log(cart.loading, cart.error, cart.data)
+
+  // const cartRefetch = useCallback(async () => {
+  //   try {
+  //     const res = await axios.post(urls.listCartProducts, {
+  //       uid: uid || ""
+  //     })
+  //     setCart({
+  //       loading: false,
+  //       error: null,
+  //       data: res.data
+  //     })
+  //   } catch (e) {
+  //     console.log(e)
+  //     setCart({
+  //       loading: false,
+  //       error: e.response.message,
+  //       data: []
+  //     })
+  //   }
+  // }, [uid])
+
+  // useEffect(() => {
+  //   cartRefetch()
+  // }, [uid, cartRefetch])
+
+
+  // const [saveForLater, setSaveForLater] = useState({
+  //   loading: true,
+  //   error: null,
+  //   data: []
+  // })
+
+  // const saveForLaterRefetch = async () => {
+  //   try {
+  //     const res = await axios.get(urls.listSaveForLaterProducts)
+  //     setSaveForLater({
+  //       loading: false,
+  //       error: null,
+  //       data: res.data
+  //     })
+  //   } catch (e) {
+  //     console.log(e)
+  //     setSaveForLater({
+  //       loading: false,
+  //       error: e.response.message,
+  //       data: []
+  //     })
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   saveForLaterRefetch()
+  // }, [uid])
+
 
   const [cartProducts, dispatchCartProducts] = useReducer(cartProductReducer, { loading: true })
   useEffect(() => {
