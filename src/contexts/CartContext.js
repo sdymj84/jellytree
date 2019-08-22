@@ -91,69 +91,12 @@ const CartContextProvider = (props) => {
     method: 'POST',
     data: { uid: uid || "" },
   })
-  const [saveForLater, saveForLaterRefetch] = useAxios(
-    urls.listSaveForLaterProducts
-  )
-
-  // const [cart, setCart] = useState({
-  //   loading: true,
-  //   error: null,
-  //   data: []
-  // })
-  // console.log(cart.loading, cart.error, cart.data)
-
-  // const cartRefetch = useCallback(async () => {
-  //   try {
-  //     const res = await axios.post(urls.listCartProducts, {
-  //       uid: uid || ""
-  //     })
-  //     setCart({
-  //       loading: false,
-  //       error: null,
-  //       data: res.data
-  //     })
-  //   } catch (e) {
-  //     console.log(e)
-  //     setCart({
-  //       loading: false,
-  //       error: e.response.message,
-  //       data: []
-  //     })
-  //   }
-  // }, [uid])
-
-  // useEffect(() => {
-  //   cartRefetch()
-  // }, [uid, cartRefetch])
-
-
-  // const [saveForLater, setSaveForLater] = useState({
-  //   loading: true,
-  //   error: null,
-  //   data: []
-  // })
-
-  // const saveForLaterRefetch = async () => {
-  //   try {
-  //     const res = await axios.get(urls.listSaveForLaterProducts)
-  //     setSaveForLater({
-  //       loading: false,
-  //       error: null,
-  //       data: res.data
-  //     })
-  //   } catch (e) {
-  //     console.log(e)
-  //     setSaveForLater({
-  //       loading: false,
-  //       error: e.response.message,
-  //       data: []
-  //     })
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   saveForLaterRefetch()
-  // }, [uid])
+  const [saveForLater, saveForLaterRefetch] = useAxios({
+    url: urls.listSaveForLaterProducts,
+    method: 'POST',
+    data: { uid: uid || "" },
+    // TODO: get save for later list based on uid
+  })
 
 
   const [cartProducts, dispatchCartProducts] = useReducer(cartProductReducer, { loading: true })

@@ -133,6 +133,7 @@ const PostSignIn = () => {
           signIn(authUser)
         } else {
           setUser(authUser)
+          sessionStorage.setItem('user', null)
         }
       })
       return () => {

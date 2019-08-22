@@ -5,8 +5,11 @@ const _ = require('lodash')
 const listSaveForLaterProducts = async (req, res) => {
   cors(req, res, async () => {
     try {
+      const { uid } = req.body
       const result = []
-      const cartSnapshot = await db.collection('saveForLater').get()
+      // Receive uid from client and query that user's saveForLater > return
+      const cartSnapshot = await db.collection('saveForLater')
+        .where('uid', '==', uid).get()
       if (cartSnapshot.empty) {
         console.log("There's no product in Save For Later")
       } else {
