@@ -11,4 +11,5 @@ export default {
   listSaveForLaterProducts: 'https://us-central1-jellytree-3cb33.cloudfunctions.net/listSaveForLaterProducts',
   deleteSaveForLaterProduct: 'https://us-central1-jellytree-3cb33.cloudfunctions.net/deleteSaveForLaterProduct',
   moveToCart: 'https://us-central1-jellytree-3cb33.cloudfunctions.net/moveToCart',
+  setUser: 'https://us-central1-jellytree-3cb33.cloudfunctions.net/setUser',
 }

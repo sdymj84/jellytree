@@ -1,12 +1,13 @@
 import React, {
   createContext, useState,
-  useEffect
+  useEffect, useReducer,
 } from 'react'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 import { getAuth, getDb } from "../libs/getFbConfig";
 import queryString from 'query-string'
+import userReducer from '../reducers/userReducer';
 
 export const AuthContext = createContext()
 
@@ -27,10 +28,37 @@ const uiConfig = {
   }
 };
 
+
+// const userReducer = (user, action) => {
+//   switch (action.type) {
+//     case 'SET_USER':
+//       return action.payload.user
+//     case 'ADD_ADDRESS':
+//       return {
+//         ...user,
+//         addresses: [action.payload.newAddress, ...user.addresses]
+//       }
+//     case 'MODIFY_ADDRESS':
+//       break
+//     case 'REMOVE_ADDRESS':
+//       break
+//     case 'ADD_PAYMENT':
+//       break
+//     case 'MODIFY_PAYMENT':
+//       break
+//     case 'REMOVE_PAYMENT':
+//       break
+//     default:
+//       break;
+//   }
+// }
+
+
 const AuthContextProvider = (props) => {
-  const [user, setUser] = useState(
+  const [user, dispatchUser] = useReducer(userReducer,
     JSON.parse(sessionStorage.getItem('user')) || "loading"
   )
+
   const [auth, setAuth] = useState("")
   const [db, setDb] = useState("")
   const [keepSignin, setKeepSignin] = useState(
@@ -69,10 +97,10 @@ const AuthContextProvider = (props) => {
     }
   }
 
-
+  console.log(user)
   return (
     <AuthContext.Provider value={{
-      user, setUser, uiConfig, auth, db,
+      user, dispatchUser, uiConfig, auth, db,
       signOut, keepSignin, setKeepSignin,
     }}>
       {props.children}

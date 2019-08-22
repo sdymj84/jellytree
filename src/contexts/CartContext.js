@@ -95,7 +95,6 @@ const CartContextProvider = (props) => {
     url: urls.listSaveForLaterProducts,
     method: 'POST',
     data: { uid: uid || "" },
-    // TODO: get save for later list based on uid
   })
 
 

@@ -1,9 +1,11 @@
 const functions = require('firebase-functions');
 
 const getConfig = require('./getConfig')
+
 const listProducts = require('./products/listProducts')
 const getProduct = require('./products/getProduct')
 const setProducts = require('./products/setProducts')
+
 const listCartProducts = require('./cart/listCartProducts')
 const setCartProduct = require('./cart/setCartProduct')
 const deleteCartProduct = require('./cart/deleteCartProduct')
@@ -13,6 +15,9 @@ const batchMoveToSaveForLater = require('./cart/batchMoveToSaveForLater')
 const listSaveForLaterProducts = require('./cart/listSaveForLaterProducts')
 const deleteSaveForLaterProduct = require('./cart/deleteSaveForLaterProduct')
 const moveToCart = require('./cart/moveToCart')
+
+const setUser = require('./user/setUser')
+
 
 module.exports = {
   'getConfig': functions.https.onRequest(getConfig),
@@ -28,5 +33,6 @@ module.exports = {
   'listSaveForLaterProducts': functions.https.onRequest(listSaveForLaterProducts),
   'deleteSaveForLaterProduct': functions.https.onRequest(deleteSaveForLaterProduct),
   'moveToCart': functions.https.onRequest(moveToCart),
+  'setUser': functions.https.onRequest(setUser),
 }
 

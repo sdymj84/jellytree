@@ -10,13 +10,9 @@ const Change = styled.div`
   }
 `
 
-const ChangeCheckoutInfo = () => {
-  const handleChange = () => {
-    console.log('Change clicked')
-  }
-
+const ChangeCheckoutInfo = (props) => {
   return (
-    <Change onClick={handleChange}>
+    <Change onClick={props.handleChange}>
       Change
     </Change>
   )

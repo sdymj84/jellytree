@@ -1,4 +1,6 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, {
+  Fragment, useState, useEffect
+} from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import theme from '../../theme'
@@ -51,6 +53,8 @@ const Checkout = () => {
       setContextRef(React.createRef())
     }
   }, [contextRef])
+
+
 
   return (
     <Fragment>

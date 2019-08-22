@@ -1,23 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Form } from 'semantic-ui-react'
 import styled from 'styled-components'
+import { AuthContext } from '../../contexts/AuthContext';
+import { addAddress } from '../../actions/authAction';
 
 const StyledForm = styled(Form)`
   margin-top: 1.5em;
 `
 
-const ShippingAddressForm = () => {
+const ShippingAddressForm = ({ addr }) => {
+  const { user, dispatchUser } = useContext(AuthContext)
   const [forms, setForms] = useState({
-    email: '',
-    phone: '',
-    firstName: '',
-    middleName: '',
-    lastName: '',
-    streetName: '',
-    unit: '',
-    city: '',
-    state: '',
-    zipcode: '',
+    email: user.email || "",
+    phone: user.phone || "",
+    firstName: user.firstName || "",
+    middleName: user.middleName || "",
+    lastName: user.lastName || "",
+    streetName: addr ? addr.streetName : "",
+    unit: addr ? addr.unit : "",
+    city: addr ? addr.city : "",
+    state: addr ? addr.state : "",
+    zipcode: addr ? addr.zipcode : "",
   })
 
   const handleChange = (e, { name, value }) => {
@@ -28,7 +31,7 @@ const ShippingAddressForm = () => {
   }
 
   const handleSubmit = () => {
-    console.log("Form submitted : ", forms)
+    addAddress(user, forms, dispatchUser)
   }
 
   return (

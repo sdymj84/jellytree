@@ -9,7 +9,7 @@ import urls from '../../urls'
 import axios from 'axios'
 
 const PostSignIn = () => {
-  const { auth, db, setUser } = useContext(AuthContext)
+  const { auth, db, dispatchUser } = useContext(AuthContext)
   const { cartProducts, dispatchCartProducts,
     dispatchSaveForLaterProducts } = useContext(CartContext)
   const [modalShow, setModalShow] = useState(false)
@@ -53,6 +53,8 @@ const PostSignIn = () => {
   const signIn = useCallback(async (authUser) => {
     const { uid } = authUser
     setUid(uid)
+    if (!db) { return }
+
     const userSnapshot = await db.collection('users')
       .where('uid', '==', uid).get()
 
@@ -78,7 +80,10 @@ const PostSignIn = () => {
         hasAddress: false,
         hasPayment: false,
       }
-      setUser(newUser)
+      dispatchUser({
+        type: 'SET_USER',
+        payload: { user: newUser }
+      })
       sessionStorage.setItem('user', JSON.stringify(newUser))
       try {
         await db.collection('users').doc(uid).set(newUser)
@@ -92,7 +97,10 @@ const PostSignIn = () => {
       console.log('hello again')
       try {
         userSnapshot.forEach(userDoc => {
-          setUser(userDoc.data())
+          dispatchUser({
+            type: 'SET_USER',
+            payload: { user: userDoc.data() }
+          })
           sessionStorage.setItem('user', JSON.stringify(userDoc.data()))
         })
         const sessionCart = JSON.parse(sessionStorage.getItem('cart')) || []
@@ -124,7 +132,7 @@ const PostSignIn = () => {
         console.log("Error getting user data from DB", e)
       }
     }
-  }, [db, setUser])
+  }, [db, dispatchUser])
 
   useEffect(() => {
     if (auth) {
@@ -132,7 +140,10 @@ const PostSignIn = () => {
         if (authUser) {
           signIn(authUser)
         } else {
-          setUser(authUser)
+          dispatchUser({
+            type: 'SET_USER',
+            payload: { user: authUser }
+          })
           sessionStorage.setItem('user', null)
         }
       })
@@ -140,7 +151,7 @@ const PostSignIn = () => {
         unsubscribe()
       }
     }
-  }, [auth, signIn, setUser])
+  }, [auth, signIn, dispatchUser])
 
 
   const handleMoveCartToSaveForLater = (cartProducts) => {
