@@ -33,7 +33,11 @@ const AuthContextProvider = (props) => {
   )
   const [auth, setAuth] = useState("")
   const [db, setDb] = useState("")
+  const [keepSignin, setKeepSignin] = useState(
+    JSON.parse(localStorage.getItem('keepSignin'))
+  )
 
+  // Get auth/db from Firebase config file
   useEffect(() => {
     const getConfig = async () => {
       setAuth(await getAuth())
@@ -43,11 +47,22 @@ const AuthContextProvider = (props) => {
   }, [])
 
 
+  // Options to keep user signin or not
+  useEffect(() => {
+    if (!auth) { return }
+
+    keepSignin
+      ? auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+      : auth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
+
+  }, [auth, keepSignin])
+
   const signOut = () => {
     if (auth) {
       auth.signOut().then(() => {
         console.log("signed out")
         sessionStorage.setItem('user', null)
+        localStorage.setItem('keepSignin', null)
       }).catch(() => {
         console.log("failed to sign out")
       })
@@ -58,7 +73,7 @@ const AuthContextProvider = (props) => {
   return (
     <AuthContext.Provider value={{
       user, setUser, uiConfig, auth, db,
-      signOut,
+      signOut, keepSignin, setKeepSignin,
     }}>
       {props.children}
     </AuthContext.Provider>

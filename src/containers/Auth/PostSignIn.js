@@ -126,7 +126,6 @@ const PostSignIn = () => {
     }
   }, [db, setUser])
 
-
   useEffect(() => {
     if (auth) {
       const unsubscribe = auth.onAuthStateChanged(authUser => {
