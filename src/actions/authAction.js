@@ -1,20 +1,19 @@
 import urls from '../urls'
 import axios from 'axios'
 
-export const addAddress = async (user, newAddress, dispatchUser) => {
+export const addAddress = async (user, address, dispatchUser) => {
   try {
     // Save new address to user DB
-    console.log(user)
     const newUser = {
       ...user,
-      addresses: [newAddress, ...user.addresses]
+      addresses: [address]
     }
     await axios.post(urls.setUser, { user: newUser })
 
     // Update state via reducer
     dispatchUser({
       type: 'ADD_ADDRESS_SUCCESS',
-      payload: { newAddress }
+      payload: { address }
     })
   } catch (e) {
     console.log(e)

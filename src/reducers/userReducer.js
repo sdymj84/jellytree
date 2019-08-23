@@ -6,14 +6,17 @@ const userReducer = (user, action) => {
     case 'ADD_ADDRESS_SUCCESS':
       return {
         ...user,
-        addresses: [action.payload.newAddress, ...user.addresses]
+        addresses: [action.payload.address, ...user.addresses]
       }
     case 'ADD_ADDRESS_ERROR':
       console.log(action.payload.error)
       return user
 
     case 'MODIFY_ADDRESS':
-      break
+      return {
+        ...user,
+        addresses: [action.payload.address]
+      }
     case 'REMOVE_ADDRESS':
       break
     case 'ADD_PAYMENT':

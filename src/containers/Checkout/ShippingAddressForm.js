@@ -3,6 +3,7 @@ import { Form } from 'semantic-ui-react'
 import styled from 'styled-components'
 import { AuthContext } from '../../contexts/AuthContext';
 import { addAddress } from '../../actions/authAction';
+import LoaderButton from '../../components/LoaderButton';
 
 const StyledForm = styled(Form)`
   margin-top: 1.5em;
@@ -11,11 +12,11 @@ const StyledForm = styled(Form)`
 const ShippingAddressForm = ({ addr }) => {
   const { user, dispatchUser } = useContext(AuthContext)
   const [forms, setForms] = useState({
-    email: user.email || "",
-    phone: user.phone || "",
-    firstName: user.firstName || "",
-    middleName: user.middleName || "",
-    lastName: user.lastName || "",
+    email: addr ? addr.email : "",
+    phone: addr ? addr.phone : "",
+    firstName: addr ? addr.firstName : "",
+    middleName: addr ? addr.middleName : "",
+    lastName: addr ? addr.lastName : "",
     streetName: addr ? addr.streetName : "",
     unit: addr ? addr.unit : "",
     city: addr ? addr.city : "",
@@ -30,8 +31,11 @@ const ShippingAddressForm = ({ addr }) => {
     }))
   }
 
-  const handleSubmit = () => {
-    addAddress(user, forms, dispatchUser)
+  const [isLoading, setIsLoading] = useState(false)
+  const handleSubmit = async () => {
+    setIsLoading(true)
+    await addAddress(user, forms, dispatchUser)
+    setIsLoading(false)
   }
 
   return (
@@ -76,9 +80,15 @@ const ShippingAddressForm = ({ addr }) => {
           name='zipcode' value={forms.zipcode}
           onChange={handleChange} />
       </Form.Group>
-      <Form.Button
+      <Form.Group>
+        <LoaderButton
+          content="Save"
+          isLoading={isLoading}
+          color="green" size="large" />
+      </Form.Group>
+      {/* <Form.Button
         content="Save"
-        color="green" size="large" />
+        color="green" size="large" /> */}
     </StyledForm>
   )
 }

@@ -10,11 +10,11 @@ const ShippingAddress = () => {
   const { user } = useContext(AuthContext)
   const [addr, setAddr] = useState(
     user.addresses.length
-      ? user.addresses[0] : null
+      ? user.addresses[0] : ""
   )
   useEffect(() => {
     setAddr(user.addresses.length
-      ? user.addresses[0] : null)
+      ? user.addresses[0] : "")
   }, [user])
 
   const [isEditMode, setIsEditMode] = useState(
@@ -25,7 +25,7 @@ const ShippingAddress = () => {
   }, [addr])
 
   const handleChange = () => {
-    setIsEditMode(true)
+    setIsEditMode(!isEditMode)
   }
 
   return (
@@ -42,7 +42,8 @@ const ShippingAddress = () => {
         <Grid.Column width={7}>
           {!isEditMode &&
             <div>
-              <div>{user.firstName + ' ' + user.lastName}</div>
+              <div>{addr.firstName + ' ' + addr.middleName + ' ' + addr.lastName}</div>
+              <div>{addr.email}</div>
               <div>{`${addr.streetName}, Unit/Apt# ${addr.unit}`}</div>
               <div>{`${addr.city}, ${addr.state} ${addr.zipcode}`}</div>
               <div>United States</div>
@@ -50,8 +51,10 @@ const ShippingAddress = () => {
             </div>}
         </Grid.Column>
         <Grid.Column width={2}>
-          <ChangeCheckoutInfo
-            handleChange={handleChange} />
+          {addr &&
+            <ChangeCheckoutInfo
+              isEditMode={isEditMode}
+              handleChange={handleChange} />}
         </Grid.Column>
       </Grid>
       {isEditMode &&
