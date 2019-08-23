@@ -13,7 +13,7 @@ const Change = styled.div`
 const ChangeCheckoutInfo = (props) => {
   return (
     <Change onClick={props.handleChange}>
-      {props.isEditMode ? "Cancel" : "Change"}
+      {props.isAddrSelectorMode ? "Cancel" : "Change"}
     </Change>
   )
 }

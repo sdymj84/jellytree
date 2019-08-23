@@ -19,6 +19,16 @@ const userReducer = (user, action) => {
       }
     case 'REMOVE_ADDRESS':
       break
+
+    case 'SET_SHIPPING_ADDRESS_SUCCESS':
+      return {
+        ...user,
+        shippingAddress: action.payload.address
+      }
+    case 'SET_SHIPPING_ADDRESS_ERROR':
+      console.log(action.payload.error)
+      return user
+
     case 'ADD_PAYMENT':
       break
     case 'MODIFY_PAYMENT':

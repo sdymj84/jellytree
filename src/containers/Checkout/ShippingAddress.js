@@ -2,30 +2,27 @@ import React, { Fragment, useContext, useState, useEffect } from 'react'
 import { Grid, Header } from "semantic-ui-react";
 import ChangeCheckoutInfo from '../../components/ChangeCheckoutInfo'
 import CheckoutStepNumber from '../../components/CheckoutStepNumber'
-import ShippingAddressForm from './ShippingAddressForm';
 import { AuthContext } from '../../contexts/AuthContext';
+import AddrSelector from './AddrSelector';
 
 
 const ShippingAddress = () => {
-  const { user } = useContext(AuthContext)
-  const [addr, setAddr] = useState(
-    user.addresses.length
-      ? user.addresses[0] : ""
-  )
+  const { user, dispatchUser } = useContext(AuthContext)
+  const [addr, setAddr] = useState(user.shippingAddress)
+
   useEffect(() => {
-    setAddr(user.addresses.length
-      ? user.addresses[0] : "")
+    setAddr(user.shippingAddress)
   }, [user])
 
-  const [isEditMode, setIsEditMode] = useState(
+  const [isAddrSelectorMode, setIsAddrSelectorMode] = useState(
     addr ? false : true
   )
   useEffect(() => {
-    setIsEditMode(addr ? false : true)
+    setIsAddrSelectorMode(addr ? false : true)
   }, [addr])
 
   const handleChange = () => {
-    setIsEditMode(!isEditMode)
+    setIsAddrSelectorMode(!isAddrSelectorMode)
   }
 
   return (
@@ -40,7 +37,7 @@ const ShippingAddress = () => {
         </Header>
         </Grid.Column>
         <Grid.Column width={7}>
-          {!isEditMode &&
+          {!isAddrSelectorMode &&
             <div>
               <div>{addr.firstName + ' ' + addr.middleName + ' ' + addr.lastName}</div>
               <div>{addr.email}</div>
@@ -53,12 +50,15 @@ const ShippingAddress = () => {
         <Grid.Column width={2}>
           {addr &&
             <ChangeCheckoutInfo
-              isEditMode={isEditMode}
+              isAddrSelectorMode={isAddrSelectorMode}
               handleChange={handleChange} />}
         </Grid.Column>
       </Grid>
-      {isEditMode &&
-        <ShippingAddressForm addr={addr} />}
+      {isAddrSelectorMode &&
+        <AddrSelector
+          user={user}
+          dispatchUser={dispatchUser}
+          addresses={user.addresses} />}
     </Fragment>
   )
 }

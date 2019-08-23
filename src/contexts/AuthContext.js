@@ -97,7 +97,6 @@ const AuthContextProvider = (props) => {
     }
   }
 
-  console.log(user)
   return (
     <AuthContext.Provider value={{
       user, dispatchUser, uiConfig, auth, db,

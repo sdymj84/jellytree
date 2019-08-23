@@ -1,15 +1,17 @@
 import React, { useState, useContext } from 'react'
-import { Form } from 'semantic-ui-react'
+import { Form, Button } from 'semantic-ui-react'
 import styled from 'styled-components'
 import { AuthContext } from '../../contexts/AuthContext';
-import { addAddress } from '../../actions/authAction';
+import {
+  addAddress, setShippingAddress
+} from '../../actions/authAction';
 import LoaderButton from '../../components/LoaderButton';
 
 const StyledForm = styled(Form)`
   margin-top: 1.5em;
 `
 
-const ShippingAddressForm = ({ addr }) => {
+const ShippingAddressForm = ({ addr, setIsShowAddrForm }) => {
   const { user, dispatchUser } = useContext(AuthContext)
   const [forms, setForms] = useState({
     email: addr ? addr.email : "",
@@ -34,8 +36,14 @@ const ShippingAddressForm = ({ addr }) => {
   const [isLoading, setIsLoading] = useState(false)
   const handleSubmit = async () => {
     setIsLoading(true)
-    await addAddress(user, forms, dispatchUser)
+    const newUser = await addAddress(user, forms, dispatchUser)
+    await setShippingAddress(newUser, forms, dispatchUser)
     setIsLoading(false)
+  }
+
+  const handleCancelClick = (e) => {
+    e.preventDefault()
+    setIsShowAddrForm(false)
   }
 
   return (
@@ -82,13 +90,15 @@ const ShippingAddressForm = ({ addr }) => {
       </Form.Group>
       <Form.Group>
         <LoaderButton
+          style={{ marginLeft: '7px' }}
           content="Save"
           isLoading={isLoading}
-          color="green" size="large" />
+          color="green" size="small" />
+        <Button
+          content="Cancel"
+          color="orange" size="small"
+          onClick={handleCancelClick} />
       </Form.Group>
-      {/* <Form.Button
-        content="Save"
-        color="green" size="large" /> */}
     </StyledForm>
   )
 }
