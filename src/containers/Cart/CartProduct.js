@@ -41,7 +41,7 @@ const Product = styled(Segment)`
   }
 `
 
-const CartProduct = ({ product, history }) => {
+const CartProduct = ({ product, history, location }) => {
   const { user } = useContext(AuthContext)
   const {
     dispatchCartProducts, dispatchCart,
@@ -265,7 +265,7 @@ const CartProduct = ({ product, history }) => {
         yesButton="Yes, Sign In"
         noButton="No, Stay Anonymous"
         handleYesClick={() => {
-          history.push('/signin')
+          history.push(`/signin?redirectUrl=${location.pathname}`)
           handleModalClose()
         }} />
     </Product>

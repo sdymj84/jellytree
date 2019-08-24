@@ -4,6 +4,7 @@ import ChangeCheckoutInfo from '../../components/ChangeCheckoutInfo'
 import CheckoutStepNumber from '../../components/CheckoutStepNumber'
 import { AuthContext } from '../../contexts/AuthContext';
 import AddrSelector from './AddrSelector';
+import _ from 'lodash'
 
 
 const ShippingAddress = () => {
@@ -15,10 +16,10 @@ const ShippingAddress = () => {
   }, [user])
 
   const [isAddrSelectorMode, setIsAddrSelectorMode] = useState(
-    addr ? false : true
+    _.isEmpty(addr) ? true : false
   )
   useEffect(() => {
-    setIsAddrSelectorMode(addr ? false : true)
+    setIsAddrSelectorMode(_.isEmpty(addr) ? true : false)
   }, [addr])
 
   const handleChange = () => {
