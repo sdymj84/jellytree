@@ -8,20 +8,20 @@ import Scarves from './Scarves/Scarves'
 import AllCollections from './AllCollections/AllCollections';
 import Product from './Products/Product/Product'
 import Checkout from './Checkout/Checkout';
-import AuthenticatedRoute from '../components/AuthenticatedRoute';
+import UnauthenticatedRoute from '../components/UnauthenticatedRoute';
 
 
 const Routes = () => {
   return (
     <Switch>
       <Route exact path="/" component={Home} />
-      <Route path="/signin" component={SignIn} />
+      <UnauthenticatedRoute path="/signin" component={SignIn} />
       <Route path="/bonnets" component={Bonnets} />
       <Route path="/hats" component={Hats} />
       <Route path="/scarves" component={Scarves} />
       <Route path="/all-collections" component={AllCollections} />
       <Route path="/product/:id" component={Product} />
-      <AuthenticatedRoute path="/checkout" component={Checkout} />
+      <Route path="/checkout" component={Checkout} />
     </Switch>
   )
 }

@@ -46,17 +46,16 @@ const PostSignIn = () => {
   }
 
 
-  // const [uid, setUid] = useState("")
+  const [uid, setUid] = useState("")
   const [cartSnapshot, setCartSnapshot] = useState("")
-  const [sessionCart, setSessionCart] = useState(
+  const [sessionCart] = useState(
     JSON.parse(sessionStorage.getItem('cart')) || []
   )
+  // const sessionCart = JSON.parse(sessionStorage.getItem('cart')) || []
 
 
   const signIn = useCallback(async (authUser) => {
-    const { uid } = authUser
-    // setUid(uid)
-    if (!db) { return }
+    if (!db || !uid) { return }
 
     const userSnapshot = await db.collection('users')
       .where('uid', '==', uid).get()
@@ -126,7 +125,7 @@ const PostSignIn = () => {
         // No user cart : just copy session cart to user cart
         if (cartSnapshot.empty) {
           console.log("Your user cart is empty, saving session cart to db")
-          handleMoveSessionToDB(false, uid)
+          handleMoveSessionToDB(false)
         }
         // There's user cart : merge? or saveToLater?
         else {
@@ -139,13 +138,14 @@ const PostSignIn = () => {
       console.log("Error getting user data from DB", e)
     }
     // eslint-disable-next-line
-  }, [db, dispatchUser])
+  }, [db, dispatchUser, uid])
 
 
   useEffect(() => {
     if (auth) {
       const unsubscribe = auth.onAuthStateChanged(authUser => {
         if (authUser) {
+          setUid(authUser.uid)
           signIn(authUser)
         } else {
           dispatchUser({
@@ -175,7 +175,8 @@ const PostSignIn = () => {
   }
 
 
-  const handleMoveSessionToDB = async (isCartMoved, uid) => {
+  const handleMoveSessionToDB = async (isCartMoved) => {
+    console.log(uid)
     // Store session cart (with uid) in cart db
     const newSessionCart = await Promise.all(sessionCart.map(async product => {
       await db.collection('cart').doc(product.id).set({

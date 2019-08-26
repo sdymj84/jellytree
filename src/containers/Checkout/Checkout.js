@@ -1,5 +1,5 @@
 import React, {
-  Fragment, useState, useEffect
+  Fragment, useState, useEffect, useContext
 } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -9,6 +9,8 @@ import {
 } from "semantic-ui-react";
 import CheckoutCart from '../Cart/CheckoutCart';
 import CheckoutSteps from './CheckoutSteps'
+import { AuthContext } from '../../contexts/AuthContext';
+import { withRouter } from "react-router-dom";
 
 const Container = styled.div`
   margin: 3em auto;
@@ -46,7 +48,7 @@ const Head = styled.div`
   }
 `
 
-const Checkout = () => {
+const Checkout = (props) => {
   const [contextRef, setContextRef] = useState(React.createRef())
   useEffect(() => {
     if (!contextRef.current) {
@@ -54,6 +56,11 @@ const Checkout = () => {
     }
   }, [contextRef])
 
+  const { user } = useContext(AuthContext)
+  if (!user) {
+    props.history.push(`/signin?redirectUrl=${window.location.pathname}`)
+    return null
+  }
 
 
   return (
@@ -85,4 +92,4 @@ const Checkout = () => {
   )
 }
 
-export default Checkout
+export default withRouter(Checkout)
