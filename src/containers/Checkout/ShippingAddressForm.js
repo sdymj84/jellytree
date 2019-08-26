@@ -94,10 +94,10 @@ const ShippingAddressForm = ({ addr, setIsShowAddrForm }) => {
           content="Save"
           isLoading={isLoading}
           color="green" size="small" />
-        <Button
+        {!isLoading && <Button
           content="Cancel"
           color="orange" size="small"
-          onClick={handleCancelClick} />
+          onClick={handleCancelClick} />}
       </Form.Group>
     </StyledForm>
   )

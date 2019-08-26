@@ -40,7 +40,7 @@ const AddrSelector = ({ addresses, user, dispatchUser }) => {
     setIsLoading(false)
   }
 
-  const [selectedAddrId, setSelectedAddrId] = useState("")
+  const [selectedAddrId, setSelectedAddrId] = useState(user.shippingAddress.id)
   const handleAddrChange = (e, { value }) => {
     setSelectedAddrId(value)
   }

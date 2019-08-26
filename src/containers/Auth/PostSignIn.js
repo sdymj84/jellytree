@@ -176,7 +176,6 @@ const PostSignIn = () => {
 
 
   const handleMoveSessionToDB = async (isCartMoved) => {
-    console.log(uid)
     // Store session cart (with uid) in cart db
     const newSessionCart = await Promise.all(sessionCart.map(async product => {
       await db.collection('cart').doc(product.id).set({

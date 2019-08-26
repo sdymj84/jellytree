@@ -132,66 +132,6 @@ const Products = () => {
               sizeFilters={sizeFilters}
               filteredProducts={filteredProducts}
               setFilteredProducts={setFilteredProducts} />
-            <FilteredProducts
-              products={products}
-              colorFilters={colorFilters}
-              sizeFilters={sizeFilters}
-              filteredProducts={filteredProducts}
-              setFilteredProducts={setFilteredProducts} />
-            <FilteredProducts
-              products={products}
-              colorFilters={colorFilters}
-              sizeFilters={sizeFilters}
-              filteredProducts={filteredProducts}
-              setFilteredProducts={setFilteredProducts} />
-            <FilteredProducts
-              products={products}
-              colorFilters={colorFilters}
-              sizeFilters={sizeFilters}
-              filteredProducts={filteredProducts}
-              setFilteredProducts={setFilteredProducts} />
-            <FilteredProducts
-              products={products}
-              colorFilters={colorFilters}
-              sizeFilters={sizeFilters}
-              filteredProducts={filteredProducts}
-              setFilteredProducts={setFilteredProducts} />
-            <FilteredProducts
-              products={products}
-              colorFilters={colorFilters}
-              sizeFilters={sizeFilters}
-              filteredProducts={filteredProducts}
-              setFilteredProducts={setFilteredProducts} />
-            <FilteredProducts
-              products={products}
-              colorFilters={colorFilters}
-              sizeFilters={sizeFilters}
-              filteredProducts={filteredProducts}
-              setFilteredProducts={setFilteredProducts} />
-            <FilteredProducts
-              products={products}
-              colorFilters={colorFilters}
-              sizeFilters={sizeFilters}
-              filteredProducts={filteredProducts}
-              setFilteredProducts={setFilteredProducts} />
-            <FilteredProducts
-              products={products}
-              colorFilters={colorFilters}
-              sizeFilters={sizeFilters}
-              filteredProducts={filteredProducts}
-              setFilteredProducts={setFilteredProducts} />
-            <FilteredProducts
-              products={products}
-              colorFilters={colorFilters}
-              sizeFilters={sizeFilters}
-              filteredProducts={filteredProducts}
-              setFilteredProducts={setFilteredProducts} />
-            <FilteredProducts
-              products={products}
-              colorFilters={colorFilters}
-              sizeFilters={sizeFilters}
-              filteredProducts={filteredProducts}
-              setFilteredProducts={setFilteredProducts} />
           </ProductsContainer>
         </Ref>
       </Container>
