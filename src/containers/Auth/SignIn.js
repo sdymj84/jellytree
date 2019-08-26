@@ -15,12 +15,16 @@ const Container = styled.div`
 
 const SignIn = () => {
   const { auth, uiConfig, setKeepSignin } = useContext(AuthContext)
-  const [checked, setChecked] = useState(false)
+  const [checked, setChecked] = useState(JSON.parse(
+    localStorage.getItem('keepSignin')
+  ))
   const handleCheckboxChange = () => {
     setChecked(!checked)
     setKeepSignin(!checked)
     localStorage.setItem('keepSignin', JSON.stringify(!checked))
   }
+
+  if (!auth) { return null }
 
   return (
     <Container>
@@ -31,11 +35,9 @@ const SignIn = () => {
           onChange={handleCheckboxChange}
           checked={checked} />
       } />
-
-      {auth &&
         <StyledFirebaseAuth
           uiConfig={uiConfig}
-          firebaseAuth={auth} />}
+          firebaseAuth={auth} />
     </Container>
   )
 }

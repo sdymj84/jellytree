@@ -127,8 +127,7 @@ const CartContextProvider = (props) => {
       }
     }
     setCartProducts(cart.data, cart.loading, cart.error)
-    // eslint-disable-next-line
-  }, [cart])
+  }, [cart, user])
 
   const [saveForLaterProducts, dispatchSaveForLaterProducts] = useReducer(saveForLaterProductReducer, { loading: true })
   useEffect(() => {

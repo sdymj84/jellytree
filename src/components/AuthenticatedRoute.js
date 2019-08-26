@@ -4,10 +4,11 @@ import { AuthContext } from '../contexts/AuthContext';
 
 const AuthenticatedRoute = ({ component: C, ...rest }) => {
   const { user } = useContext(AuthContext)
+  const isSignedIn = user && user !== 'loading'
   return (
     <Route {...rest}
       render={props =>
-        user
+        isSignedIn
           ? <C {...props} />
           : <Redirect to={`/signin?redirectUrl=${window.location.pathname}`} />}
     />

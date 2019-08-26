@@ -46,13 +46,16 @@ const PostSignIn = () => {
   }
 
 
-  const [uid, setUid] = useState("")
+  // const [uid, setUid] = useState("")
   const [cartSnapshot, setCartSnapshot] = useState("")
-  const [sessionCart, setSessionCart] = useState([])
+  const [sessionCart, setSessionCart] = useState(
+    JSON.parse(sessionStorage.getItem('cart')) || []
+  )
+
 
   const signIn = useCallback(async (authUser) => {
     const { uid } = authUser
-    setUid(uid)
+    // setUid(uid)
     if (!db) { return }
 
     const userSnapshot = await db.collection('users')
@@ -95,44 +98,49 @@ const PostSignIn = () => {
     // Existing user signed in
     else {
       console.log('hello again')
-      try {
-        userSnapshot.forEach(userDoc => {
-          dispatchUser({
-            type: 'SET_USER',
-            payload: { user: userDoc.data() }
-          })
-          sessionStorage.setItem('user', JSON.stringify(userDoc.data()))
+      userSnapshot.forEach(userDoc => {
+        dispatchUser({
+          type: 'SET_USER',
+          payload: { user: userDoc.data() }
         })
-        const sessionCart = JSON.parse(sessionStorage.getItem('cart')) || []
-        setSessionCart(sessionCart)
-
-        // No session cart : user login without adding cart
-        if (!sessionCart.length) {
-          console.log("user logged in without adding cart")
-        }
-        // There's session cart : user added cart and login
-        else {
-          console.log("user added cart anonymously and logged in")
-          const cartSnapshot = await db.collection('cart')
-            .where('uid', '==', uid).get()
-          setCartSnapshot(cartSnapshot)
-
-          // No user cart : just copy session cart to user cart
-          if (cartSnapshot.empty) {
-            console.log("Your user cart is empty, saving session cart to db")
-          }
-          // There's user cart : merge? or saveToLater?
-          else {
-            setModalShow(true)
-            setModalMessage("You have previously saved cart products, " +
-              "would you like to merge with the new ones?")
-          }
-        }
-      } catch (e) {
-        console.log("Error getting user data from DB", e)
-      }
+        sessionStorage.setItem('user', JSON.stringify(userDoc.data()))
+      })
     }
+
+
+    try {
+      // const sessionCart = JSON.parse(sessionStorage.getItem('cart')) || []
+      // setSessionCart(sessionCart)
+
+      // No session cart : user login without adding cart
+      if (!sessionCart.length) {
+        console.log("user logged in without adding cart")
+      }
+      // There's session cart : user added cart and login
+      else {
+        console.log("user added cart anonymously and logged in")
+        const cartSnapshot = await db.collection('cart')
+          .where('uid', '==', uid).get()
+        setCartSnapshot(cartSnapshot)
+
+        // No user cart : just copy session cart to user cart
+        if (cartSnapshot.empty) {
+          console.log("Your user cart is empty, saving session cart to db")
+          handleMoveSessionToDB(false, uid)
+        }
+        // There's user cart : merge? or saveToLater?
+        else {
+          setModalShow(true)
+          setModalMessage("You have previously saved cart products, " +
+            "would you like to merge with the new ones?")
+        }
+      }
+    } catch (e) {
+      console.log("Error getting user data from DB", e)
+    }
+    // eslint-disable-next-line
   }, [db, dispatchUser])
+
 
   useEffect(() => {
     if (auth) {
@@ -167,7 +175,7 @@ const PostSignIn = () => {
   }
 
 
-  const handleMoveSessionToDB = async (isCartMoved) => {
+  const handleMoveSessionToDB = async (isCartMoved, uid) => {
     // Store session cart (with uid) in cart db
     const newSessionCart = await Promise.all(sessionCart.map(async product => {
       await db.collection('cart').doc(product.id).set({
@@ -187,6 +195,7 @@ const PostSignIn = () => {
 
     handleModalClose()
   }
+
 
 
   return (
