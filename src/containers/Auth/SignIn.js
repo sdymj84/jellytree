@@ -19,8 +19,8 @@ const SignIn = () => {
     JSON.parse(localStorage.getItem('keepSignin'))
   )
   const handleCheckboxChange = () => {
-    setChecked(!checked)
-    setKeepSignin(!checked)
+    setChecked(prevChecked => !prevChecked)
+    setKeepSignin(prevChecked => !prevChecked)
     localStorage.setItem('keepSignin', JSON.stringify(!checked))
   }
 
