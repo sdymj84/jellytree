@@ -49,7 +49,7 @@ const Head = styled.div`
 `
 
 const Checkout = (props) => {
-  const [contextRef, setContextRef] = useState(React.createRef())
+  const [contextRef, setContextRef] = useState(() => React.createRef())
   useEffect(() => {
     if (!contextRef.current) {
       setContextRef(React.createRef())

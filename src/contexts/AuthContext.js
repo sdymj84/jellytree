@@ -37,7 +37,7 @@ const AuthContextProvider = (props) => {
 
   const [auth, setAuth] = useState("")
   const [db, setDb] = useState("")
-  const [keepSignin, setKeepSignin] = useState(
+  const [keepSignin, setKeepSignin] = useState(() =>
     JSON.parse(localStorage.getItem('keepSignin'))
   )
 

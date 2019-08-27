@@ -27,7 +27,7 @@ const Title = styled.div`
 `
 
 const Bonnets = () => {
-  const [isScrollDownClicked, setIsScrollDownClicked] = useState(
+  const [isScrollDownClicked, setIsScrollDownClicked] = useState(() =>
     sessionStorage.getItem('isScrollDownClicked')
   )
   const handleScrollDown = () => {

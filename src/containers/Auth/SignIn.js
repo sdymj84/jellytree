@@ -15,9 +15,9 @@ const Container = styled.div`
 
 const SignIn = () => {
   const { auth, uiConfig, setKeepSignin } = useContext(AuthContext)
-  const [checked, setChecked] = useState(JSON.parse(
-    localStorage.getItem('keepSignin')
-  ))
+  const [checked, setChecked] = useState(() =>
+    JSON.parse(localStorage.getItem('keepSignin'))
+  )
   const handleCheckboxChange = () => {
     setChecked(!checked)
     setKeepSignin(!checked)

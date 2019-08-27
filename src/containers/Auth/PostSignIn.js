@@ -48,10 +48,9 @@ const PostSignIn = () => {
 
   const [uid, setUid] = useState("")
   const [cartSnapshot, setCartSnapshot] = useState("")
-  const [sessionCart] = useState(
+  const [sessionCart] = useState(() =>
     JSON.parse(sessionStorage.getItem('cart')) || []
   )
-  // const sessionCart = JSON.parse(sessionStorage.getItem('cart')) || []
 
 
   const signIn = useCallback(async (authUser) => {
@@ -108,9 +107,6 @@ const PostSignIn = () => {
 
 
     try {
-      // const sessionCart = JSON.parse(sessionStorage.getItem('cart')) || []
-      // setSessionCart(sessionCart)
-
       // No session cart : user login without adding cart
       if (!sessionCart.length) {
         console.log("user logged in without adding cart")

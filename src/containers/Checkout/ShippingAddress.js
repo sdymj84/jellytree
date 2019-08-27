@@ -16,7 +16,7 @@ const ShippingAddress = () => {
   }, [user])
 
   const [isAddrSelectorMode, setIsAddrSelectorMode] = useState(
-    _.isEmpty(addr) ? true : false
+    () => _.isEmpty(addr) ? true : false
   )
   useEffect(() => {
     setIsAddrSelectorMode(_.isEmpty(addr) ? true : false)

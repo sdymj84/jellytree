@@ -28,7 +28,7 @@ const ProductsContainer = styled.div`
 `
 
 const Products = () => {
-  const [contextRef, setContextRef] = useState(React.createRef())
+  const [contextRef, setContextRef] = useState(() => React.createRef())
   useEffect(() => {
     if (!contextRef.current) {
       setContextRef(React.createRef())
@@ -67,10 +67,10 @@ const Products = () => {
 
 
   // Controlled filter states
-  const [colorFilters, setColorFilters] = useState(
+  const [colorFilters, setColorFilters] = useState(() =>
     JSON.parse(sessionStorage.getItem('colorFilters')) || []
   )
-  const [sizeFilters, setSizeFilters] = useState(
+  const [sizeFilters, setSizeFilters] = useState(() =>
     JSON.parse(sessionStorage.getItem('sizeFilters')) || []
   )
   useEffect(() => {
