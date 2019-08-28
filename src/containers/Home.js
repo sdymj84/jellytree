@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import MainImage from '../assets/main-photos/home_main.jpg'
 import Title from '../components/Title'
 import DownArrowIcon from '../components/DownArrowIcon'
+import { useRenderCount } from '../hooks/useRenderCount';
+
 
 const Container = styled.div`
 `
@@ -21,6 +23,7 @@ const Jumbotron = styled.div`
 `
 
 const Home = () => {
+  useRenderCount('Home')
   return (
     <Container>
       <Jumbotron>
