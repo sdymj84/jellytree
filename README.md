@@ -39,3 +39,6 @@
   - new cart > signin
   - new cart > signin with old cart
 
+- Structure changes
+  - Issue: Used React Context API / Hooks for all data and it caused exceeded amount of unnessarity reredners
+  - Resolution: Changed Cart context to Redux

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import {
   Container, Button, Segment,
@@ -9,6 +9,9 @@ import styled from 'styled-components'
 import CartProduct from './CartProduct'
 import theme from '../../theme'
 import _ from 'lodash'
+import { connect } from "react-redux";
+import { listCartProducts } from '../../actions/cartActions';
+import { AuthContext } from '../../contexts/AuthContext';
 
 const isMobile = window.innerWidth < 600
 
@@ -35,8 +38,31 @@ const Subtotal = styled.div`
 const Cart = (props) => {
   const {
     dispatchCart,
-    cartProducts, cartRefetch,
+    // cartProducts, 
+    cartRefetch,
   } = useContext(CartContext)
+
+
+
+
+  // ==== Test code =====================
+
+  const { user } = useContext(AuthContext)
+  const { listCartProducts } = props
+
+  useEffect(() => {
+    user !== 'loading' && listCartProducts(user)
+  }, [user, listCartProducts])
+
+  console.log(props.cart)
+  const { cartProducts } = props.cart
+
+  // ====================================
+
+
+
+
+
 
   const handleCheckout = () => {
     dispatchCart({
@@ -48,7 +74,7 @@ const Cart = (props) => {
   const itemCounts = cartProducts.length
   const subtotal = _.sumBy(cartProducts, product => Number(product.totalPrice))
 
-  if (cartProducts.loading) {
+  if (props.cart.isLoading) {
     return (
       <StyledContainer>
         <Segment placeholder loading />
@@ -56,7 +82,7 @@ const Cart = (props) => {
     )
   }
 
-  if (cartProducts.error) {
+  if (props.cart.error) {
     return (
       <StyledContainer>
         <Segment placeholder>
@@ -119,4 +145,19 @@ const Cart = (props) => {
   )
 }
 
-export default withRouter(Cart)
+
+
+const mapStateToProps = (state) => {
+  return {
+    cart: state.cart
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    listCartProducts: (uid) => dispatch(listCartProducts(uid))
+  }
+}
+
+export default withRouter(connect(
+  mapStateToProps, mapDispatchToProps)(Cart))

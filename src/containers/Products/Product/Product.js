@@ -14,6 +14,8 @@ import urls from '../../../urls'
 import { CartContext } from '../../../contexts/CartContext'
 import uuidv1 from 'uuid/v1'
 import { AuthContext } from '../../../contexts/AuthContext'
+import { addCartProduct } from '../../../actions/cartActions';
+import { connect } from "react-redux";
 
 const isMobile = window.innerWidth < 600
 
@@ -197,6 +199,11 @@ const Product = (props) => {
     const pid = product && product.pid
     if (pid) {
       setSelectedProductId(pid)
+      props.addCartProduct({
+        id: pid,
+        title: 'test',
+        price: '1'
+      })
     } else {
       executeScroll()
       setSizeNotSelected(true)
@@ -343,4 +350,11 @@ const Product = (props) => {
 }
 
 
-export default Product
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addCartProduct: (newCartProduct) => dispatch(addCartProduct(newCartProduct))
+  }
+}
+
+
+export default connect(null, mapDispatchToProps)(Product)
