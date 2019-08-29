@@ -1,6 +1,6 @@
 import React, {
   createContext, useReducer,
-  useEffect, useContext, useMemo,
+  useEffect, useContext
 } from 'react'
 import useAxios from 'axios-hooks'
 import urls from '../urls';
@@ -155,18 +155,13 @@ const CartContextProvider = (props) => {
   }, [saveForLater])
 
   const [visibleCart, dispatchCart] = useReducer(cartReducer, false)
-  const providerValues = useMemo(() => ({
-    cartProducts, dispatchCartProducts, cartRefetch,
-    saveForLaterProducts, dispatchSaveForLaterProducts, saveForLaterRefetch,
-    visibleCart, dispatchCart
-  }), [
+
+  return (
+    <CartContext.Provider value={{
       cartProducts, dispatchCartProducts, cartRefetch,
       saveForLaterProducts, dispatchSaveForLaterProducts, saveForLaterRefetch,
       visibleCart, dispatchCart
-    ])
-
-  return (
-    <CartContext.Provider value={providerValues}>
+    }}>
       {props.children}
     </CartContext.Provider >
   )

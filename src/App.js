@@ -8,8 +8,6 @@ import CartContextProvider from './contexts/CartContext';
 import DbContextProvider from './contexts/DbContext';
 import AuthContextProvider from './contexts/AuthContext';
 import PostSignIn from './containers/Auth/PostSignIn';
-import { store } from "./store/store";
-import { StoreProvider } from "easy-peasy";
 
 function App() {
   const contextRef = React.createRef()
@@ -19,15 +17,13 @@ function App() {
         <DbContextProvider>
           <AuthContextProvider>
             <CartContextProvider>
-              <StoreProvider store={store}>
-                <PostSignIn />
-                {window.innerWidth < 600
-                  ? <MobileHeader />
-                  : <Header
-                    contextRef={contextRef} />}
-                <RoutesWithSidebar />
-                <Footer />
-              </StoreProvider>
+              <PostSignIn />
+              {window.innerWidth < 600
+                ? <MobileHeader />
+                : <Header
+                  contextRef={contextRef} />}
+              <RoutesWithSidebar />
+              <Footer />
             </CartContextProvider>
           </AuthContextProvider>
         </DbContextProvider>

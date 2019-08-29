@@ -14,7 +14,6 @@ import urls from '../../../urls'
 import { CartContext } from '../../../contexts/CartContext'
 import uuidv1 from 'uuid/v1'
 import { AuthContext } from '../../../contexts/AuthContext'
-import { useStoreActions } from "easy-peasy";
 
 const isMobile = window.innerWidth < 600
 
@@ -91,8 +90,6 @@ const useScroll = () => {
 
 
 const Product = (props) => {
-  const addProductToCart = useStoreActions(actions =>
-    actions.cart.addProduct)
   const { user } = useContext(AuthContext)
   const [executeScroll, scrollHtmlAttributes] = useScroll()
   const [productInfo, setProductInfo] = useState("")
@@ -200,11 +197,6 @@ const Product = (props) => {
     const pid = product && product.pid
     if (pid) {
       setSelectedProductId(pid)
-      addProductToCart({
-        id: pid,
-        title: 'scarf',
-        price: '11.99'
-      })
     } else {
       executeScroll()
       setSizeNotSelected(true)

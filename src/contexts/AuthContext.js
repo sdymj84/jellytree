@@ -1,6 +1,6 @@
 import React, {
-  createContext, useState, useCallback,
-  useEffect, useReducer, useMemo,
+  createContext, useState,
+  useEffect, useReducer,
 } from 'react'
 import firebase from 'firebase/app'
 import 'firebase/auth'
@@ -61,7 +61,7 @@ const AuthContextProvider = (props) => {
 
   }, [auth, keepSignin])
 
-  const signOut = useCallback(() => {
+  const signOut = () => {
     if (auth) {
       auth.signOut().then(() => {
         console.log("signed out")
@@ -71,19 +71,13 @@ const AuthContextProvider = (props) => {
         console.log("failed to sign out")
       })
     }
-  }, [auth])
-
-
-  const providerValues = useMemo(() => ({
-    user, dispatchUser, uiConfig, auth, db,
-    signOut, keepSignin, setKeepSignin
-  }), [
-      user, dispatchUser, auth, db,
-      signOut, keepSignin, setKeepSignin
-    ])
+  }
 
   return (
-    <AuthContext.Provider value={providerValues}>
+    <AuthContext.Provider value={{
+      user, dispatchUser, uiConfig, auth, db,
+      signOut, keepSignin, setKeepSignin,
+    }}>
       {props.children}
     </AuthContext.Provider>
   )

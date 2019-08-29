@@ -9,7 +9,6 @@ import styled from 'styled-components'
 import CartProduct from './CartProduct'
 import theme from '../../theme'
 import _ from 'lodash'
-import { useStoreState } from "easy-peasy";
 
 const isMobile = window.innerWidth < 600
 
@@ -34,10 +33,6 @@ const Subtotal = styled.div`
 
 
 const Cart = (props) => {
-  const cartStore = useStoreState(state =>
-    state.cart.cartProducts)
-  console.log(cartStore)
-
   const {
     dispatchCart,
     cartProducts, cartRefetch,
