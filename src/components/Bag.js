@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { Icon } from 'semantic-ui-react'
 import { CartContext } from '../contexts/CartContext'
+import { connect } from "react-redux";
 
 const Container = styled.div`
   margin-left: 0.4em;
@@ -26,16 +27,23 @@ const Container = styled.div`
 `
 
 const Bag = (props) => {
-  const { dispatchCart, cartProducts } = useContext(CartContext)
+  const { dispatchCart } = useContext(CartContext)
   return (
     <Container onClick={() => dispatchCart({ type: 'OPEN_CART' })}>
       <div>
         <Icon name="shopping bag" size="big"
           style={{ margin: 'auto' }} />
       </div>
-      <div>Bag ({cartProducts.length})</div>
+      <div>Bag ({props.cartProducts.length})</div>
     </Container>
   )
 }
 
-export default Bag
+
+const mapStateToProps = (state) => {
+  return {
+    cartProducts: state.cart.cartProducts
+  }
+}
+
+export default connect(mapStateToProps)(Bag)

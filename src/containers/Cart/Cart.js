@@ -54,7 +54,6 @@ const Cart = (props) => {
     user !== 'loading' && listCartProducts(user)
   }, [user, listCartProducts])
 
-  console.log(props.cart)
   const { cartProducts } = props.cart
 
   // ====================================
@@ -116,7 +115,6 @@ const Cart = (props) => {
     )
   }
 
-
   return (
     <StyledContainer>
       {itemCounts > 2 &&
@@ -126,7 +124,7 @@ const Cart = (props) => {
           Proceed to Checkout
       </StyledButton>}
       {cartProducts.map(product =>
-        <CartProduct
+        product.id && <CartProduct
           key={product.id}
           product={product} />
       )}

@@ -91,6 +91,26 @@ const useScroll = () => {
 //=========================================================================
 
 
+// Create cart from product
+const createCartProduct = (user, product, pid) => {
+  const variation = _.find(product.variations, { 'pid': pid })
+  return {
+    id: uuidv1(),
+    uid: user ? user.uid : "",
+    productId: product.id,
+    pid: pid,
+    sku: variation.sku,
+    title: variation.title,
+    color: variation.color,
+    size: variation.size,
+    price: variation.price,
+    thumbnail: variation.thumbnail,
+    quantity: 1,
+    totalPrice: variation.price,
+  }
+}
+
+
 const Product = (props) => {
   const { user } = useContext(AuthContext)
   const [executeScroll, scrollHtmlAttributes] = useScroll()
@@ -193,79 +213,40 @@ const Product = (props) => {
 
 
   // When clicked Add to Cart
-  const [selectedProductId, setSelectedProductId] = useState("")
+  const { dispatchCart } = useContext(CartContext)
+  // const [selectedProductId, setSelectedProductId] = useState("")
   const handleAddToCart = () => {
     const product = _.find(productInfo.variations, { 'color': selectedColor, 'size': selectedSize })
     const pid = product && product.pid
     if (pid) {
-      setSelectedProductId(pid)
-      props.addCartProduct({
-        id: pid,
-        title: 'test',
-        price: '1'
-      })
+      // setSelectedProductId(pid)
+      dispatchCart({ type: 'OPEN_CART' })
+      const newCartProduct = createCartProduct(user, productInfo, pid)
+      props.addCartProduct(user, newCartProduct)
+
     } else {
       executeScroll()
       setSizeNotSelected(true)
     }
   }
-  const { dispatchCartProducts, dispatchCart } = useContext(CartContext)
-  useEffect(() => {
-    const addCartProduct = async () => {
-      if (!selectedProductId) { return }
-      try {
-        dispatchCart({ type: 'OPEN_CART' })
-        dispatchCartProducts({
-          type: 'ADD_PRODUCT_LOADING',
-          payload: { id: uuidv1(), loading: true }
-        })
-
-        const newCartProduct = createCartProduct(productInfo, selectedProductId)
-
-        if (user) {
-          // When user logged in, save to db
-          await axios.post(urls.setCartProduct, {
-            newCartProduct
-          })
-        } else {
-          // When user NOT logged in, save to session storage
-          const cartProducts = JSON.parse(sessionStorage.getItem('cart')) || []
-          const newCartProducts = [...cartProducts, newCartProduct]
-          sessionStorage.setItem('cart', JSON.stringify(newCartProducts))
-        }
-
-        dispatchCartProducts({
-          type: 'ADD_PRODUCT_SUCCESS',
-          payload: { newCartProduct }
-        })
-      } catch (e) {
-        console.log("Error while moving product to cart", e.response.data.message)
-      }
-    }
-    addCartProduct()
-    // eslint-disable-next-line
-  }, [productInfo, selectedProductId, dispatchCartProducts, dispatchCart])
 
 
 
-  // Create cart from product
-  const createCartProduct = (product, pid) => {
-    const variation = _.find(product.variations, { 'pid': pid })
-    return {
-      id: uuidv1(),
-      uid: user ? user.uid : "",
-      productId: product.id,
-      pid: pid,
-      sku: variation.sku,
-      title: variation.title,
-      color: variation.color,
-      size: variation.size,
-      price: variation.price,
-      thumbnail: variation.thumbnail,
-      quantity: 1,
-      totalPrice: variation.price,
-    }
-  }
+
+  // const { dispatchCartProducts, dispatchCart } = useContext(CartContext)
+  // const { addCartProduct } = props
+  // useEffect(() => {
+  //   if (!selectedProductId) { return }
+  //   dispatchCart({ type: 'OPEN_CART' })
+
+  //   const newCartProduct = createCartProduct(user, productInfo, selectedProductId)
+
+  //   addCartProduct(user, newCartProduct)
+
+  // }, [productInfo, selectedProductId, dispatchCartProducts,
+  //     dispatchCart, addCartProduct, user])
+
+
 
 
 
@@ -352,7 +333,8 @@ const Product = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addCartProduct: (newCartProduct) => dispatch(addCartProduct(newCartProduct))
+    addCartProduct: (user, newCartProduct) =>
+      dispatch(addCartProduct(user, newCartProduct))
   }
 }
 

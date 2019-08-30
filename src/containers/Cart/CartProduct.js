@@ -8,8 +8,9 @@ import axios from 'axios';
 import urls from '../../urls'
 import theme from '../../theme'
 import StockTrack from '../../components/StockTrack'
-import _ from 'lodash'
 import ConfirmModal from '../../components/ConfirmModal'
+import { connect } from "react-redux";
+import { deleteCartProduct, updateCartProductQty } from '../../actions/cartActions';
 
 const isMobile = window.innerWidth < 600
 
@@ -41,7 +42,8 @@ const Product = styled(Segment)`
   }
 `
 
-const CartProduct = ({ product, history, location }) => {
+const CartProduct = (props) => {
+  const { product, history, location } = props
   const { user } = useContext(AuthContext)
   const {
     dispatchCartProducts, dispatchCart,
@@ -69,71 +71,15 @@ const CartProduct = ({ product, history, location }) => {
 
 
   const [isLoading, setIsLoading] = useState(false)
+
+  // Handle update qty event
   const handleQtyUpdate = async () => {
-    try {
-      setIsLoading(true)
-      if (user) {
-        await axios.put(urls.updateCartProductQty, {
-          id: product.id,
-          price: product.price,
-          quantity
-        })
-      } else {
-        const cartProducts = JSON.parse(sessionStorage.getItem('cart'))
-        const newCartProducts = cartProducts.map(item =>
-          item.id === product.id
-            ? {
-              ...item, quantity,
-              totalPrice: Number(product.price) * Number(quantity)
-            }
-            : item
-        )
-        sessionStorage.setItem('cart', JSON.stringify(newCartProducts))
-      }
-
-      setIsLoading(false)
-      dispatchCartProducts({
-        type: 'UPDATE_QTY',
-        payload: {
-          id: product.id,
-          quantity
-        }
-      })
-    } catch (e) {
-      setIsLoading(false)
-      console.log("Error while updating quantity : ",
-        e.response.data.message)
-    }
+    props.updateCartProductQty(user, product.id, quantity, product.price)
   }
-
 
   // Handle delete event
   const handleDelete = async () => {
-    try {
-      setIsLoading(true)
-      if (user) {
-        await axios.put(urls.deleteCartProduct, {
-          id: product.id
-        })
-      } else {
-        const cartProducts = JSON.parse(sessionStorage.getItem('cart'))
-        const newCartProducts = _.filter(cartProducts,
-          cartProduct => cartProduct.id !== product.id)
-        sessionStorage.setItem('cart', JSON.stringify(newCartProducts))
-      }
-
-      setIsLoading(false)
-      dispatchCartProducts({
-        type: 'REMOVE_PRODUCT_SUCCESS',
-        payload: {
-          id: product.id
-        }
-      })
-    } catch (e) {
-      setIsLoading(false)
-      console.log("Error while deleting cart product : ",
-        e.response.data.message)
-    }
+    props.deleteCartProduct(user, product.id)
   }
 
   const [modalShow, setModalShow] = useState(false)
@@ -183,15 +129,14 @@ const CartProduct = ({ product, history, location }) => {
     })
   }
 
-  if (product.loading) {
+  if (product.isLoading) {
     return (
       <Segment placeholder loading />
     )
   }
 
-
   return (
-    <Product loading={isLoading}>
+    <Product loading={product.isLoading}>
       <div style={{ flexBasis: '23%', marginRight: '8px' }}>
         <Image
           className="img_link"
@@ -272,4 +217,14 @@ const CartProduct = ({ product, history, location }) => {
   )
 }
 
-export default withRouter(CartProduct)
+
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteCartProduct: (user, id) => dispatch(deleteCartProduct(user, id)),
+    updateCartProductQty: (user, id, quantity, price) =>
+      dispatch(updateCartProductQty(user, id, quantity, price))
+  }
+}
+
+export default withRouter(connect(null, mapDispatchToProps)(CartProduct))
