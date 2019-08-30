@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import {
   Container, Button, Segment,
   Header, Icon
@@ -6,6 +6,9 @@ import {
 import { CartContext } from '../../contexts/CartContext'
 import styled from 'styled-components'
 import SaveForLaterProduct from './SaveForLaterProduct';
+import { connect } from "react-redux";
+import { listSaveForLaterProducts } from '../../actions/saveForLaterActions';
+import { AuthContext } from '../../contexts/AuthContext';
 
 const isMobile = window.innerWidth < 600
 
@@ -20,10 +23,25 @@ const StyledContainer = styled(Container)`
 
 
 const SaveForLater = (props) => {
-  const {
-    saveForLaterProducts,
-    saveForLaterRefetch,
-  } = useContext(CartContext)
+  const { saveForLaterRefetch } = useContext(CartContext)
+
+
+  // ==== Test code =====================
+
+  const { user } = useContext(AuthContext)
+  const { listSaveForLaterProducts } = props
+
+  useEffect(() => {
+    user !== 'loading' && listSaveForLaterProducts(user)
+  }, [user, listSaveForLaterProducts])
+
+  const { saveForLaterProducts } = props.saveForLater
+
+  // ====================================
+
+
+
+
 
   if (saveForLaterProducts.loading) {
     return (
@@ -78,4 +96,17 @@ const SaveForLater = (props) => {
   )
 }
 
-export default SaveForLater
+
+const mapStateToProps = (state) => {
+  return {
+    saveForLater: state.saveForLater
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    listSaveForLaterProducts: (user) => dispatch(listSaveForLaterProducts(user))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SaveForLater)

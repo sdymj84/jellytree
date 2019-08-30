@@ -26,7 +26,10 @@ export const cartReducer = (state = initialState, action) => {
     case 'ADD_CART_PRODUCT_REQUEST':
       return {
         ...state,
-        cartProducts: [...state.cartProducts, { isLoading: true }]
+        cartProducts: [...state.cartProducts, {
+          isLoading: true,
+          id: action.payload.id
+        }]
       }
     case 'ADD_CART_PRODUCT_SUCCESS':
       return {

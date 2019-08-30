@@ -4,13 +4,12 @@ import styled from 'styled-components'
 import { Segment, Image, Input, Button } from 'semantic-ui-react'
 import { CartContext } from '../../contexts/CartContext'
 import { AuthContext } from '../../contexts/AuthContext'
-import axios from 'axios';
-import urls from '../../urls'
 import theme from '../../theme'
 import StockTrack from '../../components/StockTrack'
 import ConfirmModal from '../../components/ConfirmModal'
 import { connect } from "react-redux";
 import { deleteCartProduct, updateCartProductQty } from '../../actions/cartActions';
+import { addSaveForLaterProduct } from '../../actions/saveForLaterActions';
 
 const isMobile = window.innerWidth < 600
 
@@ -45,14 +44,11 @@ const Product = styled(Segment)`
 const CartProduct = (props) => {
   const { product, history, location } = props
   const { user } = useContext(AuthContext)
-  const {
-    dispatchCartProducts, dispatchCart,
-    dispatchSaveForLaterProducts,
-  } = useContext(CartContext)
+  const { dispatchCart } = useContext(CartContext)
 
 
   // Quantity change controls and update
-  const [quantity, setQuantity] = useState(product.quantity)
+  const [quantity, setQuantity] = useState(product.quantity || 1)
   const [isQtyChanged, setIsQtyChanged] = useState(false)
   const [isQuantityError, setIsQuantityError] = useState(false)
   const handleQuantityChange = (e) => {
@@ -70,7 +66,6 @@ const CartProduct = (props) => {
   }, [quantity, product, isQuantityError])
 
 
-  const [isLoading, setIsLoading] = useState(false)
 
   // Handle update qty event
   const handleQtyUpdate = async () => {
@@ -96,25 +91,8 @@ const CartProduct = (props) => {
       return
     }
 
-    try {
-      setIsLoading(true)
-      const newProduct = await axios.put(urls.moveToSaveForLater, {
-        cartProduct: product
-      })
-      setIsLoading(false)
-      dispatchCartProducts({
-        type: 'REMOVE_PRODUCT_SUCCESS',
-        payload: { id: product.id }
-      })
-      dispatchSaveForLaterProducts({
-        type: 'ADD_PRODUCT_SUCCESS',
-        payload: { newSaveForLaterProducts: newProduct.data }
-      })
-    } catch (e) {
-      setIsLoading(false)
-      console.log("Error while moving to Save For Later : ",
-        e.response.data.message)
-    }
+    props.addSaveForLaterProduct(product)
+    props.deleteCartProduct(user, product.id)
   }
 
 
@@ -129,11 +107,13 @@ const CartProduct = (props) => {
     })
   }
 
-  if (product.isLoading) {
-    return (
-      <Segment placeholder loading />
-    )
-  }
+
+  // if (product.isLoading) {
+  //   return (
+  //     <Segment placeholder loading />
+  //   )
+  // }
+
 
   return (
     <Product loading={product.isLoading}>
@@ -174,11 +154,12 @@ const CartProduct = (props) => {
            </Button>}
         </div>
 
-        <div className="small-stock">
-          <StockTrack
-            productId={product.productId}
-            pid={product.pid} />
-        </div>
+        {product.productId &&
+          <div className="small-stock">
+            <StockTrack
+              productId={product.productId}
+              pid={product.pid} />
+          </div>}
 
         <div
           style={{
@@ -223,7 +204,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     deleteCartProduct: (user, id) => dispatch(deleteCartProduct(user, id)),
     updateCartProductQty: (user, id, quantity, price) =>
-      dispatch(updateCartProductQty(user, id, quantity, price))
+      dispatch(updateCartProductQty(user, id, quantity, price)),
+    addSaveForLaterProduct: (product) =>
+      dispatch(addSaveForLaterProduct(product)),
   }
 }
 

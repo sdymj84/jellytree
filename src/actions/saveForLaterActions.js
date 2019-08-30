@@ -3,79 +3,53 @@ import urls from '../urls'
 import axios from 'axios'
 import _ from 'lodash'
 
-export const listCartProducts = (user) => {
+export const listSaveForLaterProducts = (user) => {
   return async dispatch => {
-    dispatch({ type: 'LIST_CART_PRODUCTS_REQUEST' })
+    dispatch({ type: 'LIST_SFL_PRODUCTS_REQUEST' })
 
-    if (!user) {
-      // User not signed - fetch from session storage
+    try {
+      const res = await axios.post(urls.listSaveForLaterProducts, {
+        uid: user.uid || ""
+      })
       return dispatch({
-        type: 'LIST_CART_PRODUCTS_SUCCESS',
+        type: 'LIST_SFL_PRODUCTS_SUCCESS',
         payload: {
-          cartProducts: JSON.parse(sessionStorage.getItem('cart')) || []
+          saveForLaterProducts: res.data
         }
       })
-    } else {
-      // User signed - fetch from database
-      try {
-        const res = await axios.post(urls.listCartProducts, {
-          uid: user.uid || ""
-        })
-        return dispatch({
-          type: 'LIST_CART_PRODUCTS_SUCCESS',
-          payload: {
-            cartProducts: res.data
-          }
-        })
-      } catch (e) {
-        console.log(e)
-        return dispatch({
-          type: 'LIST_CART_PRODUCTS_FAILURE',
-          payload: {
-            error: e.response.message
-          }
-        })
-      }
+    } catch (e) {
+      console.log(e)
+      return dispatch({
+        type: 'LIST_SFL_PRODUCTS_FAILURE',
+        payload: {
+          error: e.response.message
+        }
+      })
     }
   }
 }
 
 
 
-export const addCartProduct = (user, newCartProduct) => {
+export const addSaveForLaterProduct = (product) => {
   return async dispatch => {
-    dispatch({
-      type: 'ADD_CART_PRODUCT_REQUEST',
-      payload: { id: newCartProduct.id }
-    })
+    dispatch({ type: 'ADD_SFL_PRODUCT_REQUEST' })
 
-    if (!user) {
-      // User not signed in - add to session storage
-      const cartProducts = JSON.parse(sessionStorage.getItem('cart')) || []
-      const newCartProducts = [...cartProducts, newCartProduct]
-      sessionStorage.setItem('cart', JSON.stringify(newCartProducts))
-
-      return dispatch({
-        type: 'ADD_CART_PRODUCT_SUCCESS',
-        payload: { newCartProduct }
+    try {
+      const res = await axios.put(urls.addToSaveForLater, {
+        cartProduct: product
       })
 
-    } else {
-      // User signed in - add to database
-      try {
-        await axios.post(urls.setCartProduct, {
-          newCartProduct
-        })
-        return dispatch({
-          type: 'ADD_CART_PRODUCT_SUCCESS',
-          payload: { newCartProduct }
-        })
-      } catch (e) {
-        return dispatch({
-          type: 'ADD_CART_PRODUCT_FAILURE',
-          payload: { error: e.response.message }
-        })
-      }
+      return dispatch({
+        type: 'ADD_SFL_PRODUCT_SUCCESS',
+        payload: { newSaveForLaterProduct: res.data }
+      })
+
+    } catch (e) {
+      return dispatch({
+        type: 'ADD_SFL_PRODUCT_FAILURE',
+        payload: { error: e.response.message }
+      })
     }
   }
 }

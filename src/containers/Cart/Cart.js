@@ -36,13 +36,7 @@ const Subtotal = styled.div`
 
 
 const Cart = (props) => {
-  const {
-    dispatchCart,
-    // cartProducts, 
-    cartRefetch,
-  } = useContext(CartContext)
-
-
+  const { dispatchCart, cartRefetch } = useContext(CartContext)
 
 
   // ==== Test code =====================
@@ -124,7 +118,7 @@ const Cart = (props) => {
           Proceed to Checkout
       </StyledButton>}
       {cartProducts.map(product =>
-        product.id && <CartProduct
+        <CartProduct
           key={product.id}
           product={product} />
       )}
@@ -147,7 +141,7 @@ const Cart = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    cart: state.cart
+    cart: state.cart,
   }
 }
 
