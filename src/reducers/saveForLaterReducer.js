@@ -26,7 +26,10 @@ export const saveForLaterReducer = (state = initialState, action) => {
     case 'ADD_SFL_PRODUCT_REQUEST':
       return {
         ...state,
-        saveForLaterProducts: [...state.saveForLaterProducts, { isLoading: true }]
+        saveForLaterProducts: [...state.saveForLaterProducts, {
+          isLoading: true,
+          id: action.payload.id
+        }]
       }
     case 'ADD_SFL_PRODUCT_SUCCESS':
       return {
@@ -41,8 +44,6 @@ export const saveForLaterReducer = (state = initialState, action) => {
           .concat(action.payload.error)
       }
 
-
-    // TODO: work on delete on 'move to cart' event
     case 'DELETE_SFL_PRODUCT_REQUEST':
       return {
         ...state,

@@ -2,47 +2,18 @@ import React, {
   useContext, useCallback,
   useEffect, useState
 } from 'react'
-import { CartContext } from '../../contexts/CartContext';
 import { AuthContext } from '../../contexts/AuthContext';
 import ConfirmModal from '../../components/ConfirmModal';
-import urls from '../../urls'
-import axios from 'axios'
+import { connect } from "react-redux";
+import { addCartProduct, deleteCartProduct } from '../../actions/cartActions';
+import { addSaveForLaterProduct } from '../../actions/saveForLaterActions';
 
-const PostSignIn = () => {
-  const { auth, db, dispatchUser } = useContext(AuthContext)
-  const { cartProducts, dispatchCartProducts,
-    dispatchSaveForLaterProducts } = useContext(CartContext)
+const PostSignIn = (props) => {
+  const { auth, db, user, dispatchUser } = useContext(AuthContext)
   const [modalShow, setModalShow] = useState(false)
   const [modalMessage, setModalMessage] = useState("")
   const handleModalClose = () => {
     setModalShow(false)
-  }
-
-
-  const [isLoading, setIsLoading] = useState(false)
-  const moveToSaveForLater = async (userCartProducts) => {
-    try {
-      setIsLoading(true)
-      await axios.put(urls.batchMoveToSaveForLater, {
-        cartProducts: userCartProducts
-      })
-      setIsLoading(false)
-
-      userCartProducts.forEach(product => {
-        dispatchCartProducts({
-          type: 'REMOVE_PRODUCT_SUCCESS',
-          payload: { id: product.id }
-        })
-        dispatchSaveForLaterProducts({
-          type: 'ADD_PRODUCT_SUCCESS',
-          payload: { newSaveForLaterProducts: product }
-        })
-      })
-    } catch (e) {
-      setIsLoading(false)
-      console.log("Error while moving to Save For Later : ",
-        e.response.data.message)
-    }
   }
 
 
@@ -121,7 +92,7 @@ const PostSignIn = () => {
         // No user cart : just copy session cart to user cart
         if (cartSnapshot.empty) {
           console.log("Your user cart is empty, saving session cart to db")
-          handleMoveSessionToDB(false)
+          handleMoveSessionToDB(user)
         }
         // There's user cart : merge? or saveToLater?
         else {
@@ -158,37 +129,25 @@ const PostSignIn = () => {
   }, [auth, signIn, dispatchUser])
 
 
-  const handleMoveCartToSaveForLater = (cartProducts) => {
+  const handleMoveCartToSaveForLater = () => {
     // Select saveToLater
     console.log("moved user cart to saveForLater in db > save session cart to db")
-    const userCartProducts = []
-    cartSnapshot.forEach(cartDoc => {
-      userCartProducts.push(cartDoc.data())
-    })
 
-    moveToSaveForLater(userCartProducts)
-    handleMoveSessionToDB(true)
+    cartSnapshot.forEach(cartDoc => {
+      const product = cartDoc.data()
+      props.addSaveForLaterProduct(product)
+      props.deleteCartProduct(user, product.id)
+    })
   }
 
-
-  const handleMoveSessionToDB = async (isCartMoved) => {
-    // Store session cart (with uid) in cart db
-    const newSessionCart = await Promise.all(sessionCart.map(async product => {
-      await db.collection('cart').doc(product.id).set({
-        ...product, uid
-      })
-      return { ...product, uid }
+  const handleMoveSessionToDB = async (user) => {
+    // Store session cart to cart db (after adding uid)
+    await Promise.all(sessionCart.map(async product => {
+      await props.addCartProduct(user, { ...product, uid })
     }))
 
-    dispatchCartProducts({
-      type: 'INITIAL_PRODUCTS_SUCCESS',
-      payload: {
-        cartProducts: newSessionCart.concat(isCartMoved ? cartProducts : [])
-      }
-    })
     // Delete session cart
     sessionStorage.setItem('cart', JSON.stringify([]))
-
     handleModalClose()
   }
 
@@ -200,14 +159,24 @@ const PostSignIn = () => {
       modalMessage={modalMessage}
       handleNoClick={() => {
         handleMoveCartToSaveForLater()
-        handleMoveSessionToDB()
+        handleMoveSessionToDB(user)
       }}
-      isLoading={isLoading}
-      handleYesClick={handleMoveSessionToDB}
+      handleYesClick={() => handleMoveSessionToDB(user)}
       noButton="I want to purchase the new ones only. I'll save these for later"
       yesButton="Merge with new ones. I'll purchase altogether!"
       iconName='warning circle' />
   )
 }
 
-export default PostSignIn
+
+
+
+const mapDispatchToProps = (dispatch) => ({
+  addCartProduct: (user, product) => dispatch(addCartProduct(user, product)),
+  addSaveForLaterProduct: (product) => dispatch(addSaveForLaterProduct(product)),
+  deleteCartProduct: (user, id) => dispatch(deleteCartProduct(user, id)),
+})
+
+export default connect(
+  null, mapDispatchToProps
+)(PostSignIn)

@@ -36,23 +36,14 @@ const Subtotal = styled.div`
 
 
 const Cart = (props) => {
-  const { dispatchCart, cartRefetch } = useContext(CartContext)
-
-
-  // ==== Test code =====================
-
+  const { dispatchCart } = useContext(CartContext)
   const { user } = useContext(AuthContext)
   const { listCartProducts } = props
+  const { cartProducts } = props.cart
 
   useEffect(() => {
     user !== 'loading' && listCartProducts(user)
   }, [user, listCartProducts])
-
-  const { cartProducts } = props.cart
-
-  // ====================================
-
-
 
 
 
@@ -85,7 +76,7 @@ const Cart = (props) => {
           </Header>
           <Button
             color="olive"
-            onClick={cartRefetch}>
+            onClick={listCartProducts(user)}>
             RETRY
           </Button>
           <Header as='h3' textAlign="center">

@@ -3,7 +3,6 @@ import {
   Container, Button, Segment,
   Header, Icon
 } from 'semantic-ui-react'
-import { CartContext } from '../../contexts/CartContext'
 import styled from 'styled-components'
 import SaveForLaterProduct from './SaveForLaterProduct';
 import { connect } from "react-redux";
@@ -23,27 +22,30 @@ const StyledContainer = styled(Container)`
 
 
 const SaveForLater = (props) => {
-  const { saveForLaterRefetch } = useContext(CartContext)
-
-
-  // ==== Test code =====================
-
   const { user } = useContext(AuthContext)
   const { listSaveForLaterProducts } = props
-
-  useEffect(() => {
-    user !== 'loading' && listSaveForLaterProducts(user)
-  }, [user, listSaveForLaterProducts])
-
   const { saveForLaterProducts } = props.saveForLater
 
-  // ====================================
+  useEffect(() => {
+    user && user !== 'loading' && listSaveForLaterProducts(user)
+  }, [user, listSaveForLaterProducts])
 
 
 
+  if (!user) {
+    return (
+      <StyledContainer>
+        <Segment
+          placeholder>
+          <Header icon as='h2'>
+            Please sign in to save for later
+          </Header>
+        </Segment>
+      </StyledContainer>
+    )
+  }
 
-
-  if (saveForLaterProducts.loading) {
+  if (props.saveForLater.isLoading) {
     return (
       <StyledContainer>
         <Segment placeholder loading />
@@ -51,7 +53,7 @@ const SaveForLater = (props) => {
     )
   }
 
-  if (saveForLaterProducts.error) {
+  if (props.saveForLater.error) {
     return (
       <StyledContainer>
         <Segment placeholder>
@@ -61,7 +63,7 @@ const SaveForLater = (props) => {
           </Header>
           <Button
             color="olive"
-            onClick={saveForLaterRefetch}>
+            onClick={listSaveForLaterProducts(user)}>
             RETRY
           </Button>
           <Header as='h3' textAlign="center">
@@ -97,11 +99,9 @@ const SaveForLater = (props) => {
 }
 
 
-const mapStateToProps = (state) => {
-  return {
-    saveForLater: state.saveForLater
-  }
-}
+const mapStateToProps = (state) => ({
+  saveForLater: state.saveForLater
+})
 
 const mapDispatchToProps = (dispatch) => {
   return {

@@ -68,12 +68,12 @@ const CartProduct = (props) => {
 
 
   // Handle update qty event
-  const handleQtyUpdate = async () => {
+  const handleQtyUpdate = () => {
     props.updateCartProductQty(user, product.id, quantity, product.price)
   }
 
   // Handle delete event
-  const handleDelete = async () => {
+  const handleDelete = () => {
     props.deleteCartProduct(user, product.id)
   }
 
@@ -84,7 +84,7 @@ const CartProduct = (props) => {
     yesOrNo === 'no' && dispatchCart({ type: 'OPEN_CART' })
   }
   // Handle Save For Later click event
-  const handleSaveForLater = async () => {
+  const handleSaveForLater = () => {
     if (!user) {
       setModalShow(true)
       setModalMessage("Need login to save for later, would you like to sign in now?")
@@ -106,13 +106,6 @@ const CartProduct = (props) => {
       state: { product }
     })
   }
-
-
-  // if (product.isLoading) {
-  //   return (
-  //     <Segment placeholder loading />
-  //   )
-  // }
 
 
   return (

@@ -1,12 +1,12 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { Grid, Header } from "semantic-ui-react";
 import CheckoutStepNumber from '../../components/CheckoutStepNumber'
 import PlaceOrderButton from '../../components/PlaceOrderButton';
-import { CartContext } from '../../contexts/CartContext';
+import { connect } from "react-redux";
 
 
-const ReviewAndOrder = () => {
-  const { cartProducts } = useContext(CartContext)
+const ReviewAndOrder = ({ cart }) => {
+  const { cartProducts } = cart
   return (
     <Grid columns={2}>
       <Grid.Column width={7}>
@@ -30,4 +30,9 @@ const ReviewAndOrder = () => {
   )
 }
 
-export default ReviewAndOrder
+
+const mapStateToProps = (state) => ({
+  cart: state.cart
+})
+
+export default connect(mapStateToProps)(ReviewAndOrder)

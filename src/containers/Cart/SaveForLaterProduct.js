@@ -1,12 +1,14 @@
-import React, { useState, useContext } from 'react'
+import React, { useContext } from 'react'
 import { withRouter } from 'react-router-dom'
 import styled from 'styled-components'
 import { Segment, Image, Button } from 'semantic-ui-react'
 import { CartContext } from '../../contexts/CartContext'
-import axios from 'axios';
-import urls from '../../urls'
 import theme from '../../theme'
 import StockTrack from '../../components/StockTrack'
+import { connect } from "react-redux";
+import { deleteSaveForLaterProduct } from '../../actions/saveForLaterActions'
+import { AuthContext } from '../../contexts/AuthContext'
+import { addCartProduct } from '../../actions/cartActions'
 
 const isMobile = window.innerWidth < 600
 
@@ -38,59 +40,22 @@ const Product = styled(Segment)`
   }
 `
 
-const SaveForLaterProduct = ({ product, history }) => {
-  const {
-    dispatchSaveForLaterProducts,
-    dispatchCartProducts,
-    dispatchCart
-  } = useContext(CartContext)
+const SaveForLaterProduct = (props) => {
+  const { product, history } = props
+  const { dispatchCart } = useContext(CartContext)
+  const { user } = useContext(AuthContext)
 
-
-  const [isLoading, setIsLoading] = useState(false)
 
   // Handle delete event
   const handleDelete = async () => {
-    try {
-      setIsLoading(true)
-      await axios.put(urls.deleteSaveForLaterProduct, {
-        id: product.id
-      })
-      setIsLoading(false)
-      dispatchSaveForLaterProducts({
-        type: 'REMOVE_PRODUCT_SUCCESS',
-        payload: {
-          id: product.id
-        }
-      })
-    } catch (e) {
-      setIsLoading(false)
-      console.log("Error while deleting cart product : ",
-        e.response.data.message)
-    }
+    props.deleteSaveForLaterProduct(user, product.id)
   }
 
 
   // Handle Save For Later click event
   const handleAddToCart = async () => {
-    try {
-      setIsLoading(true)
-      const newCartProduct = await axios.put(urls.moveToCart, {
-        product
-      })
-      setIsLoading(false)
-      dispatchSaveForLaterProducts({
-        type: 'REMOVE_PRODUCT_SUCCESS',
-        payload: { id: product.id }
-      })
-      dispatchCartProducts({
-        type: 'ADD_PRODUCT_SUCCESS',
-        payload: { newCartProduct: newCartProduct.data }
-      })
-    } catch (e) {
-      setIsLoading(false)
-      console.log("Error while moving to Cart : ",
-        e.response.data.message)
-    }
+    props.deleteSaveForLaterProduct(user, product.id)
+    props.addCartProduct(user, product)
   }
 
 
@@ -105,15 +70,9 @@ const SaveForLaterProduct = ({ product, history }) => {
     })
   }
 
-  if (product.loading) {
-    return (
-      <Segment placeholder loading />
-    )
-  }
-
 
   return (
-    <Product loading={isLoading}>
+    <Product loading={product.isLoading}>
       <div style={{ flexBasis: '23%' }}>
         <Image
           className="img_link"
@@ -131,11 +90,12 @@ const SaveForLaterProduct = ({ product, history }) => {
         <div>Size : {product.size}</div>
         <div>Price : ${product.price}</div>
 
-        <div className="small-stock">
-          <StockTrack
-            productId={product.productId}
-            pid={product.pid} />
-        </div>
+        {product.productId &&
+          <div className="small-stock">
+            <StockTrack
+              productId={product.productId}
+              pid={product.pid} />
+          </div>}
 
         <div style={{ marginTop: '5px' }}>
           <Button
@@ -154,4 +114,12 @@ const SaveForLaterProduct = ({ product, history }) => {
   )
 }
 
-export default withRouter(SaveForLaterProduct)
+
+const mapDispatchToProps = (dispatch) => ({
+  deleteSaveForLaterProduct: (user, id) => dispatch(deleteSaveForLaterProduct(user, id)),
+  addCartProduct: (user, product) => dispatch(addCartProduct(user, product))
+})
+
+export default withRouter(connect(
+  null, mapDispatchToProps
+)(SaveForLaterProduct))

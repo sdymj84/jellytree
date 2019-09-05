@@ -1,15 +1,15 @@
-import React, { useContext, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { withRouter } from 'react-router-dom'
 import {
   Container, Button, Segment,
   Header, Icon
 } from 'semantic-ui-react'
-import { CartContext } from '../../contexts/CartContext'
 import styled from 'styled-components'
 import CartProduct from './CartProduct'
 import theme from '../../theme'
 import _ from 'lodash'
 import PlaceOrderButton from '../../components/PlaceOrderButton';
+import { connect } from "react-redux";
 
 const isMobile = window.innerWidth < 600
 
@@ -37,10 +37,7 @@ const Subtotal = styled.div`
 
 
 const Cart = (props) => {
-  const {
-    cartProducts, cartRefetch,
-  } = useContext(CartContext)
-
+  const { cartProducts } = props.cart
 
   const itemCounts = cartProducts.length
 
@@ -126,7 +123,8 @@ const Cart = (props) => {
           </Header>
           <Button
             color="olive"
-            onClick={cartRefetch}>
+          // onClick={cartRefetch}
+          >
             RETRY
           </Button>
           <Header as='h3' textAlign="center">
@@ -173,4 +171,13 @@ const Cart = (props) => {
   )
 }
 
-export default withRouter(Cart)
+
+
+const mapStateToProps = (state) => ({
+  cart: state.cart
+})
+
+
+export default withRouter(connect(mapStateToProps)(Cart))
+
+
