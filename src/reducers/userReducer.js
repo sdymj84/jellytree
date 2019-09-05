@@ -17,8 +17,15 @@ const userReducer = (user, action) => {
         ...user,
         addresses: [action.payload.address]
       }
-    case 'REMOVE_ADDRESS':
-      break
+    case 'REMOVE_ADDRESS_SUCCESS':
+      return {
+        ...user,
+        addresses: user.addresses.filter(addr =>
+          addr.id !== action.payload.id)
+      }
+    case 'REMOVE_ADDRESS_ERROR':
+      console.log(action.payload.error)
+      return user
 
     case 'SET_SHIPPING_ADDRESS_SUCCESS':
       return {

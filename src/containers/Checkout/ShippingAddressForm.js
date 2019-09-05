@@ -11,6 +11,7 @@ const StyledForm = styled(Form)`
   margin-top: 1.5em;
 `
 
+// TODO: data validation
 const ShippingAddressForm = ({ addr, setIsShowAddrForm }) => {
   const { user, dispatchUser } = useContext(AuthContext)
   const [forms, setForms] = useState({

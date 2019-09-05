@@ -30,7 +30,8 @@ export const addAddress = async (user, address, dispatchUser) => {
     })
   }
 }
-
+// TODO: fix issue - when adding new address, 
+//        id is not added to shipping address
 export const setShippingAddress = async (user, address, dispatchUser) => {
   try {
     // Set the address to shipping address
@@ -41,6 +42,9 @@ export const setShippingAddress = async (user, address, dispatchUser) => {
     console.log('set shipping address', user)
     await axios.post(urls.setUser, { user: newUser })
 
+    // Update user info in session too
+    sessionStorage.setItem('user', JSON.stringify(newUser))
+
     // Update state via reducer
     dispatchUser({
       type: 'SET_SHIPPING_ADDRESS_SUCCESS',
@@ -50,6 +54,33 @@ export const setShippingAddress = async (user, address, dispatchUser) => {
     console.log(e)
     dispatchUser({
       type: 'SET_SHIPPING_ADDRESS_ERROR',
+      payload: { error: e.response.message }
+    })
+  }
+}
+
+
+export const removeAddress = async (user, id, dispatchUser) => {
+  try {
+    // Save new address to user DB
+    const newUser = {
+      ...user,
+      addresses: user.addresses.filter(addr =>
+        addr.id !== id),
+      shippingAddress: user.shippingAddress.id
+    }
+    console.log('remove address')
+    await axios.post(urls.setUser, { user: newUser })
+
+    // Update state via reducer
+    dispatchUser({
+      type: 'REMOVE_ADDRESS_SUCCESS',
+      payload: { id }
+    })
+  } catch (e) {
+    console.log(e)
+    dispatchUser({
+      type: 'REMOVE_ADDRESS_ERROR',
       payload: { error: e.response.message }
     })
   }

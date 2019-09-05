@@ -1,3 +1,8 @@
+/* 
+  modalShow (boolean), iconName (string), modalMessage (string),
+  handleNoClick (function), noButton (string),
+  handleYesClick (function), yesButton (string),
+*/
 import React from 'react'
 import { Modal, Header, Button, Icon } from 'semantic-ui-react'
 

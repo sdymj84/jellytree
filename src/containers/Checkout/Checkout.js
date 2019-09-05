@@ -62,7 +62,6 @@ const Checkout = (props) => {
     return null
   }
 
-
   return (
     <Fragment>
       <Head>
@@ -75,6 +74,9 @@ const Checkout = (props) => {
       </Head>
 
       <Container>
+        {/* <Dimmer active inverted>
+          <Loader inverted>Loading</Loader>
+        </Dimmer> */}
         <Grid columns={1}>
           <Ref innerRef={contextRef}>
             <Grid.Column width={10}>
