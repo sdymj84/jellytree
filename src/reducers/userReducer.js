@@ -21,7 +21,10 @@ const userReducer = (user, action) => {
       return {
         ...user,
         addresses: user.addresses.filter(addr =>
-          addr.id !== action.payload.id)
+          addr.id !== action.payload.id),
+        shippingAddress: user.shippingAddress.id === action.payload.id
+          ? ""
+          : user.shippingAddress
       }
     case 'REMOVE_ADDRESS_ERROR':
       console.log(action.payload.error)

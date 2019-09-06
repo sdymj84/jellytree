@@ -7,6 +7,15 @@ import { AuthContext } from '../../contexts/AuthContext'
 
 
 const Div = styled.div`
+  .field {
+    padding: 10px 10px 7px 10px;
+    border: 1px solid white;
+  }
+  .address {
+    font-family: Arial, Helvetica, sans-serif;
+    margin-left: 10px;
+    cursor: pointer;
+  }
   .edit, .remove {
     color: blue;
     text-decoration: underline;
@@ -21,7 +30,7 @@ const Div = styled.div`
 
 const AddrRadioGroup = ({
   addresses, isLoading, handleAddrChange,
-  selectedAddrId }) => {
+  selectedAddrId, handleEdit }) => {
 
   const { user, dispatchUser } = useContext(AuthContext)
 
@@ -34,10 +43,6 @@ const AddrRadioGroup = ({
 
   const handleClose = () => {
     setModal({ ...modal, modalShow: false })
-  }
-
-  const handleEdit = () => {
-    console.log('edit')
   }
 
   const handleRemove = (id) => {
@@ -71,7 +76,9 @@ const AddrRadioGroup = ({
               onChange={handleAddrChange}
               value={addr.id}>
             </Radio>
-            <span className="address">
+            <span
+              onClick={() => handleAddrChange(null, { value: addr.id })}
+              className="address">
               {addr.streetName + ', ' +
                 'Unit/Apt#' +
                 addr.unit + ', ' +
@@ -80,7 +87,7 @@ const AddrRadioGroup = ({
                 addr.zipcode}
             </span>
             <span className="edit"
-              onClick={handleEdit}>Edit</span>
+              onClick={() => handleEdit(addr.id)}>Edit</span>
             <span className="remove"
               onClick={() => handleRemove(addr.id)}>Remove</span>
           </Form.Field>

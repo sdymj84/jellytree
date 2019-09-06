@@ -17,6 +17,9 @@ export const addAddress = async (user, address, dispatchUser) => {
     console.log('add address')
     await axios.post(urls.setUser, { user: newUser })
 
+    // Update user info in session too
+    sessionStorage.setItem('user', JSON.stringify(newUser))
+
     // Update state via reducer
     dispatchUser({
       type: 'ADD_ADDRESS_SUCCESS',
@@ -43,6 +46,7 @@ export const setShippingAddress = async (user, id, dispatchUser) => {
       ...user,
       shippingAddress: address
     }
+    console.log('set shipping address')
     await axios.post(urls.setUser, { user: newUser })
 
     // Update user info in session too
@@ -70,10 +74,16 @@ export const removeAddress = async (user, id, dispatchUser) => {
       ...user,
       addresses: user.addresses.filter(addr =>
         addr.id !== id),
-      shippingAddress: user.shippingAddress.id
+      shippingAddress: user.shippingAddress.id === id
+        ? ""
+        : user.shippingAddress
     }
     console.log('remove address')
+    console.log(user.addresses.length)
     await axios.post(urls.setUser, { user: newUser })
+
+    // Update user info in session too
+    sessionStorage.setItem('user', JSON.stringify(newUser))
 
     // Update state via reducer
     dispatchUser({

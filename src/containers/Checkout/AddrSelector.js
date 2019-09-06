@@ -8,17 +8,10 @@ import styled from 'styled-components'
 import theme from '../../theme'
 import LoaderButton from '../../components/LoaderButton';
 import { setShippingAddress } from '../../actions/authAction';
+import _ from 'lodash'
 
 
 const Container = styled.div`
-  .field
-    padding: 10px 10px 7px 10px;
-    border: 1px solid white;
-  }
-  .address {
-    font-family: Arial, Helvetica, sans-serif;
-    margin-left: 10px;
-  }
   .selected {
     border: 1px solid ${theme.contrastColor};
     background-color: rgba(242, 98, 2, 0.1);
@@ -42,7 +35,16 @@ const AddrSelector = ({ addresses, user, dispatchUser }) => {
   const [isShowAddrForm, setIsShowAddrForm] = useState(false)
   const handleAddAddrClick = () => {
     setIsShowAddrForm(true)
+    setIsEdit(false)
   }
+
+  const [isEdit, setIsEdit] = useState(false)
+  const handleEdit = (id) => {
+    setSelectedAddrId(id)
+    setIsShowAddrForm(true)
+    setIsEdit(true)
+  }
+
 
   return (
     <Segment>
@@ -53,6 +55,7 @@ const AddrSelector = ({ addresses, user, dispatchUser }) => {
           ? <AddrRadioGroup
             selectedAddrId={selectedAddrId}
             handleAddrChange={handleAddrChange}
+            handleEdit={handleEdit}
             addresses={addresses}
             isLoading={isLoading} />
           : !isShowAddrForm &&
@@ -60,9 +63,14 @@ const AddrSelector = ({ addresses, user, dispatchUser }) => {
         }
 
         {isShowAddrForm
-          ? <ShippingAddressForm
-            addr={addresses[0]}
-            setIsShowAddrForm={setIsShowAddrForm} />
+          ? isEdit
+            ? <ShippingAddressForm
+              isEdit={isEdit}
+              addr={_.find(addresses, { 'id': selectedAddrId })}
+              setIsShowAddrForm={setIsShowAddrForm} />
+            : <ShippingAddressForm
+              isEdit={isEdit}
+              setIsShowAddrForm={setIsShowAddrForm} />
           : <Fragment>
             <hr />
             <div style={{ marginBottom: '0' }}>

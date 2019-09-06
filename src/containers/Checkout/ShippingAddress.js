@@ -28,7 +28,6 @@ const ShippingAddress = () => {
 
   if (!user || !user.addresses) { return null }
 
-
   return (
     <Fragment>
       <Grid columns={3}>
@@ -55,6 +54,7 @@ const ShippingAddress = () => {
           {user.addresses.length ?
             <ChangeCheckoutInfo
               isAddrSelectorMode={isAddrSelectorMode}
+              visible={addr}
               handleChange={handleChange} /> : null}
         </Grid.Column>
       </Grid>
