@@ -35,10 +35,13 @@ const ShippingAddressForm = ({ addr, setIsShowAddrForm }) => {
   }
 
   const [isLoading, setIsLoading] = useState(false)
+  // Save new address
+  // 1. addAddress : Add address to addresses array
+  // 2. setShippingAddress : Get ID of new address and set it to shippingAddress
   const handleSubmit = async () => {
     setIsLoading(true)
-    const newUser = await addAddress(user, forms, dispatchUser)
-    await setShippingAddress(newUser, forms, dispatchUser)
+    const res = await addAddress(user, forms, dispatchUser)
+    await setShippingAddress(res.newUser, res.id, dispatchUser)
     setIsLoading(false)
   }
 

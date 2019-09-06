@@ -8,11 +8,10 @@ import styled from 'styled-components'
 import theme from '../../theme'
 import LoaderButton from '../../components/LoaderButton';
 import { setShippingAddress } from '../../actions/authAction';
-import _ from 'lodash'
 
 
 const Container = styled.div`
-  .field {
+  .field
     padding: 10px 10px 7px 10px;
     border: 1px solid white;
   }
@@ -28,15 +27,10 @@ const Container = styled.div`
 `
 
 const AddrSelector = ({ addresses, user, dispatchUser }) => {
-
   const [isLoading, setIsLoading] = useState(false)
   const handleSelectAddr = async () => {
     setIsLoading(true)
-    console.log(selectedAddrId)
-    await setShippingAddress(user,
-      _.find(addresses, { 'id': selectedAddrId }),
-      dispatchUser
-    )
+    await setShippingAddress(user, selectedAddrId, dispatchUser)
     setIsLoading(false)
   }
 

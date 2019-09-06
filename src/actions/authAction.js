@@ -1,12 +1,13 @@
 import urls from '../urls'
 import axios from 'axios'
 import uuidv1 from 'uuid/v1'
+import _ from 'lodash'
 
 export const addAddress = async (user, address, dispatchUser) => {
+  const id = uuidv1()
   try {
     const newAddress = {
-      ...address,
-      id: uuidv1(),
+      ...address, id
     }
     // Save new address to user DB
     const newUser = {
@@ -21,7 +22,7 @@ export const addAddress = async (user, address, dispatchUser) => {
       type: 'ADD_ADDRESS_SUCCESS',
       payload: { address: newAddress }
     })
-    return newUser
+    return { newUser, id }
   } catch (e) {
     console.log(e)
     dispatchUser({
@@ -30,16 +31,18 @@ export const addAddress = async (user, address, dispatchUser) => {
     })
   }
 }
-// TODO: fix issue - when adding new address, 
-//        id is not added to shipping address
-export const setShippingAddress = async (user, address, dispatchUser) => {
+
+
+export const setShippingAddress = async (user, id, dispatchUser) => {
+  let address = _.find(user.addresses, { 'id': id })
+  address = { ...address, id }
+
   try {
     // Set the address to shipping address
     const newUser = {
       ...user,
       shippingAddress: address
     }
-    console.log('set shipping address', user)
     await axios.post(urls.setUser, { user: newUser })
 
     // Update user info in session too

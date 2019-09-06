@@ -51,6 +51,7 @@ const AddrRadioGroup = ({
   const handleConfirmRemove = () => {
     // Call the action for address removal
     removeAddress(user, selectedId, dispatchUser)
+    handleClose()
   }
 
   return (
