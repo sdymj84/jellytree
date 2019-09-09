@@ -12,11 +12,23 @@ const userReducer = (user, action) => {
       console.log(action.payload.error)
       return user
 
-    case 'MODIFY_ADDRESS':
+    case 'MODIFY_ADDRESS_SUCCESS':
       return {
         ...user,
-        addresses: [action.payload.address]
+        addresses: user.addresses.map(addr => {
+          if (addr.id === action.payload.id) {
+            return action.payload.address
+          }
+          return addr
+        }),
+        shippingAddress: user.shippingAddress.id === action.payload.id
+          ? action.payload.address
+          : user.shippingAddress
       }
+    case 'MODIFY_ADDRESS_ERROR':
+      console.log(action.payload.error)
+      return user
+
     case 'REMOVE_ADDRESS_SUCCESS':
       return {
         ...user,

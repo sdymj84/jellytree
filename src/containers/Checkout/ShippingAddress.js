@@ -18,8 +18,10 @@ const ShippingAddress = () => {
   const [isAddrSelectorMode, setIsAddrSelectorMode] = useState(
     () => _.isEmpty(addr) ? true : false
   )
+
+  // TODO: when should close address selector and when not??
   useEffect(() => {
-    setIsAddrSelectorMode(_.isEmpty(addr) ? true : false)
+    // setIsAddrSelectorMode(_.isEmpty(addr) ? true : false)
   }, [addr])
 
   const handleChange = () => {

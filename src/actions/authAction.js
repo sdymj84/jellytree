@@ -79,7 +79,6 @@ export const removeAddress = async (user, id, dispatchUser) => {
         : user.shippingAddress
     }
     console.log('remove address')
-    console.log(user.addresses.length)
     await axios.post(urls.setUser, { user: newUser })
 
     // Update user info in session too
@@ -94,6 +93,46 @@ export const removeAddress = async (user, id, dispatchUser) => {
     console.log(e)
     dispatchUser({
       type: 'REMOVE_ADDRESS_ERROR',
+      payload: { error: e.response.message }
+    })
+  }
+}
+
+
+
+export const modifyAddress = async (user, id, address, dispatchUser) => {
+  try {
+    const newAddress = {
+      ...address, id
+    }
+    // Save new address to user DB
+    const newUser = {
+      ...user,
+      addresses: user.addresses.map(addr => {
+        if (addr.id === id) {
+          return newAddress
+        }
+        return addr
+      }),
+      shippingAddress: user.shippingAddress.id === id
+        ? newAddress
+        : user.shippingAddress
+    }
+    console.log('modify address')
+    await axios.post(urls.setUser, { user: newUser })
+
+    // Update user info in session too
+    sessionStorage.setItem('user', JSON.stringify(newUser))
+
+    // Update state via reducer
+    dispatchUser({
+      type: 'MODIFY_ADDRESS_SUCCESS',
+      payload: { id, address: newAddress }
+    })
+  } catch (e) {
+    console.log(e)
+    dispatchUser({
+      type: 'MODIFY_ADDRESS_ERROR',
       payload: { error: e.response.message }
     })
   }
