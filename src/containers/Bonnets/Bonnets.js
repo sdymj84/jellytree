@@ -34,6 +34,7 @@ const Bonnets = () => {
     setIsScrollDownClicked(true)
     sessionStorage.setItem('isScrollDownClicked', true)
   }
+
   return (
     <Container>
       {!isScrollDownClicked &&
@@ -41,7 +42,7 @@ const Bonnets = () => {
           <Title>Special care for babies</Title>
           <DownArrowIcon handleScrollDown={handleScrollDown} />
         </Jumbotron>}
-      <Products />
+      <Products category='Bonnets' />
       <div style={{ height: '1000px' }}></div>
     </Container>
   )

@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import MainImage from '../../assets/main-photos/toddler_main.jpg'
 import DownArrowIcon from '../../components/DownArrowIcon'
+import Products from '../Products/Products'
 
 const Container = styled.div`
 `
@@ -26,12 +27,22 @@ const Title = styled.div`
 `
 
 const Hats = () => {
+  const [isScrollDownClicked, setIsScrollDownClicked] = useState(() =>
+    sessionStorage.getItem('isScrollDownClicked')
+  )
+  const handleScrollDown = () => {
+    setIsScrollDownClicked(true)
+    sessionStorage.setItem('isScrollDownClicked', true)
+  }
+
   return (
     <Container>
-      <Jumbotron>
-        <Title>Don't miss the moment</Title>
-        <DownArrowIcon />
-      </Jumbotron>
+      {!isScrollDownClicked &&
+        <Jumbotron>
+          <Title>Don't miss the moment</Title>
+          <DownArrowIcon handleScrollDown={handleScrollDown} />
+        </Jumbotron>}
+      <Products category='Hats' />
       <div style={{ height: '1000px' }}></div>
     </Container>
   )

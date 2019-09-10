@@ -4,13 +4,16 @@ import { Checkbox, Popup } from 'semantic-ui-react'
 import { AuthContext } from '../../contexts/AuthContext';
 import { StyledFirebaseAuth } from "react-firebaseui";
 
+
+const isMobile = window.innerWidth < 600
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 
-  height: 700px;
+  height: ${isMobile ? '500px' : '700px'};
 `
 
 const SignIn = () => {

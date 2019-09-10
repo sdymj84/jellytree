@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Icon } from 'semantic-ui-react'
 import Bag from './Bag'
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import theme from '../theme'
 
 const Container = styled.div`
@@ -40,23 +40,25 @@ const Sign = styled.div`
     top: 1px;
   }
 `
-// const StyledLink = styled(Link)`
-//   color: ${theme.color};
-//   :hover {
-//     text-decoration: none;
-//   }
-//   :visited {
-//     color: ${theme.color};
-//   }
-// `
+const StyledLink = styled(Link)`
+  color: ${theme.color};
+  :hover {
+    text-decoration: none;
+  }
+  :visited {
+    color: ${theme.color};
+  }
+`
 
 const MobileAccount = () => {
   return (
     <Container>
       <SignContainer>
-        <Sign>
-          <Icon name="user circle" size="big" />
-        </Sign>
+        <StyledLink to="/signin">
+          <Sign>
+            <Icon fitted name="user circle" size="big" />
+          </Sign>
+        </StyledLink>
       </SignContainer>
       <Bag />
     </Container>

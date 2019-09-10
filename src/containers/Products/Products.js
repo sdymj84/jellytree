@@ -27,7 +27,7 @@ const ProductsContainer = styled.div`
   padding-left: ${isMobile ? '0' : '220px'};
 `
 
-const Products = () => {
+const Products = ({ category }) => {
   const [contextRef, setContextRef] = useState(() => React.createRef())
   useEffect(() => {
     if (!contextRef.current) {
@@ -43,7 +43,7 @@ const Products = () => {
     async function listProducts() {
       try {
         const res = await axios.get(urls.listProducts)
-        isMounted && setProducts(res.data)
+        isMounted && setProducts(_.filter(res.data, { 'category': category }))
       } catch (e) {
         console.log("Error getting products data", e.response)
       }
@@ -52,7 +52,7 @@ const Products = () => {
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [category])
 
 
   // Extract Color Map and Size Map from products and save to array
