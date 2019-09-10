@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from 'react'
 import ShippingAddressForm from './ShippingAddressForm';
 import {
-  Segment, Header, Button,
+  Segment, Header, Button, Message, Icon,
 } from "semantic-ui-react";
 import AddrRadioGroup from './AddrRadioGroup'
 import styled from 'styled-components'
@@ -19,12 +19,13 @@ const Container = styled.div`
   }
 `
 
-const AddrSelector = ({ addresses, user, dispatchUser }) => {
+const AddrSelector = ({ addresses, user, dispatchUser, setIsAddrSelectorMode }) => {
   const [isLoading, setIsLoading] = useState(false)
   const handleSelectAddr = async () => {
     setIsLoading(true)
     await setShippingAddress(user, selectedAddrId, dispatchUser)
     setIsLoading(false)
+    setIsAddrSelectorMode(false)
   }
 
   const [selectedAddrId, setSelectedAddrId] = useState(user.shippingAddress.id)
@@ -88,6 +89,11 @@ const AddrSelector = ({ addresses, user, dispatchUser }) => {
             </div>
           </Fragment>}
       </Container>
+      {addresses.length
+        ? <Message info>
+          <Icon name="info circle" />
+          Select one of the addresses you want to use for the shipping address, and press "Use this address" button
+    </Message> : null}
     </Segment>
   )
 }
