@@ -16,6 +16,14 @@ const isMobile = window.innerWidth < 600
 const StyledContainer = styled(Container)`
   padding-left: ${isMobile && 0};
   padding-right: ${isMobile && 0};
+
+  &&& {
+    @media (max-width: 600px) {
+      width: auto !important;
+      margin-left: unset !important;
+      margin-right: unset !important;
+    }
+  }
 `
 const OrderSummary = styled(Segment)`
   max-width: 500px;
@@ -150,7 +158,7 @@ const Cart = (props) => {
 
   return (
     <StyledContainer>
-      <PlaceOrderButton />
+      {!isMobile && <PlaceOrderButton />}
       <OrderSummary>
         {calcOrderSummary()}
       </OrderSummary>
@@ -167,6 +175,7 @@ const Cart = (props) => {
             product={product} />
         )}
       </div>
+      {isMobile && <PlaceOrderButton />}
     </StyledContainer>
   )
 }

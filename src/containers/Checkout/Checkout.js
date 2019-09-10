@@ -11,11 +11,15 @@ import CheckoutCart from '../Cart/CheckoutCart';
 import CheckoutSteps from './CheckoutSteps'
 import { AuthContext } from '../../contexts/AuthContext';
 import { withRouter } from "react-router-dom";
+import PlaceOrderButton from '../../components/PlaceOrderButton';
+
+
+const isMobile = window.innerWidth < 600
 
 const Container = styled.div`
-  margin: 3em auto;
-  width: 70%;
-  min-width: 900px;
+  margin: ${isMobile ? '1em' : '3em auto'};
+  width: ${isMobile ? '' : '70%'};
+  min-width: ${isMobile ? '' : '900px'};
   min-height: 700px;
   .ui.right.dividing.rail {
     padding-left: 1rem;
@@ -30,7 +34,7 @@ const Head = styled.div`
   justify-content: space-around;
   align-items: center;
   height: 100px;
-  padding: 0 4em;
+  padding: 0 1em;
   margin: auto;
   color: ${theme.color};
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
@@ -62,6 +66,34 @@ const Checkout = (props) => {
     return null
   }
 
+
+  const mRender = (
+    <Container>
+      <PlaceOrderButton />
+      <CheckoutSteps />
+      <CheckoutCart />
+    </Container >
+  )
+
+  const render = (
+    <Container>
+      <Grid columns={1}>
+        <Ref innerRef={contextRef}>
+          <Grid.Column width={10}>
+            <CheckoutSteps />
+            <Rail dividing position='right'>
+              <Sticky context={contextRef} offset={30}>
+                <CheckoutCart />
+              </Sticky>
+            </Rail>
+          </Grid.Column>
+        </Ref>
+      </Grid>
+    </Container>
+  )
+
+
+
   return (
     <Fragment>
       <Head>
@@ -73,23 +105,7 @@ const Checkout = (props) => {
         </Link>
       </Head>
 
-      <Container>
-        {/* <Dimmer active inverted>
-          <Loader inverted>Loading</Loader>
-        </Dimmer> */}
-        <Grid columns={1}>
-          <Ref innerRef={contextRef}>
-            <Grid.Column width={10}>
-              <CheckoutSteps />
-              <Rail dividing position='right'>
-                <Sticky context={contextRef} offset={30}>
-                  <CheckoutCart />
-                </Sticky>
-              </Rail>
-            </Grid.Column>
-          </Ref>
-        </Grid>
-      </Container>
+      {isMobile ? mRender : render}
     </Fragment >
   )
 }

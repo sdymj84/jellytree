@@ -6,8 +6,12 @@ import React from 'react'
 import styled from 'styled-components'
 import theme from '../theme'
 
+
+const isMobile = window.innerWidth < 600
+
 const Change = styled.div`
   text-decoration: underline;
+  ${isMobile && `color: ${theme.contrastColor};`}
   cursor: pointer;
   :hover {
     color: ${theme.contrastColor};
