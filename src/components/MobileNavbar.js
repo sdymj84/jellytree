@@ -63,16 +63,23 @@ const MobileNavbar = (props) => {
         <StyledLink to="/" onClick={props.handleHide}>
           <Item>Home</Item>
         </StyledLink>
-        <Item>New Arrivals</Item>
+
+        <StyledLink to="new-arrivals">
+          <Item>New Arrivals</Item>
+        </StyledLink>
+
         <StyledLink to="/bonnets">
           <Item>Bonnets</Item>
         </StyledLink>
+
         <StyledLink to="/hats">
           <Item>Hats</Item>
         </StyledLink>
+
         <StyledLink to="/scarves">
           <Item>Scarves</Item>
         </StyledLink>
+
         <StyledLink to="/all-collections" onClick={props.handleHide}>
           <Item>All Collections</Item>
         </StyledLink>

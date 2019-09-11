@@ -8,6 +8,7 @@ import axios from 'axios'
 import JellyLoader from '../../components/JellyLoader'
 import FilteredProducts from './FilteredProducts'
 import urls from '../../urls';
+import NoProductMsg from '../../components/NoProductMsg'
 
 const isMobile = window.innerWidth < 600
 
@@ -38,14 +39,19 @@ const Products = ({ category }) => {
 
   // Get products data from db and save to state
   const [products, setProducts] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
   useEffect(() => {
     let isMounted = true
     async function listProducts() {
       try {
+        setIsLoading(true)
         const res = await axios.get(urls.listProducts)
-        isMounted && setProducts(_.filter(res.data, { 'category': category }))
+        setIsLoading(false)
+        const c = _.filter(res.data, { 'category': category })
+        isMounted && setProducts(category === 'all' ? res.data : c)
       } catch (e) {
         console.log("Error getting products data", e.response)
+        setIsLoading(false)
       }
     }
     listProducts()
@@ -101,8 +107,14 @@ const Products = ({ category }) => {
 
   const [filteredProducts, setFilteredProducts] = useState(products)
 
+  if (!isLoading && !products.length) {
+    return (
+      <NoProductMsg />
+    )
+  }
+
   return (
-    <JellyLoader isLoading={!products.length}>
+    <JellyLoader isLoading={isLoading}>
       <Container>
         <Ref innerRef={contextRef}>
           <ProductsContainer>

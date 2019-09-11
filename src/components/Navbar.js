@@ -57,16 +57,22 @@ const Navbar = (props) => {
       onUnstick={handleOnUnstick}>
       <Container pose={isFixed ? "fix" : "unfix"}>
         <Nav>
-          <Item>New Arrivals</Item>
+          <StyledLink to="/new-arrivals">
+            <Item>New Arrivals</Item>
+          </StyledLink>
+
           <StyledLink to="/bonnets">
             <Item>Bonnets</Item>
           </StyledLink>
+
           <StyledLink to="/hats">
             <Item>Hats</Item>
           </StyledLink>
+
           <StyledLink to="/scarves">
             <Item>Scarves</Item>
           </StyledLink>
+
           <StyledLink to="/all-collections">
             <Item>All Collections</Item>
           </StyledLink>

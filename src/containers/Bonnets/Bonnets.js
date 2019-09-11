@@ -28,11 +28,11 @@ const Title = styled.div`
 
 const Bonnets = () => {
   const [isScrollDownClicked, setIsScrollDownClicked] = useState(() =>
-    sessionStorage.getItem('isScrollDownClicked')
+    sessionStorage.getItem('isBonnetsRemoved')
   )
   const handleScrollDown = () => {
     setIsScrollDownClicked(true)
-    sessionStorage.setItem('isScrollDownClicked', true)
+    sessionStorage.setItem('isBonnetsRemoved', true)
   }
 
   return (
@@ -43,7 +43,6 @@ const Bonnets = () => {
           <DownArrowIcon handleScrollDown={handleScrollDown} />
         </Jumbotron>}
       <Products category='Bonnets' />
-      <div style={{ height: '1000px' }}></div>
     </Container>
   )
 }

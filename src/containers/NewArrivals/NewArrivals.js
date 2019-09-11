@@ -26,13 +26,14 @@ const Title = styled.div`
   text-align: center;
 `
 
-const Scarves = () => {
+
+const NewArrivals = () => {
   const [isScrollDownClicked, setIsScrollDownClicked] = useState(() =>
-    sessionStorage.getItem('isScarvesRemoved')
+    sessionStorage.getItem('isNewArrivalsRemoved')
   )
   const handleScrollDown = () => {
     setIsScrollDownClicked(true)
-    sessionStorage.setItem('isScarvesRemoved', true)
+    sessionStorage.setItem('isNewArrivalsRemoved', true)
   }
 
   return (
@@ -42,9 +43,9 @@ const Scarves = () => {
           <Title>Wear the Jelly</Title>
           <DownArrowIcon handleScrollDown={handleScrollDown} />
         </Jumbotron>}
-      <Products category="Scarves" />
+      <Products category="NewArrivals" />
     </Container>
   )
 }
 
-export default Scarves
+export default NewArrivals
