@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { Icon } from 'semantic-ui-react'
 import Bag from './Bag'
 import { Link } from "react-router-dom";
 import theme from '../theme'
+import { AuthContext } from '../contexts/AuthContext'
+import { withRouter } from 'react-router-dom'
 
 const Container = styled.div`
   display: flex;
@@ -50,19 +52,36 @@ const StyledLink = styled(Link)`
   }
 `
 
-const MobileAccount = () => {
+const MobileAccount = (props) => {
+  const { user, signOut } = useContext(AuthContext)
+  if (user === 'loading') {
+    return (
+      <Container>
+        <Bag />
+      </Container>
+    )
+  }
+
   return (
     <Container>
-      <SignContainer>
-        <StyledLink to="/signin">
-          <Sign>
-            <Icon fitted name="user circle" size="big" />
-          </Sign>
-        </StyledLink>
-      </SignContainer>
+      {user
+        ? <SignContainer>
+          <StyledLink to="/signin">
+            <Sign onClick={signOut}>
+              SignOut
+            </Sign>
+          </StyledLink>
+        </SignContainer>
+        : <SignContainer>
+          <StyledLink to={`/signin?redirectUrl=${props.location.pathname}`}>
+            <Sign>
+              <Icon fitted name="user circle" size="big" />
+            </Sign>
+          </StyledLink>
+        </SignContainer>}
       <Bag />
     </Container>
   )
 }
 
-export default MobileAccount
+export default withRouter(MobileAccount)

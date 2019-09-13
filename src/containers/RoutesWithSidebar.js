@@ -25,6 +25,7 @@ const RoutesWithSidebar = () => {
         as={Segment}
         animation='overlay'
         direction='right'
+        onVisible={() => isMobile && window.scrollTo(0, 0)}
         onHide={() => dispatchCart({ type: 'CLOSE_CART' })}
         vertical
         secondary
