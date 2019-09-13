@@ -21,6 +21,10 @@ code {
     monospace;
 }
 
+.vanish {
+  animation: vanish-animation 0.2s ease;
+}
+
 /* * {
   outline: 1px solid red;
 } */

@@ -1,24 +1,10 @@
-import React, { useState } from 'react'
+import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import MainImage from '../../assets/main-photos/baby_main.jpg'
-import DownArrowIcon from '../../components/DownArrowIcon'
 import Products from '../Products/Products'
+import Jumbotron from '../../components/Jumbotron'
 
-const Container = styled.div`
-`
-const Jumbotron = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 
-  height: 700px;
-  background-image: url(${MainImage});
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  background-attachment: fixed;
-`
 const Title = styled.div`
   font-size: 5em;
   color: white;
@@ -27,23 +13,15 @@ const Title = styled.div`
 `
 
 const Bonnets = () => {
-  const [isScrollDownClicked, setIsScrollDownClicked] = useState(() =>
-    sessionStorage.getItem('isBonnetsRemoved')
-  )
-  const handleScrollDown = () => {
-    setIsScrollDownClicked(true)
-    sessionStorage.setItem('isBonnetsRemoved', true)
-  }
-
   return (
-    <Container>
-      {!isScrollDownClicked &&
-        <Jumbotron>
-          <Title>Special care for babies</Title>
-          <DownArrowIcon handleScrollDown={handleScrollDown} />
-        </Jumbotron>}
+    <Fragment>
+      <Jumbotron
+        image={MainImage}
+        category="Bonnets">
+        <Title>Special care for babies</Title>
+      </Jumbotron>
       <Products category='Bonnets' />
-    </Container>
+    </Fragment>
   )
 }
 
