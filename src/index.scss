@@ -130,3 +130,8 @@ code {
   }
 }
 
+@keyframes vanish-animation {
+  from { height: 700px; }
+  to { height: 0px; }
+}
+
