@@ -1,6 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Button } from 'semantic-ui-react'
+import urls from '../urls'
+import axios from 'axios'
+
 
 
 const StyledButton = styled(Button)`
@@ -12,8 +15,25 @@ const StyledButton = styled(Button)`
 `
 
 const PlaceOrderButton = () => {
-  const handlePlaceOrder = () => {
-    console.log('Order placed')
+
+  const handlePlaceOrder = async () => {
+    try {
+      const res = await axios.post(urls.billing, {
+        amount: '55',
+        source: {
+          object: "card",
+          number: '4242424242424242',
+          exp_month: 2,
+          exp_year: 2024,
+          name: "Minjun Youn",
+        }
+      })
+      console.log(res)
+      console.log('Order placed')
+    } catch (e) {
+      console.log(e)
+      console.log("Error on payment", e.response.message)
+    }
   }
 
   return (

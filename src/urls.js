@@ -13,4 +13,6 @@ export default {
   deleteSaveForLaterProduct: 'https://us-central1-jellytree-3cb33.cloudfunctions.net/deleteSaveForLaterProduct',
   moveToCart: 'https://us-central1-jellytree-3cb33.cloudfunctions.net/moveToCart',
   setUser: 'https://us-central1-jellytree-3cb33.cloudfunctions.net/setUser',
+  billing: 'https://us-central1-jellytree-3cb33.cloudfunctions.net/billing',
+  // billing: 'http://localhost:5001/jellytree-3cb33/us-central1/billing',
 }

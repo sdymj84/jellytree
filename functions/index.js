@@ -19,6 +19,8 @@ const moveToCart = require('./cart/moveToCart')
 
 const setUser = require('./user/setUser')
 
+const billing = require('./billing/billing')
+
 
 module.exports = {
   'getConfig': functions.https.onRequest(getConfig),
@@ -36,5 +38,6 @@ module.exports = {
   'deleteSaveForLaterProduct': functions.https.onRequest(deleteSaveForLaterProduct),
   'moveToCart': functions.https.onRequest(moveToCart),
   'setUser': functions.https.onRequest(setUser),
+  'billing': functions.https.onRequest(billing),
 }
 
