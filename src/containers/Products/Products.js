@@ -14,7 +14,7 @@ const isMobile = window.innerWidth < 600
 
 const Container = styled.div`
   margin: ${isMobile ? '1em 10px' : '3em 40px'};
-
+  min-height: 700px;
   .ui.left.rail {
     z-index: 0;
     width: 180px;
@@ -75,15 +75,15 @@ const Products = ({ category }) => {
 
   // Controlled filter states
   const [colorFilters, setColorFilters] = useState(() =>
-    JSON.parse(sessionStorage.getItem('colorFilters')) || []
+    JSON.parse(sessionStorage.getItem(`colorFilters${category}`)) || []
   )
   const [sizeFilters, setSizeFilters] = useState(() =>
-    JSON.parse(sessionStorage.getItem('sizeFilters')) || []
+    JSON.parse(sessionStorage.getItem(`sizeFilters${category}`)) || []
   )
   useEffect(() => {
-    sessionStorage.setItem('colorFilters', JSON.stringify(colorFilters))
-    sessionStorage.setItem('sizeFilters', JSON.stringify(sizeFilters))
-  }, [colorFilters, sizeFilters])
+    sessionStorage.setItem(`colorFilters${category}`, JSON.stringify(colorFilters))
+    sessionStorage.setItem(`sizeFilters${category}`, JSON.stringify(sizeFilters))
+  }, [category, colorFilters, sizeFilters])
 
   const handleColorFilter = (e) => {
     e.persist()
