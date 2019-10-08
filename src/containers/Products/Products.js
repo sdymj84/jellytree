@@ -34,7 +34,8 @@ const Products = ({ category }) => {
     if (!contextRef.current) {
       setContextRef(React.createRef())
     }
-  }, [contextRef])
+    // eslint-disable-next-line
+  }, [])
 
 
   // Get products data from db and save to state

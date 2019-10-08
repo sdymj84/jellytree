@@ -20,14 +20,15 @@ const Flex = styled.div`
   flex-wrap: ${isMobile ? 'wrap' : ''};
 `
 
-const NoProductMsg = () => {
+const NoProductMsg = (props) => {
+  let msg = "Sorry, no product is available on this category at the moment."
   return (
     <Container>
       <Message floating info size="massive" compact>
         <Flex>
           <Icon name="frown outline" size="big"
             style={{ marginRight: '10px' }} />
-          <div>Sorry, no product is available on this category at the moment.</div>
+          <div>{props.msg ? props.msg : msg}</div>
         </Flex>
       </Message>
     </Container>

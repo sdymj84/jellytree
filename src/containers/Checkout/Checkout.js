@@ -58,7 +58,8 @@ const Checkout = (props) => {
     if (!contextRef.current) {
       setContextRef(React.createRef())
     }
-  }, [contextRef])
+    // eslint-disable-next-line
+  }, [])
 
   const { user } = useContext(AuthContext)
   if (!user) {

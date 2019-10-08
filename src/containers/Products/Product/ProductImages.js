@@ -35,10 +35,11 @@ const Thumbnails = styled(Image)`
 const Images = (props) => {
   const selectedOption = _.find(props.availableColors, obj =>
     obj.color === props.selectedColor)
-  const images = [
+
+  const images = selectedOption ? [
     selectedOption.mainImage,
     ...selectedOption.images
-  ]
+  ] : [""]
 
   const [selectedImage, setSelectedImage] = useState(images[0])
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -53,6 +54,8 @@ const Images = (props) => {
     setSelectedImage(e.target.src)
     setSelectedIndex(i)
   }
+
+
   return (
     <Fragment>
       {!isMobile &&

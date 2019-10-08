@@ -9,7 +9,7 @@ const StyledJumbotron = styled.div`
   justify-content: center;
   align-items: center;
 
-  height: 700px;
+  height: ${p => p.category === 'Home' ? '700px' : '200px'};
   background-image: url(${p => p.image});
   background-repeat: no-repeat;
   background-position: center;
@@ -38,6 +38,7 @@ const Jumbotron = (props) => {
   return (
     <StyledJumbotron
       className={isVanishing ? "vanish" : ""}
+      category={props.category}
       image={props.image}>
       {props.children}
       <DownArrowIcon handleScrollDown={handleScrollDown} />

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Grid } from 'semantic-ui-react'
 import ProductCard from './ProductCard'
 import _ from 'lodash'
+import NoProductMsg from '../../components/NoProductMsg'
 
 
 const FilteredProducts = ({ products, colorFilters, sizeFilters,
@@ -13,8 +14,14 @@ const FilteredProducts = ({ products, colorFilters, sizeFilters,
       _.difference(sizeFilters, product.sizeMap).length === 0)
     setFilteredProducts(newProducts)
   }, [products, colorFilters, sizeFilters,
-      setFilteredProducts])
+    setFilteredProducts])
 
+
+  if (!filteredProducts.length) {
+    return (
+      <NoProductMsg msg="No products with this filter" />
+    )
+  }
 
   return (
     <Grid columns={4} doubling stackable>

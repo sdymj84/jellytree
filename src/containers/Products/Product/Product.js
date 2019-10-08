@@ -122,6 +122,7 @@ const Product = (props) => {
         const res = await axios.get(urls.getProduct + '?id=' + props.match.params.id)
         isMounted && setProductInfo(res.data)
       } catch (e) {
+        console.log(e)
         console.log("Error getting a document", e.response.data.message)
       }
     }
@@ -157,7 +158,7 @@ const Product = (props) => {
   const handleSizeChange = (e, data) => {
     setSelectedSize(data.value)
     setSizeNotSelected(false)
-    handleSelectOption(null, data.value || '0')
+    handleSelectOption(null, data.value || null)
   }
 
 
@@ -207,19 +208,17 @@ const Product = (props) => {
   const [selectedOption, setSelectedOption] = useState("")
   const handleSelectOption = (color = null, size = null) => {
     const product = _.find(productInfo.variations, { 'color': color || selectedColor, 'size': size || selectedSize })
-    setSelectedOption(product)
+    setSelectedOption(size === null ? "" : product)
   }
 
 
 
   // When clicked Add to Cart
   const { dispatchCart } = useContext(CartContext)
-  // const [selectedProductId, setSelectedProductId] = useState("")
   const handleAddToCart = () => {
     const product = _.find(productInfo.variations, { 'color': selectedColor, 'size': selectedSize })
     const pid = product && product.pid
     if (pid) {
-      // setSelectedProductId(pid)
       dispatchCart({ type: 'OPEN_CART' })
       const newCartProduct = createCartProduct(user, productInfo, pid)
       props.addCartProduct(user, newCartProduct)
@@ -231,29 +230,10 @@ const Product = (props) => {
   }
 
 
-
-
-  // const { dispatchCartProducts, dispatchCart } = useContext(CartContext)
-  // const { addCartProduct } = props
-  // useEffect(() => {
-  //   if (!selectedProductId) { return }
-  //   dispatchCart({ type: 'OPEN_CART' })
-
-  //   const newCartProduct = createCartProduct(user, productInfo, selectedProductId)
-
-  //   addCartProduct(user, newCartProduct)
-
-  // }, [productInfo, selectedProductId, dispatchCartProducts,
-  //     dispatchCart, addCartProduct, user])
-
-
-
-
-
   // Render UI
   return (
     <JellyLoader
-      isLoading={!productInfo || !selectedColor}>
+      isLoading={!productInfo || !selectedColor || selectedOption === undefined}>
       <Container>
         <ProductImages
           availableColors={availableColors}
