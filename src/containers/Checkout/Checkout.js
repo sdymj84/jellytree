@@ -60,6 +60,7 @@ const Checkout = (props) => {
     }
     // eslint-disable-next-line
   }, [])
+  const [orderTotal, setOrderTotal] = useState(0)
 
   const { user } = useContext(AuthContext)
   if (!user) {
@@ -68,11 +69,12 @@ const Checkout = (props) => {
   }
 
 
+
   const mRender = (
     <Container>
-      <PlaceOrderButton />
-      <CheckoutSteps />
-      <CheckoutCart />
+      <PlaceOrderButton orderTotal={orderTotal} />
+      <CheckoutSteps orderTotal={orderTotal} />
+      <CheckoutCart setOrderTotal={setOrderTotal} />
     </Container >
   )
 
@@ -81,10 +83,10 @@ const Checkout = (props) => {
       <Grid columns={1}>
         <Ref innerRef={contextRef}>
           <Grid.Column width={10}>
-            <CheckoutSteps />
+            <CheckoutSteps orderTotal={orderTotal} />
             <Rail dividing position='right'>
               <Sticky context={contextRef} offset={30}>
-                <CheckoutCart />
+                <CheckoutCart setOrderTotal={setOrderTotal} />
               </Sticky>
             </Rail>
           </Grid.Column>

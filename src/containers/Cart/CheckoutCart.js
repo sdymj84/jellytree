@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import {
   Container, Button, Segment,
@@ -46,6 +46,7 @@ const Subtotal = styled.div`
 
 const Cart = (props) => {
   const { cartProducts } = props.cart
+  const { setOrderTotal } = props
 
   const itemCounts = cartProducts.length
 
@@ -56,16 +57,19 @@ const Cart = (props) => {
     return (Number(x) - Number(y)).toFixed(2)
   }
 
-  const calcOrderSummary = () => {
-    const subtotal = _.sumBy(cartProducts, product => Number(product.totalPrice))
-    const shippingFee = '5.00'
-    const totalBeforeTax = sumPrice(subtotal, shippingFee)
-    const taxPercentage = 10
-    const estimatedTax = (totalBeforeTax / taxPercentage).toFixed(2)
-    const total = sumPrice(totalBeforeTax, estimatedTax)
-    const giftcard = '12.34'
-    const orderTotal = subPrice(total, giftcard)
+  const subtotal = _.sumBy(cartProducts, product => Number(product.totalPrice))
+  const shippingFee = '0.00'
+  const totalBeforeTax = sumPrice(subtotal, shippingFee)
+  const taxPercentage = 10
+  const estimatedTax = (totalBeforeTax / taxPercentage).toFixed(2)
+  const total = sumPrice(totalBeforeTax, estimatedTax)
+  const giftcard = '0.00'
+  const orderTotal = subPrice(total, giftcard)
+  useEffect(() => {
+    setOrderTotal(orderTotal)
+  }, [orderTotal, setOrderTotal])
 
+  const calcOrderSummary = () => {
     return (
       <Fragment>
         <div>
@@ -158,7 +162,7 @@ const Cart = (props) => {
 
   return (
     <StyledContainer>
-      {!isMobile && <PlaceOrderButton />}
+      {!isMobile && <PlaceOrderButton orderTotal={orderTotal} />}
       <OrderSummary>
         {calcOrderSummary()}
       </OrderSummary>
@@ -175,7 +179,7 @@ const Cart = (props) => {
             product={product} />
         )}
       </div>
-      {isMobile && <PlaceOrderButton />}
+      {isMobile && <PlaceOrderButton orderTotal={orderTotal} />}
     </StyledContainer>
   )
 }

@@ -14,12 +14,14 @@ const StyledButton = styled(Button)`
   }
 `
 
-const PlaceOrderButton = () => {
+const PlaceOrderButton = (props) => {
+  const amount = props.orderTotal
+    ? (parseFloat(props.orderTotal) * 100).toString() : null
 
   const handlePlaceOrder = async () => {
     try {
       const res = await axios.post(urls.billing, {
-        amount: '55',
+        amount: amount,
         source: {
           object: "card",
           number: '4242424242424242',
@@ -38,6 +40,7 @@ const PlaceOrderButton = () => {
 
   return (
     <StyledButton fluid
+      disabled={!amount}
       size="big" color="orange"
       onClick={handlePlaceOrder}>
       Place Your Order

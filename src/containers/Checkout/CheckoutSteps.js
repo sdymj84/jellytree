@@ -6,7 +6,7 @@ import Payment from './Payment';
 import ReviewAndOrder from './ReviewAndOrder'
 
 
-const CheckoutSteps = () => {
+const CheckoutSteps = (props) => {
   return (
     <Fragment>
       <Segment vertical padded="very">
@@ -20,7 +20,7 @@ const CheckoutSteps = () => {
       </Segment>
       <Segment vertical padded="very"
         style={{ borderBottom: 'none' }}>
-        <ReviewAndOrder />
+        <ReviewAndOrder orderTotal={props.orderTotal} />
       </Segment>
     </Fragment>
   )

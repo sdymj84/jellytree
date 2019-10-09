@@ -7,9 +7,8 @@ import { connect } from "react-redux";
 
 const isMobile = window.innerWidth < 600
 
-const ReviewAndOrder = ({ cart }) => {
+const ReviewAndOrder = ({ cart, orderTotal }) => {
   const { cartProducts } = cart
-
 
   const mRender = (
     <Fragment>
@@ -25,10 +24,11 @@ const ReviewAndOrder = ({ cart }) => {
         </div>
       <div style={{ marginTop: '4em' }}>
         {cartProducts.length
-          ? <PlaceOrderButton /> : null}
+          ? <PlaceOrderButton orderTotal={orderTotal} /> : null}
       </div>
     </Fragment>
   )
+
 
   const render = (
     <Grid columns={2}>
@@ -46,7 +46,7 @@ const ReviewAndOrder = ({ cart }) => {
         </div>
         <div style={{ marginTop: '4em' }}>
           {cartProducts.length
-            ? <PlaceOrderButton /> : null}
+            ? <PlaceOrderButton orderTotal={orderTotal} /> : null}
         </div>
       </Grid.Column>
     </Grid>
