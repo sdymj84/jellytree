@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from 'react'
-import { Header, List, Button } from 'semantic-ui-react'
+import { Header, List, Button, Modal } from 'semantic-ui-react'
 import AmazonStars from '../../../components/AmazonStars'
 import styled from 'styled-components'
 import theme from '../../../theme'
@@ -158,9 +158,8 @@ const Product = (props) => {
   const handleSizeChange = (e, data) => {
     setSelectedSize(data.value)
     setSizeNotSelected(false)
-    handleSelectOption(null, data.value || null)
+    handleSelectOption("", data.value || "")
   }
-
 
 
   // When changed color
@@ -169,7 +168,7 @@ const Product = (props) => {
   const handleColorChange = (i) => {
     setSelectedColor(availableColors[i].color)
     setInitialState("")
-    handleSelectOption(availableColors[i].color, null)
+    handleSelectOption(availableColors[i].color, selectedSize)
   }
   useEffect(() => {
     // redirected from cart > get initial color/size and apply
@@ -208,19 +207,21 @@ const Product = (props) => {
   const [selectedOption, setSelectedOption] = useState("")
   const handleSelectOption = (color = null, size = null) => {
     const product = _.find(productInfo.variations, { 'color': color || selectedColor, 'size': size || selectedSize })
-    setSelectedOption(size === null ? "" : product)
+    setSelectedOption(size === "" ? "" : product)
   }
 
 
 
   // When clicked Add to Cart
   const { dispatchCart } = useContext(CartContext)
+  const [modalShow, setModalShow] = useState(false)
   const handleAddToCart = () => {
     const product = _.find(productInfo.variations, { 'color': selectedColor, 'size': selectedSize })
     const pid = product && product.pid
     if (pid) {
       if (isExistsInCart(pid)) {
         console.log('This product is already in your cart.')
+        setModalShow(true)
         return
       }
       dispatchCart({ type: 'OPEN_CART' })
@@ -314,6 +315,16 @@ const Product = (props) => {
           </List>
         </div>
       </Container>
+
+
+      <Modal size='tiny' open={modalShow}
+        dimmer='inverted'
+        onClose={() => setModalShow(false)}>
+        <Header icon='warning sign' content="This item is already in your cart." />
+      </Modal>
+
+
+
     </JellyLoader>
   )
 }
