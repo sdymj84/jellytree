@@ -219,6 +219,10 @@ const Product = (props) => {
     const product = _.find(productInfo.variations, { 'color': selectedColor, 'size': selectedSize })
     const pid = product && product.pid
     if (pid) {
+      if (isExistsInCart(pid)) {
+        console.log('This product is already in your cart.')
+        return
+      }
       dispatchCart({ type: 'OPEN_CART' })
       const newCartProduct = createCartProduct(user, productInfo, pid)
       props.addCartProduct(user, newCartProduct)
@@ -227,6 +231,10 @@ const Product = (props) => {
       executeScroll()
       setSizeNotSelected(true)
     }
+  }
+
+  const isExistsInCart = (pid) => {
+    return _.find(props.cart.cartProducts, { 'pid': pid })
   }
 
 
@@ -311,6 +319,10 @@ const Product = (props) => {
 }
 
 
+const mapStateToProps = (state) => ({
+  cart: state.cart
+})
+
 const mapDispatchToProps = (dispatch) => {
   return {
     addCartProduct: (user, newCartProduct) =>
@@ -319,4 +331,4 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-export default connect(null, mapDispatchToProps)(Product)
+export default connect(mapStateToProps, mapDispatchToProps)(Product)
