@@ -16,7 +16,7 @@
     "cors": "^2.8.5",
     "firebase-admin": "^8.0.0",
     "firebase-functions": "^3.1.0",
-    "lodash": "^4.17.14",
+    "lodash": "^4.17.19",
     "stripe": "^7.9.0",
     "uuid": "^3.3.2"
   },
