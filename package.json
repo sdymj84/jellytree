@@ -11,7 +11,7 @@
     "firebaseui": "^4.1.0",
     "gh-pages": "^2.0.1",
     "lodash": "^4.17.14",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.14.1",
     "query-string": "^6.8.2",
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.9",
@@ -40,7 +40,11 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "yarn run build",
-    "deploy": "firebase deploy --only hosting"
+    "deploy": "firebase deploy --only hosting",
+    "preinstall": "npx npm-force-resolutions"
+  },
+  "resolutions": {
+    "graceful-fs": "^4.2.4"
   },
   "eslintConfig": {
     "extends": "react-app"
